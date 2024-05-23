@@ -1,4 +1,3 @@
-# Salesforce DX Project: Next Steps
 <style type="text/css">#myCustomTable {
     border: none;
     sd: repeatheader;
@@ -80,12 +79,6 @@
 			<div><span style="font-size:14.5px;"><br />
 			<strong>&nbsp; </strong></span></div>
 			</td>
-		</tr>
-		<tr>
-			<td colspan="2" height="20" style="text-align: right; padding-top: 15px; width: 319px;" valign="top"><span style="font-size:14.5px;"><strong>Operation Contact:</strong></span></td>
-			<td colspan="6" height="auto" style="padding-left: 20px; padding-top: 15px; width: 490px;" valign="top"><span style="font-size:14.5px;float:left;">{{!Certificate__c.Opportunity_Name__r.primarycontactfirstname__c}} {{!Certificate__c.Opportunity_Name__r.primarycontactlastname__c}}<br />
-			{{!Certificate__c.Opportunity_Name__r.primary_contact_email__c}}<br />
-			{{!Certificate__c.Opportunity_Name__r.Account.website}}</span> <span style="font-size:14.5px;float:left;"></span></td>
 		</tr>
 		<tr>
 			<td colspan="2" height="20" style="padding-top: 10px; text-align: right; width: 319px;" valign="top"><span style="font-size:14.5px;"><strong>Certification Scopes: &nbsp; </strong></span></td>
