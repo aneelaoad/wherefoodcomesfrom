@@ -1,0 +1,98 @@
+<apex:page standardController="Verification_Report__c" showHeader="false" sidebar="false">
+
+<apex:form id="theForm">
+
+
+<apex:pageBlock id="pb">
+ <apex:commandButton value="Save Locations" onclick="test(); return true;" onComplete="refreshPage();" />
+  <apex:outputLabel value="   Additional Locations   "/>  
+    <apex:selectList id="chooseColor" onchange="displaydiv(this.value)" size="1">               
+        <apex:selectOption itemValue="value1" itemLabel="No"/>
+        <apex:selectOption itemValue="value3" itemLabel="Yes"/>       
+    </apex:selectList>
+    
+     <div id="chk" style="display:none;"> 
+     <apex:pageBlockSection id="pbs" columns="2">           
+        <apex:inputtext id="infi" style="width: 500px" label="Address 5" value="{!Verification_Report__c.Address_5__c}"/>   
+        <apex:inputtext id="infi2" style="width: 500px" label="Address 6" value="{!Verification_Report__c.Address_6__c}"/> 
+        <apex:inputtext id="infi3" style="width: 500px" label="Address 7" value="{!Verification_Report__c.Address_7__c}"/>
+        <apex:inputtext id="infi4" style="width: 500px" label="Address 8" value="{!Verification_Report__c.Address_8__c}"/>
+        <apex:inputtext id="infi5" style="width: 500px" label="Address 9" value="{!Verification_Report__c.Address_9__c}"/>
+        <apex:inputtext id="infi6" style="width: 500px" label="Address 10" value="{!Verification_Report__c.Address_10__c}"/> 
+        
+     </apex:pageBlockSection>
+     </div>
+</apex:pageBlock> 
+</apex:form>
+<apex:includeScript value="/soap/ajax/29.0/connection.js"/>
+<apex:includeScript value="/soap/ajax/29.0/apex.js"/>
+<script>
+function test(){
+   var a= document.getElementById('{!$Component.theForm.pb.pbs.infi6}').value;﻿
+   var accnt = new sforce.SObject("Verification_Report__c");     
+accnt.Id = '{!Verification_Report__c.Id}';
+if (document.getElementById('{!$Component.theForm.pb.pbs.infi}').value == ""){
+accnt.Address_5__c = null;
+} else {
+accnt.Address_5__c = document.getElementById('{!$Component.theForm.pb.pbs.infi}').value;﻿
+}
+if (document.getElementById('{!$Component.theForm.pb.pbs.infi2}').value == ""){
+accnt.Address_6__c = null;
+}﻿ else {
+accnt.Address_6__c = document.getElementById('{!$Component.theForm.pb.pbs.infi2}').value;
+}
+if(document.getElementById('{!$Component.theForm.pb.pbs.infi3}').value == ""){
+accnt.Address_7__c = null;
+} else {
+accnt.Address_7__c = document.getElementById('{!$Component.theForm.pb.pbs.infi3}').value;﻿
+}
+if (document.getElementById('{!$Component.theForm.pb.pbs.infi4}').value == ""){
+accnt.Address_8__c = null;
+} else {
+accnt.Address_8__c = document.getElementById('{!$Component.theForm.pb.pbs.infi4}').value;﻿
+}
+if (document.getElementById('{!$Component.theForm.pb.pbs.infi5}').value == ""){
+accnt.Address_9__c = null;
+}else{
+accnt.Address_9__c = document.getElementById('{!$Component.theForm.pb.pbs.infi5}').value;﻿
+}
+if(document.getElementById('{!$Component.theForm.pb.pbs.infi6}').value == ""){
+accnt.Address_10__c = null;
+} else {
+accnt.Address_10__c = document.getElementById('{!$Component.theForm.pb.pbs.infi6}').value;﻿
+}
+
+
+var result = sforce.connection.update([accnt]);
+if(result[0].getBoolean("success"))
+{
+   alert('Addresses updated successfully');
+}
+else{
+  alert('Error : '+result);
+}
+}
+function displaydiv(val)
+{ 
+    if(val=='value3')
+    {
+        document.getElementById('chk').style.display='block';
+    }
+    else
+    {
+        document.getElementById('chk').style.display='none';
+    }
+}
+window.onload=function()       
+    {        
+    if (document.getElementById('{!$Component.theForm.pb.pbs.infi}').value != "" || document.getElementById('{!$Component.theForm.pb.pbs.infi2}').value != "" 
+    || document.getElementById('{!$Component.theForm.pb.pbs.infi3}').value != "" || document.getElementById('{!$Component.theForm.pb.pbs.infi4}').value != ""
+    || document.getElementById('{!$Component.theForm.pb.pbs.infi5}').value != "" || document.getElementById('{!$Component.theForm.pb.pbs.infi6}').value != ""){
+     document.getElementById('chk').style.display='block';
+     document.getElementById('{!$Component.theForm:pb:chooseColor}').value = 'value3';   
+} else {
+     document.getElementById('chk').style.display='none';
+}
+    };
+</script>
+</apex:page>

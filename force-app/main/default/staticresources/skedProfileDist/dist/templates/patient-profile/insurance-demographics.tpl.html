@@ -1,0 +1,30 @@
+<div class="insurance-demographics"  ng-show="patient.insuranceDemographics.length">
+  <h2 class="slds-section__title  slds-m-top--medium slds-m-horizontal--medium"><strong>Insurance Demographics</strong></h2>
+  <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding">
+    <table class="slds-table slds-table--bordered">
+      <thead>
+        <tr class="slds-text-heading--label">
+          <td>Insurance Id</td>
+          <td>Record Type</td>
+          <td>Payer/Plan Name</td>
+          <td>Last Modified Date</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="clickable" ng-repeat="item in patient.insuranceDemographics"
+            ng-click="state.view = 'insurance-demographics'; state.insuranceDemographic = item;">
+          <td>{{item.id}}</td>
+          <td>{{item.recordType}}</td>
+          <td>{{item.planName}}</td>
+          <td>{{item.lastModifiedDate}}</td>
+          <td style="padding-right: 12px;">
+            <svg aria-hidden="true" class="slds-button__icon slds-float--right">
+              <use ng-attr-xlink:href="{{getIconUrl('symbols.svg#chevronright')}}" xlink:href=""></use>
+            </svg>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

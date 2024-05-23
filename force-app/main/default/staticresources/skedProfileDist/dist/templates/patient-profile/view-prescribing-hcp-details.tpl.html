@@ -1,0 +1,29 @@
+<div class="view-prescribing-hcp-details">
+  <h2 class="slds-p-around--medium border-bottom">
+    <strong>Prescribing HCP</strong>
+    <button class="slds-button slds-button--neutral slds-float--right" style="margin-top: -7px;"
+            ng-click="state.view = 'product-affiliation'">Close</button>
+  </h2>
+  <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding slds-m-top--medium hoverable-list">
+    <div class="slds-scrollable--y">
+      <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom" >
+        <div class="slds-col field-label">Prescribing HCP ID</div>
+        <span>{{state.productAffiliation.prescribingHCP.prescribingHCPId}}</span>
+      </div>
+      <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom" >
+        <div class="slds-col field-label">HCP Patient Relationship</div>
+        <span>{{state.productAffiliation.prescribingHCP.HCPPatientRelationship}}</span>
+      </div>
+      <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom" ng-click="viewAccount('HCP',state.productAffiliation.prescribingHCP.HCPId);" 
+           ng-class="{false:'detail-link', true:''}[!state.productAffiliation.prescribingHCP.HCPId]">
+        <div class="slds-col field-label">HCP Name</div>
+        <span>{{state.productAffiliation.prescribingHCP.HCPName}}</span>
+      </div>
+      <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom" 
+           ng-repeat="item in state.productAffiliation.prescribingHCP.details">
+        <div class="slds-col field-label">{{item.label}}</div>
+        <span ng-include="getTemplateUrl('item-value.tpl.html')"></span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<apex:page standardController="Contact">
+<apex:form >
+<apex:pageBlock title="My Content" mode="edit">
+<apex:pageBlockButtons >
+<apex:commandButton action="{!save}" value="Save"/>
+</apex:pageBlockButtons>
+<apex:pageBlockSection title="Content Section" columns="2">
+<apex:inputField value="{!Contact.Name}"/>
+<apex:inputField value="{!Contact.Account}"/>
+</apex:pageBlockSection>
+</apex:pageBlock>
+</apex:form>
+</apex:page>

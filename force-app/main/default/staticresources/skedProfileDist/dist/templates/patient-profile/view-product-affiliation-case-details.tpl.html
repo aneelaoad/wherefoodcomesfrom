@@ -1,0 +1,24 @@
+<div class="view-product-affiliation-case-details">
+  <h2 class="slds-p-around--medium border-bottom">
+    <strong>Case {{state.productAffiliation.case.caseNumber}}</strong>
+    <button class="slds-button slds-button--neutral slds-float--right" style="margin-top: -7px;"
+            ng-click="state.view = 'product-affiliation'">Close</button>
+  </h2>
+  <div class="slds-scrollable--y" style="max-height: calc(100vh - 108px);">
+    <div class="slds-grid">
+      <div class="slds-col">
+        <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium slds-m-top--medium no-padding">
+          <div class="slds-scrollable--y">
+            <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom" 
+                 ng-repeat="item in state.productAffiliation.case.details">
+              <div class="slds-col field-label">{{item.label}}</div>
+              <span ng-include="getTemplateUrl('item-value.tpl.html')"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    </div>
+  </div>
+</div>

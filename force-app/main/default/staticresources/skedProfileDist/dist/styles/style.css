@@ -1,0 +1,23 @@
+.highlight,
+.clickable:hover,
+ .detail-link:hover {
+    background: #F4F6F9;
+}
+.detail-link {
+    color: #0070d2;
+    cursor: pointer;
+}
+.disabledClass {
+  pointer-events: none;
+  opacity: 0.6;
+}
+.sortable_icon{
+    width:.75rem;
+    height: .75rem;
+    margin-left: .25rem;
+}
+.sortable_column:hover {
+    background-color: #f4f6f9;
+    color: #0070d2;
+    cursor: pointer;
+}

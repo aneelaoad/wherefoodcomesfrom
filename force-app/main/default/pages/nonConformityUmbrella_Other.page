@@ -1,0 +1,476 @@
+<apex:page standardController="Verification_Report__c" showHeader="true" sidebar="true">
+<script type="text/javascript">
+window.onload = setFocus 
+function setFocus() {
+document.getElementById("hiddenElementId").focus();
+}
+</script>
+<head>
+<style>
+        #ncdesc {
+width: 300px;
+    } 
+</style>
+</head>
+   <br/> 
+<apex:form id="theForm">
+
+<input id="hiddenElementId" type="hidden" />
+
+<apex:pageblock id="pb" mode="maindetail" >        
+    <apex:pageBlockSection id="pbs">      
+        <apex:selectList required="true" onchange="testz(); return true;" id="ncdesc" multiselect="false" size="1" label="NC Description" >                 
+        <apex:selectOption itemValue="Blank"  itemLabel=""/>
+        <apex:selectOption itemValue="1"      itemLabel="NHTC feed letter of guarantee must be kept onsite for all commercially manufactured feed stuffs." /> <!-- Beef -->
+        <apex:selectOption itemValue="2"      itemLabel="Feed label(s) listing ingredients must be kept onsite." /> <!-- Beef -->
+        <apex:selectOption itemValue="3"      itemLabel="All responsible personnel must be trained on the program requirements." /> <!-- Beef -->
+        <apex:selectOption itemValue="4"      itemLabel="Record supporting the head count of cattle to be enrolled was not available during the onsite audit." /> <!-- Beef -->
+        <apex:selectOption itemValue="5"      itemLabel="Record of first and last calf born dates was not available during the onsite audit." /> <!-- Beef -->
+        <apex:selectOption itemValue="6"      itemLabel="Treatment records are not being maintained." /> <!-- Beef -->
+        <apex:selectOption itemValue="7"      itemLabel="Shipping records were not available during the onsite audit." /> <!-- Beef -->
+        <apex:selectOption itemValue="8"      itemLabel="Hormone inventories were not current at the time of the onsite audit." /> <!-- Beef -->
+        <apex:selectOption itemValue="9"      itemLabel="Ear palpation is not being recorded on receiving records" /> <!-- Beef -->
+        <apex:selectOption itemValue="10"     itemLabel="Operation is not scanning EIDs at receiving and verifying the tags on BeefPassport." /> <!-- Beef -->
+        <apex:selectOption itemValue="11"     itemLabel="NHTC feed letters of guarantee must be up to date and kept onsite for all commercially manufactured feed stuffs. NHTC letters are good for two years." /> <!-- Beef -->     
+        <apex:selectOption itemValue="12"     itemLabel="Treatment records were not available during the onsite audit." /> <!-- Beef -->
+        <apex:selectOption itemValue="13"     itemLabel="Non-GMO Project Letter of Compliance shipping records were not available during the onsite audit." /> <!-- Beef -->
+        <apex:selectOption itemValue="14"     itemLabel="Test results and/or supporting documentation for high-risk feedstuffs was not available for review." /> <!-- Beef -->
+        <apex:selectOption itemValue="15"     itemLabel="Registration papers and/or registration numbers for registered Black Angus bulls were not available during the onsite audit." /> <!-- Beef -->
+        <apex:selectOption itemValue="16"     itemLabel="Leftover tags from previous calving groups were not reported to IMI Global prior to using in a new calving group." /> <!-- Beef -->
+        <apex:selectOption itemValue="17"     itemLabel="Operation is scanning EID’s at receiving, however, they are not verifying the tags on BeefPassport." /> <!-- Beef -->
+        <apex:selectOption itemValue="18"     itemLabel="Glycerin is present in the feed." /> <!-- Beef -->
+        <apex:selectOption itemValue="19"     itemLabel="Rations were not available for review during the onsite audit." /> <!-- Beef -->
+        <apex:selectOption itemValue="20"     itemLabel="Micro-ingredient formulations were not available for review during the onsite audit." /> <!-- Beef -->
+        <apex:selectOption itemValue="21"     itemLabel="Feedtruck flush procedures were not available for review during the onsite audit." /> <!-- Beef -->
+        <apex:selectOption itemValue="22"     itemLabel="Feedtruck flush rations are occurring, but are not being recorded." /> <!-- Beef -->
+        <apex:selectOption itemValue="23"     itemLabel="Lot files were not available for review." /> <!-- Beef -->
+        <apex:selectOption itemValue="24"     itemLabel="Direct-fed Microbial is not being fed to program calves." /> <!-- Beef -->
+        <apex:selectOption itemValue="25"     itemLabel="Receiving/processing reports were not kept for program cattle." /> <!-- Beef -->
+        <apex:selectOption itemValue="26"     itemLabel="A prohibited products list was not maintained onsite." /> <!-- Beef -->
+        <apex:selectOption itemValue="27"     itemLabel="Proof of onsite vet visit was not available for review during onsite audit." /> <!-- Beef -->
+            
+        </apex:selectList>
+    </apex:pageBlockSection>
+    <br/>
+    <apex:pageBlockSection id="res">      
+        <apex:selectList required="true" id="resp" multiselect="false" size="1" label="Responsible Party" >
+        <apex:selectOption itemValue="blank" itemLabel=""/>                 
+        <apex:selectOption itemValue="Customer" itemLabel="Customer"/>
+        <apex:selectOption itemValue="IMI Global" itemLabel="IMI Global" />              
+        </apex:selectList>
+    </apex:pageBlockSection>
+    <apex:pageBlockSection id="cat">      
+        <apex:selectList required="true" id="cate" multiselect="false" size="1" label="Category" >  
+        <apex:selectOption itemValue="Blank" itemLabel=""/>               
+        <apex:selectOption itemValue="Feeds & Feeding" itemLabel="Feeds & Feeding"/>
+        <apex:selectOption itemValue="HGPs or Medical" itemLabel="HGPs or Medical" />
+        <apex:selectOption itemValue="Tags, Identification & Traceability" itemLabel="Tags, Identification & Traceability" />  
+        <apex:selectOption itemValue="Control of Documents (manual)" itemLabel="Control of Documents (manual)" />  
+        <apex:selectOption itemValue="Control of Records (receiving, shipping)" itemLabel="Control of Records (receiving, shipping)" />  
+        <apex:selectOption itemValue="Training" itemLabel="Training" />  
+        <apex:selectOption itemValue="Data Entry Error" itemLabel="Data Entry Error" />
+        <apex:selectOption itemValue="Non-GMO Project" itemLabel="Non-GMO Project" />
+        <apex:selectOption itemValue="Other" itemLabel="Other" />
+            
+        </apex:selectList>
+    </apex:pageBlockSection>    
+     <apex:pageBlockSection id="typ">      
+        <apex:selectList required="true" id="type" multiselect="false" size="1" label="Type" > 
+        <apex:selectOption itemValue="Blank" itemLabel=""/>                
+        <apex:selectOption itemValue="Major NC" itemLabel="Major NC"/>
+        <apex:selectOption itemValue="Minor NC" itemLabel="Minor NC" />  
+		<apex:selectOption itemValue="Major NC Repeat" itemLabel="Major NC Repeat" /> 
+		<apex:selectOption itemValue="Critical" itemLabel="Critical" />             
+        </apex:selectList>
+   </apex:pageBlockSection>   
+    <apex:pageBlockSection id="dat">
+    
+          <apex:inputField value="{!Verification_Report__c.Umbrella_Other_NC_Date__c}" id="date"/>
+    
+        <!-- <apex:inputtext id="date" label="Date" disabled="False" /> -->    
+    </apex:pageBlockSection>
+     <apex:pageBlockSection id="can">     
+        <apex:selectList required="true" id="cane" multiselect="false" size="1" label="CA Necessary" > 
+        <apex:selectOption itemValue="Blank" itemLabel=""/>                
+        <apex:selectOption itemValue="Yes" itemLabel="Yes"/>
+        <apex:selectOption itemValue="No" itemLabel="No" />              
+        </apex:selectList>
+    </apex:pageBlockSection>
+    
+    <apex:pageBlockSection id="cad">
+    <apex:inputField value="{!Verification_Report__c.Umbrella_Other_NC_CA_Due_Date__c}" id="cadd"/> 
+    </apex:pageBlockSection>
+        
+    <apex:pageBlockSection id="cor">
+        <apex:inputtextArea id="cora" rows="3" cols="50" label="Corrective Action" disabled="False" />       
+    </apex:pageBlockSection>
+         <apex:pageBlockSection id="cle">      
+        <apex:selectList required="true" id="clea" multiselect="false" size="1" label="Cleared" > 
+        <apex:selectOption itemValue="Blank" itemLabel=""/>                
+        <apex:selectOption itemValue="Yes" itemLabel="Yes"/>
+        <apex:selectOption itemValue="No" itemLabel="No" />              
+        </apex:selectList>
+    </apex:pageBlockSection>
+    
+    <apex:pageBlockSection id="cld">
+    <apex:inputField value="{!Verification_Report__c.Umbrella_Other_NC_Clearance_Date__c}" id="clda"/>
+    </apex:pageBlockSection> 
+    
+
+    <br/>
+    <apex:pageBlockSection >  
+        <apex:commandButton action="{!save}" value="Save" id="theButton" onclick="testt(); return true;" oncomplete="refreshPage()" style="width:100px;"  / >
+    </apex:pageBlockSection>                          
+</apex:pageblock>
+ </apex:form>
+<apex:includeScript value="/soap/ajax/29.0/connection.js"/>
+<apex:includeScript value="/soap/ajax/29.0/apex.js"/>
+<script>
+function load(){
+ document.getElementById('{!$Component.theForm.res.resp}').focus();
+
+//document.getElementById('{!$Component.theForm.pb.cld.clda}').value = "";
+//document.getElementById('{!$Component.theForm.pb.cld.clda}').style.color = "black";
+}
+</script> 
+  <apex:includeScript value="/soap/ajax/29.0/connection.js"/>
+<apex:includeScript value="/soap/ajax/29.0/apex.js"/>
+<script>
+function testz(){
+console.log(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value);
+var future = new Date();
+future.setDate(future.getDate());
+var dd = future.getDate();
+//var ddm = dd.toString().length;
+//if(ddm == 1){
+//dd = '0' + dd;
+//}
+var mm = future.getMonth() + 1;
+//var mn = mm.toString().length;
+//if(mn == 1){
+//mm = '0'+ mm;
+//}
+var y = future.getFullYear();
+var dat = mm + '/' + dd + '/' + y
+//var dat = y + '-'+ mm + '-'+ dd;
+
+var future1 = new Date();
+future1.setDate(future.getDate() + 21); //21
+var dd1 = future1.getDate();
+//var ddm1 = dd1.toString().length;
+//if(ddm1 == 1){
+//dd1 = '0' + dd1;
+//}
+var mm1 = future1.getMonth() + 1;
+//var mn1 = mm1.toString().length;
+//if(mn1 == 1){
+//mm1 = '0'+ mm1;
+//}
+var y1 = future1.getFullYear();
+//var dat1 = y1 + '-'+ mm1 + '-'+ dd1;
+var dat1 = mm1 + '/' + dd1 + '/' + y1
+
+document.getElementById('{!$Component.theForm.pb.res.resp}').value = ""; 
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "";
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "";
+document.getElementById('{!$Component.theForm.pb.dat.date}').value = "";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = "";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "";
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "";
+document.getElementById('{!$Component.theForm.pb.cld.clda}').value = "";
+
+document.getElementById('{!$Component.theForm.pb.res.resp}').value = "Customer";
+document.getElementById('{!$Component.theForm.pb.dat.date}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat1;
+//document.getElementById('{!$Component.theForm.pb.cld.clda}').value = "yyyy-mm-dd";
+//document.getElementById('{!$Component.theForm.pb.cld.clda}').style.color = "grey";
+
+if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "1"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Feeds & Feeding"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Minor NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please acquire a letter of guarantee and submit a copy to IMI.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "2"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Feeds & Feeding"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Major NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please acquire label(s) and submit a copy to IMI.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "3"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Training"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Minor NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please train everyone who is responsible for cattle and submit a copy of the training log to IMI.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "4"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Control of Records (receiving, shipping)"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Major NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please submit a copy of record showing head count support to IMI (i.e. cow inventory, preg check records, vaccine receipts, tallies, individual calving records, etc.).";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "5"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Control of Records (receiving, shipping)"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Major NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please submit a copy of record showing first and last calf born dates to IMI.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "6"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "HGPs or Medical"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Minor NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Moving forward producer agrees to maintain treatment records. Treated cattle are identified.";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = "";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "7"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Control of Records (receiving, shipping)"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Minor NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please obtain shipping records and submit a copy to IMI.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "8"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "HGPs or Medical"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Minor NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "HGP inventory was updated onsite. Producer agrees to maintian a current inventory moving forward.";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = "";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "9"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Control of Records (receiving, shipping)"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Minor NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please submit to IMI a revised receiving template that includes ear palpation.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "10"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Tags, Identification & Traceability"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Major NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please create a BeefPassport account (using the how-to guide) and notify your CVS once it has been created.  Additionally, the auditor provided training on the receiving process, including the mandatory reading of EID’s and completing a tag look up.";
+}
+	else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "11"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Feeds & Feeding"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Minor NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please acquire an updated letter of guarantee and submit a copy to IMI.";
+}
+	else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "12"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "HGPs or Medical"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Major NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please submit copies of treatment records for any program cattle treated within the last year.";
+}
+	else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "13"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Non-GMO Project"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Major NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please obtain Non-GMO Project Letter of Compliance shipping records for the previous year's shipments of Non-GMO Project Compliant cattle and submit a copy to IMI Global. Producer was retrained to keep copies of completed Non-GMO Project Letters of Compliance for at least 3 years and certificates are subject to review during annual onsite audits.";
+}
+	else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "14"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Non-GMO Project"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Major NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please submit (test results, Sampling and Testing SOP, etc.) for high-risk feed stuffs (alfalfa, corn, etc.) to clear this non-conformance.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "15"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Other"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Major NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please submit registration papers and/or registration numbers for registered Black Angus bulls to IMI. If the bulls are not registered the producer’s name or operation ranch, please submit proof of purchase for all bulls that corresponds with their registration numbers.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "16"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Tags, Identification & Traceability"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Minor NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Producer was retrained to submit leftover EID tag numbers to IMI prior to using in future calving groups.";
+}
+
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "17"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Tags, Identification & Traceability"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Major NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please submit an IMI tag lookup for 2 open lots.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "18"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Feeds & Feeding"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Major NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide documentation on the source of glycerin in this feed product. If glycerin is derived from animals or is a blend of animal and plant derivatives, you may discontinue the use of this product and provide a feed label for the product that will be fed in place of this feed product.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "19"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Feeds & Feeding"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Major NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please submit rations formulations, showing all ingredients and ration name, to IMI Global.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "20"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Feeds & Feeding"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Major NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please submit micro-ingredient formulations for each ration to IMI Global.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "21"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Feeds & Feeding"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Major NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please develop a written feed truck flush protocol and submit a copy to IMI Global.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "22"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Feeds & Feeding"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Major NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please ensure feed truck flush rations are being recorded (using your animal feeding system or the template in your manual). Submit 3 days of feed truck flush logs to IMI Global.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "23"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Control of Records (receiving, shipping)"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Major NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please submit two open and/or closed lot files (original ranch documentation, receiving/processing documents including tag look up, animal disqualification records, shipping documents) to IMI Global.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "24"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Feeds & Feeding"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Minor NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please submit record showing a Tyson approved Direct-fed Microbial has been purchased and added to the ration formulations to IMI Global.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "25"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Other"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Major NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please submit a processing template (which includes ear palpation, reading EID tags and animal health products administered during processing) that you plan to use when processing program cattle moving forward to IMI Global.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "26"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "HGPs or Medical"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Minor NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please submit a completed prohibited products list to IMI Global.";
+}
+    else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "27"){
+document.getElementById('{!$Component.theForm.pb.cat.cate}').value = "Other"; 
+document.getElementById('{!$Component.theForm.pb.typ.type}').value = "Minor NC";
+document.getElementById('{!$Component.theForm.pb.can.cane}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please submit proof of onsite vet visit within the last 12 months. Compliant records can include, but are not limited to, bangs receipt, preg check invoice, semen testing, trich testing, or ranch call for animal specific treatment. Document will need to include the Vet’s name or Clinic name and date of ranch call.";
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "No";
+    }
+
+}
+</script>
+<apex:includeScript value="/soap/ajax/29.0/connection.js"/>
+<apex:includeScript value="/soap/ajax/29.0/apex.js"/>
+<script type="text/javascript">
+    sforce.connection.sessionId = '{!$Api.Session_ID}';
+</script>
+<script>
+function testt(){
+
+var vr = '{!Verification_Report__c.Id}';
+var nc = new sforce.SObject("Non_Conformity__c");
+nc.RecordTypeID = '01236000000OPLP';
+nc.Verification_Report__c = vr;
+var sel = document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').selectedIndex;
+var desc = document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').options[sel].text;
+nc.NC_Description__c = desc;
+if(document.getElementById('{!$Component.theForm.pb.cat.cate}').value == "Blank" || document.getElementById('{!$Component.theForm.pb.cat.cate}').value == ""){
+alert('Select a category');
+return;
+}else{
+nc.NC_Category__c = document.getElementById('{!$Component.theForm.pb.cat.cate}').value;
+}
+if(document.getElementById('{!$Component.theForm.pb.typ.type}').value == "Blank" || document.getElementById('{!$Component.theForm.pb.typ.type}').value == ""){
+alert('Select a type');
+return;
+}else{
+nc.NC_Type__c = document.getElementById('{!$Component.theForm.pb.typ.type}').value;
+}
+nc.Responsible_Party__c = document.getElementById('{!$Component.theForm.pb.res.resp}').value;
+
+var future = new Date(document.getElementById('{!$Component.theForm.pb.dat.date}').value);
+future.setDate(future.getDate());
+var dd = future.getDate();
+var ddm = dd.toString().length;
+if(ddm == 1){
+dd = '0' + dd;
+}
+var mm = future.getMonth() + 1;
+var mn = mm.toString().length;
+if(mn == 1){
+mm = '0'+ mm;
+}
+var y = future.getFullYear();
+var dat = y + '-'+ mm + '-'+ dd;
+nc.Date__c = dat;
+
+//nc.Date__c = document.getElementById('{!$Component.theForm.pb.dat.date}').value;
+
+if(document.getElementById('{!$Component.theForm.pb.can.cane}').value == "Yes" && document.getElementById('{!$Component.theForm.pb.cad.cadd}').value == ""){
+alert('Enter a corrective action due date');
+return;
+}else{
+nc.Corrective_Actions_Necessary__c = document.getElementById('{!$Component.theForm.pb.can.cane}').value;
+}
+
+
+if(document.getElementById('{!$Component.theForm.pb.cad.cadd}').value != "" && document.getElementById('{!$Component.theForm.pb.can.cane}').value == "Yes"){
+var future1 = new Date(document.getElementById('{!$Component.theForm.pb.cad.cadd}').value);
+future1.setDate(future1.getDate());
+
+var dd1 = future1.getDate();
+var ddm1 = dd1.toString().length;
+if(ddm1 == 1){
+dd1 = '0' + dd1;
+}
+var mm1 = future1.getMonth() + 1;
+var mn1 = mm1.toString().length;
+if(mn1 == 1){
+mm1 = '0'+ mm1;
+}
+var y1 = future1.getFullYear();
+var dat1 = y1 + '-'+ mm1 + '-'+ dd1;
+nc.Corrective_Actions_Due_Date__c = dat1;
+}
+
+
+if(document.getElementById('{!$Component.theForm.pb.cle.clea}').value == "Yes" && document.getElementById('{!$Component.theForm.pb.cld.clda}').value == ""){
+alert('Enter a Clearance Date');
+return;
+}else if(document.getElementById('{!$Component.theForm.pb.cle.clea}').value == "Blank" || document.getElementById('{!$Component.theForm.pb.cle.clea}').value == ""){
+alert('Select a value for Cleared.');
+return;
+}else{
+nc.NC_Clearance__c = document.getElementById('{!$Component.theForm.pb.cle.clea}').value;
+}
+if(document.getElementById('{!$Component.theForm.pb.cld.clda}').value != "" && document.getElementById('{!$Component.theForm.pb.cle.clea}').value == "Yes"){
+var future11 = new Date(document.getElementById('{!$Component.theForm.pb.cld.clda}').value);
+future11.setDate(future11.getDate());
+
+var dd11 = future11.getDate();
+var ddm11 = dd11.toString().length;
+if(ddm11 == 1){
+dd11 = '0' + dd11;
+}
+var mm11 = future11.getMonth() + 1;
+var mn11 = mm11.toString().length;
+if(mn11 == 1){
+mm11 = '0'+ mm11;
+}
+var y11 = future11.getFullYear();
+var dat11 = y11 + '-'+ mm11 + '-'+ dd11;
+
+nc.NC_Clearance_Date__c = dat11;
+}
+
+if(document.getElementById('{!$Component.theForm.pb.cor.cora}').value == ""){
+alert('Enter a Corrective Action');
+return;
+}else{
+nc.Note__c = document.getElementById('{!$Component.theForm.pb.cor.cora}').value;
+
+}
+
+
+var result = sforce.connection.create([nc]);
+window.open("/{!Verification_Report__c.Id}","_top");
+
+}
+</script>
+</apex:page>

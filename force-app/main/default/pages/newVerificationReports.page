@@ -1,0 +1,281 @@
+<apex:page standardController="Opportunity" showHeader="true" sidebar="true">
+<head>
+  <style>
+    .requiredInput{
+      display: inline-block;
+    } 
+ 
+        #ott {
+    display: block;
+    margin-left: 250px;
+    margin-right: auto;
+    } 
+            #otlabel {
+    display: block;
+    margin-left: 150px;
+    margin-right: auto;
+    } 
+  </style>
+</head>
+<br/>
+    <apex:form id="theForm">    
+        <apex:pageblock id="pb" mode="maindetail" >        
+        <apex:pageBlockSection id="pbs">      
+            <apex:selectList required="true" onchange="test(); return true;" id="oppName" multiselect="false" size="1" label="Report Type">                 
+                <apex:selectOption itemValue="Blank" itemLabel=""/>
+                <apex:selectOption itemValue="Beef" itemLabel="Beef"/>
+                <apex:selectOption itemValue="Chicken" itemLabel="Chicken"/>
+                <apex:selectOption itemValue="Collection Point" itemLabel="Collection Point"/>
+                <apex:selectOption itemValue="Pork" itemLabel="Pork"/>
+                <apex:selectOption itemValue="Sheep" itemLabel="Sheep"/>
+                <apex:selectOption itemValue="Turkey" itemLabel="Turkey"/>
+            </apex:selectList>
+          <apex:inputText id="on" value="{!Opportunity.Name}" label="Verification Report Name" style="width:275px;"/>
+        </apex:pageBlockSection>
+        <br/>
+        <apex:pageBlockSection id="pbss" columns="1">               
+                <apex:outputLabel value="The Opportunity has the following Steps selected for Programs & Claims. 
+                Select the program to use for 'Rating Applying For' by leaving only one value in the Chosen field." rendered="{!Opportunity.StepAll__c = 'yes'}"/>
+                <apex:inputField id="pc" style="float:left" label="Rating Applying For" value="{!Opportunity.Programs_Claims_GAP__c}" rendered="{!Opportunity.StepAll__c = 'yes'}"/>
+       </apex:pageBlockSection> 
+       <br/>
+       <apex:pageBlockSection id="pbsss">
+       <apex:inputTextarea id="bsa" label="Background and Scope of Audit" value="{!Opportunity.BackgroundAndScopeOfAudit_vf__c}" style="width:275px;"/>       
+       </apex:pageBlockSection>  
+       <br/>
+       <apex:pageBlockSection id="ot">
+        <apex:inputTextarea id="ott" rows="2" cols="39" label="Operation Type" disabled="True">
+       </apex:inputTextarea>
+       </apex:pageBlockSection>
+       
+        <br/>
+       <apex:pageBlockSection id="pa">
+        <apex:inputTextarea value="{!Opportunity.PhysicalAcctAddress__c}" id="pad" rows="2" cols="39" label="Physical Address">
+       </apex:inputTextarea>
+       </apex:pageBlockSection>
+       
+       <apex:pageBlockSection >  
+           <apex:commandButton action="{!save}" value="Save" id="theButton" onclick="testt(); return true;" oncomplete="refreshPage()" style="width:100px;"  / >
+       </apex:pageBlockSection>       
+       </apex:pageblock>
+    </apex:form>
+    
+<apex:includeScript value="/soap/ajax/29.0/connection.js"/>
+<apex:includeScript value="/soap/ajax/29.0/apex.js"/>
+<script>
+function test(){
+var opnam;
+opnam = "";
+var on = '{!Opportunity.Name}'; 
+on = on.toLowerCase();    
+var yo = on.indexOf("verification");
+if(yo > 0){
+opnam = '{!Opportunity.Name}' + " " + document.getElementById('{!$Component.theForm.pb.pbs.oppName}').value + " Verification Report";
+var splitStr = opnam.toLowerCase().split(' ');
+var newstring;
+for(var i = 0; i < splitStr.length; i++){
+splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+if(i == 0){
+newstring = splitStr[i];
+}else{
+newstring = newstring + " " + splitStr[i];
+}
+}
+newstring = newstring.replace("Verification","");
+newstring = newstring.replace("  "," ");
+}else{
+newstring = '{!Opportunity.Name}' + " " + document.getElementById('{!$Component.theForm.pb.pbs.oppName}').value + " Verification Report";
+}
+document.getElementById('{!$Component.theForm.pb.pbs.on}').value = newstring;
+var ct = '{!Opportunity.Customer_Type__c}';
+var opstr;
+if(ct.indexOf("Beef: Feeder") > -1){
+    if(opstr == null){opstr = "Finisher;";}else{opstr = opstr + " " + "Finisher;";}
+}
+if(ct.indexOf("Beef: Ranch") > -1){
+    if(opstr == null){opstr = "Cow/Calf Ranch;";}else{opstr = opstr + " " + "Cow/Calf Ranch;";}
+}
+if(ct.indexOf("Beef: Stocker") > -1){
+    if(opstr == null){opstr = "Backgrounder;";}else{opstr = opstr + " " + "Backgrounder;";}
+}
+if(ct.indexOf("Chicken: Broilers") > -1){
+    if(opstr == null){opstr = "Chickens: Raised for Meat;";}else{opstr = opstr + " " + "Chickens: Raised for Meat;";}
+}
+if(ct.indexOf("Chicken: Hatchery") > -1){
+    if(opstr == null){opstr = "Hatchery;";}else{opstr = opstr + " " + "Hatchery;";} 
+}
+if(ct.indexOf("Collection Point") > -1){
+    if(opstr == null){opstr = "Collection Point;";}else{opstr = opstr + " " + "Collection Point;";}
+}
+if(ct.indexOf("Egg: Layers") > -1){
+    if(opstr == null){opstr = "Layers;";}else{opstr = opstr + " " + "Layers;";}
+}
+if(ct.indexOf("Egg: Pullets") > -1){
+    if(opstr == null){opstr = "Pullets;";}else{opstr = opstr + " " + "Pullets;";}
+}
+if(ct.indexOf("Goat: Feeder") > -1){
+    if(opstr == null){opstr = "Doe-Kid-Finisher;";}else{opstr = opstr + " " + "Doe-Kid-Finisher;";}
+}
+if(ct.indexOf("Goat: Production") > 0){
+    if(opstr == null){opstr = "Doe-Kid;";}else{opstr = opstr + " " + "Doe-Kid;";}
+}
+if(ct.indexOf("Lamb: Feeder") > -1){
+    if(opstr == null){opstr = "Ewe-Lamb-Finisher;";}else{opstr = opstr + " " + "Ewe-Lamb-Finisher;";}
+}
+if(ct.indexOf("Lamb: Ranch") > -1){
+    if(opstr == null){opstr = "Ewe-Lamb;";}else{opstr = opstr + " " + "Ewe-Lamb;";}
+}
+if(ct.indexOf("Pork: Nursery") > -1){
+    if(opstr == null){opstr = "Nursery;";}else{opstr = opstr + " " + "Nursery;";}
+}
+if(ct.indexOf("Pork: Farrow to Finish") > -1){
+    if(opstr == null){opstr = "Farrow to Finish;";}else{opstr = opstr + " " + "Farrow to Finish;";}
+}
+if(ct.indexOf("Pork: Farrow to Wean") > -1){
+    if(opstr == null){opstr = "Farrow to Wean;";}else{opstr = opstr + " " + "Farrow to Wean;";}
+}
+if(ct.indexOf("Pork: Finisher") > -1){
+    if(opstr == null){opstr = "Finisher;";}else{opstr = opstr + " " + "Finisher;";}
+}
+if(ct.indexOf("Turkey: Brooder") > -1){
+    if(opstr == null){opstr = "Brooder;";}else{opstr = opstr + " " + "Brooder;";}
+}
+if(ct.indexOf("Turkey: Grower") > -1){
+    if(opstr == null){opstr = "Grow-Out;";}else{opstr = opstr + " " + "Grow-Out;";}
+}
+
+document.getElementById('{!$Component.theForm.pb.ot.ott}').value = opstr;
+
+}
+</script>
+<apex:includeScript value="/soap/ajax/29.0/connection.js"/>
+<apex:includeScript value="/soap/ajax/29.0/apex.js"/>
+<script type="text/javascript">
+    sforce.connection.sessionId = '{!$Api.Session_ID}';
+</script>
+<script>
+function testt(){
+
+var notshowing = false;
+var step;
+if(document.getElementById('{!$Component.theForm.pb.pbss.pc}')){
+    var num = 0;
+    var selectList = document.getElementById('{!$Component.theForm.pb.pbss.pc}');
+    for(var i = 0; i < selectList.options.length; i++){
+    var opt = selectList[i];
+    if(opt.selected){
+        num += 1 ;
+    }
+    }//end for
+    if(num > 1){
+    alert('Select only 1 item in the Chosen field');
+    return;
+    }else if(num = 1){
+    var ste = document.getElementById('{!$Component.theForm.pb.pbss.pc}').value;
+    var ad = ste.indexOf("Step");
+        if(ad < 1){
+        alert("Choose a Step"); // theres something or nothing there but its not a step
+        return;
+        }else{
+        var s1 = ste.indexOf("Step 1");
+            if(s1 > 0){
+            step = "1";
+            }
+        var s2 = ste.indexOf("Step 2");
+            if(s2 > 0){
+            step = "2";
+            }
+        var s3 = ste.indexOf("Step 3");
+            if(s3 > 0){
+            step = "3";
+            }
+        var s4 = ste.indexOf("Step 4");
+            if(s4 > 0){
+            step = "4";
+            }
+        var s5 = ste.indexOf("Step 5");
+            if(s5 > 0){
+            step = "5";
+            }
+        var s5plus = ste.indexOf("Step 5+");
+            if(s5plus > 0){
+            step = "5+";
+            }
+        }        
+        }    
+}else{
+notshowing = true;
+}
+var op = '{!Opportunity.Id}';
+var vr = new sforce.SObject("Verification_Report__c");
+var pc = '{!Opportunity.Programs_Claims_GAP__c}';
+
+if(document.getElementById('{!$Component.theForm.pb.pbs.oppName}').value == "Blank"){
+    alert('Select a Report Type');
+    return;
+}else{
+    var rect = document.getElementById('{!$Component.theForm.pb.pbs.oppName}').value;
+    vr.Name = document.getElementById('{!$Component.theForm.pb.pbs.on}').value;
+    vr.Opportunity__c = op;    
+    vr.Background_and_Scope_of_Audit__c = document.getElementById('{!$Component.theForm.pb.pbsss.bsa}').value;
+    if(rect == 'Beef'){
+    vr.RecordTypeID = '01236000000OP4s';}
+    else if(rect == 'Chicken'){
+    vr.RecordTypeID = '01236000000OPOs';}
+    else if(rect == 'Collection Point'){
+    vr.RecordTypeID = '01236000000nzUN';}
+    else if(rect == 'Pork'){
+    vr.RecordTypeID = '01236000000OPQK';}
+    else if(rect == 'Sheep'){
+    vr.RecordTypeID = '01236000000OUWu';}
+    else if(rect == 'Turkey'){
+    vr.RecordTypeID = '01236000000OPQy';}
+    if(pc != ''){                    // IF PC is not blank then there is something in P&C
+    var hasStep = pc.indexOf("Step");
+    }
+    if({!Opportunity.StepAll__c = 'no'} && hasStep > 0){ //Has just one step, if StepAll is No then there is only one step or blank programs and claims
+        var n1 = pc.indexOf("Step 1");
+        if(n1 > 0){   
+        vr.Rating__c = "1";        
+        }
+        var n2 = pc.indexOf("Step 2");
+        if(n2 > 0){      
+        vr.Rating__c = "2";        
+        }
+        var n3 = pc.indexOf("Step 3");
+        if(n3 > 0){   
+        vr.Rating__c = "3";        
+        }
+        var n4 = pc.indexOf("Step 4");
+        if(n4 > 0){      
+        vr.Rating__c = "4";        
+        }
+        var n5 = pc.indexOf("Step 5");
+        if(n5 > 0){   
+        vr.Rating__c = "5";        
+        }
+        var n5plus = pc.indexOf("Step 5+");
+        if(n5plus > 0){      
+        vr.Rating__c = "5+";        
+        }
+    }else if({!Opportunity.StepAll__c = 'yes'}){         //Stepall is yes then check value in page !!!IF stepAll is no that means there is no step or Programs is blank
+    vr.Rating__c = step; 
+    }
+}//end of main IF
+vr.Operation_Type__c = document.getElementById('{!$Component.theForm.pb.ot.ott}').value;
+vr.Address_1__c = document.getElementById('{!$Component.theForm.pb.pa.pad}').value;
+//sforce.connection.create([vr]);
+var result = sforce.connection.create([vr]);
+result = result + "[A test string]";
+var res = "/" + result.substring ( 5,23  );
+//alert(result);
+//alert(res);
+
+window.open(res,"_top");
+
+//window.open("/{!Opportunity.Id}","_top");
+
+}//end of function
+
+</script>
+</apex:page>

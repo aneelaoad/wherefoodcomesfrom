@@ -1,0 +1,99 @@
+<div class="view-fns-case">
+  <h2 class="slds-p-around--medium border-bottom">
+    <strong>FNS Case: {{state.fnsCase.id}}</strong>
+    <button class="slds-button slds-button--neutral slds-float--right" style="margin-top: -7px;"
+            ng-click="state.view = 'home'">Close</button>
+  </h2>
+  <div class="slds-scrollable--y" style="max-height: calc(100vh - 108px);">
+    <div class="slds-grid">
+      <div class="slds-col">
+        <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium slds-m-bottom--xx-small">
+                          <strong>Details</strong></h2>
+        <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding">
+          <div class="slds-scrollable--y">
+            <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom" 
+                 ng-repeat="item in state.fnsCase.details">
+              <div class="slds-col field-label">{{item.label}}</div>
+              <span ng-include="getTemplateUrl('item-value.tpl.html')"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="intake-case" ng-if="state.fnsCase.intakeCase">
+      <h2 class="slds-section__title slds-m-horizontal--medium slds-m-bottom--xx-small"><strong>Related Case</strong></h2>
+      <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding">
+        <ul class="slds-list--vertical slds-has-dividers--bottom slds-has-block-links--space slds-has-list-interactions">
+          <li class="slds-list__item">
+            <a id="intake-case" class="slds-clearfix" ng-click="state.view = 'intake-case';state.prevView='fns-case'; state.intakeCase = state.fnsCase.intakeCase;">
+              <div class="slds-truncate slds-float--left slds-p-left--x-small item-name">{{state.fnsCase.intakeCase.caseNumber}}</div>
+              <div ng-include="getTemplateUrl('chevron-right.tpl.html')"></div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="attachments" ng-if="state.fnsCase.attachments">
+      <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium"><strong>Attachments</strong></h2>
+      <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding">
+        <table class="slds-table slds-table--bordered">
+          <thead>
+            <tr class="slds-text-heading--label">
+              <td>Name</td>
+              <td>Created By</td>
+              <td>Last Modified</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="clickable" ng-repeat="item in state.fnsCase.attachments"
+                ng-click="viewAttachment(item.id);">
+              <td>{{item.name}}</td>
+              <td>{{item.createdBy}}</td>
+              <td>{{item.lastModified}}</td>
+              <td style="padding-right: 12px;">
+                <svg aria-hidden="true" class="slds-button__icon slds-float--right">
+                  <use ng-attr-xlink:href="{{getIconUrl('symbols.svg#chevronright')}}" xlink:href=""></use>
+                </svg>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <div class="slds-grid">
+      <div class="slds-col">
+        <h2 class="slds-section__title slds-m-horizontal--medium slds-m-top--medium"><strong>CNE Communications</strong></h2>
+      </div>
+      <div class="slds-col">
+        <button class="slds-button slds-button--brand slds-float--right slds-m-right--medium" ng-click="showModalAddComment()">Add Comment</button>
+      </div>
+    </div>
+    
+    <div class="slds-box slds-m-around--medium no-padding">
+      <div class="slds-scrollable--y" style="max-height: 19vh;">
+        <table class="slds-table slds-table--bordered slds-text-body--small">
+          <thead>
+            <tr class="slds-text-heading--label">
+              <td>Comment</td>
+              <td>Role</td>
+              <td>Date Created</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in state.fnsCase.CNECommunications track by $index">
+              <td class="slds-cell-wrap">{{item.comment}}</td>
+              <td>{{item.role}}</td>
+              <td>{{item.dateCreated}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div ng-include="getTemplateUrl('modal-add-comment.tpl.html')"></div>

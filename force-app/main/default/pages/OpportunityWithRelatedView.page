@@ -1,0 +1,812 @@
+<apex:page standardStylesheets="false" docType="html-5.0" standardController="Opportunity" extensions="OpportunityWithRelatedController" applyBodyTag="False">
+    <head>
+        <title>{!thisOpportunity.Name}</title>
+        <apex:slds /> 
+        <style>
+            table.multiSelectPicklistTable{
+            width: 475px; 
+            height: 50px;
+            }
+            img.picklistArrowLeft, img.picklistArrowRight{
+            height:20px;
+            }
+            .box{
+            border: 1px solid #DADADA;
+            border-radius: 5px;
+            padding: 10px;  
+            margin: 1%;
+            width:100%;
+            margin-left:20px !important;          
+            }
+            .noMargin {
+                margin-left: -15px !important;
+                margin-bottom: 10px;
+            }
+            .floatRight {
+                float:right;
+                margin-right:20px;
+            }
+            .multiSelectPicklistCell {
+                width:30px;
+                display:block;
+            }
+        </style>
+    </head>
+    
+    <body class="slds-scope">
+        <apex:pagemessages />
+        <div class="slds-scope">
+            
+            <apex:outputpanel >
+                <apex:form >
+                    <div class="slds-form slds-form_stacked" style="padding:50px">  
+                        <fieldset class="slds-form-element">
+                            <apex:commandLink action="{!collapseAll}" value="Collapse All" styleClass="floatRight" />&nbsp;
+                            <apex:commandLink action="{!expandAll}" value="Expand All" styleClass="floatRight" />
+                            
+                           <div class="slds-text-heading_large slds-p-around_none noMargin" style="{!IF(showOrganicHeader, 'display:block', 'display:none')}">
+                                Organic Livestock/Crops
+                            </div>
+                            <div class="slds-form-element__control">
+                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                    <!--Fields-->
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-text-heading_medium slds-border--bottom slds-m-bottom--medium" style="{!IF(thisOpportunity.fields__r.size>0, 'display:block', 'display:none')}" >
+                                        <apex:commandLink action="{!toggleFields}" value="{!IF(showFields, '- Fields', '+ Fields')}" />&nbsp;
+                                        <apex:commandLink value="Remove All" action="{!removeModule}" styleClass="slds-text-body_small slds-float_right" onclick="return confirm('Are you sure you want to remove all field modules?');">
+                                                <apex:param name="modToDelete" value="Field" assignTo="{!modToDelete}"/>
+                                        </apex:commandLink>
+                                    </div>
+                                    <apex:outputPanel rendered="{!AND(showFields,thisOpportunity.fields__r.size>0)}" styleclass="slds-grid slds-wrap slds-grid--pull-padded slds-size--1-of-1 slds-p-left_medium">
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-m-bottom--small">
+                                        <apex:commandButton value="New" action="{!newField}" />
+                                    </div>
+                                     <apex:repeat value="{!thisOpportunity.fields__r}" var="field">
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                <!--List Mode-->
+                                                <div class="slds-form-element__control">
+                                                    <apex:commandLink value="Edit" action="{!setEdit}" rendered="{!OR(editMode==false,field!=selectedId)}">
+                                                        <apex:param name="itemId"
+                                                                    value="{!field.Id}"
+                                                                    assignTo="{!selectedId}"/>
+                                                    </apex:commandLink>&nbsp;
+                                                    <apex:commandLink value="Remove" action="{!removeItem}" styleClass="slds-text-body_small slds-float_right" onclick="return confirm('Are you sure you want to remove this?');">
+                                                            <apex:param name="itemIDToDelete" value="{!field.Id}" assignTo="{!itemIDToDelete}"/>
+                                                    </apex:commandLink>
+                                                    <apex:commandButton value="Save" action="{!save}" rendered="{!AND(field.Id==selectedId,editMode==true)}" />
+                                                    &nbsp;<apex:commandButton value="Cancel" action="{!cancel}" rendered="{!AND(field.Id==selectedId,editMode==true)}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                <div class="slds-form-element__control">
+                                                    <apex:outputField value="{!field.Name}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                            </div>
+                                            
+                                            <apex:outputPanel rendered="{!selectedId==field.Id}" styleclass="slds-p-left_large slds-grid slds-wrap slds-grid--pull-padded slds-size--1-of-1 box">
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Acreage-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Name</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!field.Name}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!field.Name}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Acreage-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Acreage</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!field.Acreage__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!field.Acreage__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Address/Legal Description-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Address/Legal Description</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!field.Address_Legal_Description__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!field.Address_Legal_Description__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Comments-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Comments</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!field.Comments__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!field.Comments__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3">
+                                                    <!--Crops-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Crops</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!field.Crops__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!field.Crops__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Inactive-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Inactive</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!field.Inactive__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!field.Inactive__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Inactive_Date-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Inactive Date</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!field.Inactive_Date__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!field.Inactive_Date__c}" rendered="{! editMode}" showDatePicker="true" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Inactive_Reason-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Inactive Reason</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!field.Inactive_Reason__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!field.Inactive_Reason__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Last app. of prohibited substances-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Last app. of prohibited substances</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!field.Last_app_of_prohibited_substances__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!field.Last_app_of_prohibited_substances__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Ownership Status-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Ownership Status</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!field.Ownership_Status__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!field.Ownership_Status__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Start of Use-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Start of Use</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!field.Start_of_Use__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!field.Start_of_Use__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Status-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Status</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!field.Status__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!field.Status__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Status-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Field Information</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!field.Field_Information__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!field.Field_Information__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                </div>
+                                            </apex:outputPanel>
+                                        </apex:repeat>
+                                    </apex:outputPanel>
+                                    
+                                    <!--Livestock-->
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-text-heading_medium slds-border--bottom slds-m-bottom--medium" style="{!IF(thisOpportunity.Livestock__r.size>0, 'display:block', 'display:none')}">                                    
+                                        <apex:commandLink action="{!toggleLivestock}" value="{!IF(showLivestock, '- Livestock', '+ Livestock')}" />&nbsp;
+                                        <apex:commandLink value="Remove All" action="{!removeModule}" styleClass="slds-text-body_small slds-float_right" onclick="return confirm('Are you sure you want to remove all livestock modules?');">
+                                                <apex:param name="modToDelete" value="Livestock" assignTo="{!modToDelete}"/>
+                                        </apex:commandLink>
+                                    </div>
+                                    
+                                    <apex:outputPanel rendered="{!AND(showLivestock,thisOpportunity.Livestock__r.size>0)}" styleclass="slds-grid slds-wrap slds-grid--pull-padded slds-size--1-of-1 slds-p-left_medium">
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-m-bottom--small">
+                                        <apex:commandButton value="New" action="{!newLivestock}" />
+                                    </div>
+                                        <apex:repeat value="{!thisOpportunity.Livestock__r}" var="Livestock">
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                <!--List Mode-->
+                                                <div class="slds-form-element__control">
+                                                    <apex:commandLink value="Edit" action="{!setEdit}" rendered="{!OR(editMode==false,Livestock.Id!=selectedId)}">
+                                                        <apex:param name="itemId"
+                                                                    value="{!Livestock.Id}"
+                                                                    assignTo="{!selectedId}"/>
+                                                    </apex:commandLink>&nbsp;
+                                                    <apex:commandLink value="Remove" action="{!removeItem}" styleClass="slds-text-body_small slds-float_right" onclick="return confirm('Are you sure you want to remove this?');">
+                                                            <apex:param name="itemIDToDelete" value="{!Livestock.Id}" assignTo="{!itemIDToDelete}"/>
+                                                    </apex:commandLink>
+                                                    <apex:commandButton value="Save" action="{!save}" rendered="{!AND(editMode==true,Livestock.Id==selectedId)}" />
+                                                    &nbsp;<apex:commandButton value="Cancel" action="{!cancel}" rendered="{!AND(editMode==true,Livestock.Id==selectedId)}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                <div class="slds-form-element__control">
+                                                    <apex:outputField value="{!Livestock.Name}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                            </div>
+                                            <apex:outputPanel rendered="{!selectedId==Livestock.Id}" styleclass="slds-p-left_large slds-grid slds-wrap slds-grid--pull-padded slds-size--1-of-1 box">
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Livestock Name-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Livestock Name/ID</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Livestock.Name}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Livestock.Name}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Birth Date-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Birth Date</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Livestock.Birth_Date__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Livestock.Birth_Date__c}" rendered="{! editMode}" showDatePicker="true" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Comments-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Comments</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Livestock.Comment__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Livestock.Comment__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3">
+                                                    <!--Species / Type-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Inactive</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Livestock.Inactive__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Livestock.Inactive__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3">
+                                                    <!--Species / Type-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Inactive Reason</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Livestock.Inactive_Reason__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Livestock.Inactive_Reason__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3">
+                                                    <!--Species / Type-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Species / Type</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Livestock.Species_Type__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Livestock.Species_Type__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--2-of-3">
+                                                    <!--Species / Type-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Origin</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Livestock.Origin__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Livestock.Origin__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                            </apex:outputPanel>
+                                        </apex:repeat>
+                                    </apex:outputPanel>
+                                    
+                                    <!--Feeds-->
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-text-heading_medium slds-border--bottom slds-m-bottom--medium" style="{!IF(thisOpportunity.Feeds__r.size>0, 'display:block', 'display:none')}">                                    
+                                        <apex:commandLink action="{!toggleFeeds}" value="{!IF(showFeeds, '- Feeds', '+ Feeds')}" />&nbsp;
+                                        <apex:commandLink value="Remove All" action="{!removeModule}" styleClass="slds-text-body_small slds-float_right" onclick="return confirm('Are you sure you want to remove all feed modules?');">
+                                                <apex:param name="modToDelete" value="Feed" assignTo="{!modToDelete}"/>
+                                        </apex:commandLink>
+                                    </div>
+                                    <apex:outputPanel rendered="{!AND(showFeeds,thisOpportunity.Feeds__r.size>0)}" styleclass="slds-grid slds-wrap slds-grid--pull-padded slds-size--1-of-1 slds-p-left_medium">
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-m-bottom--small">
+                                        <apex:commandButton value="New" action="{!newFeed}" />
+                                    </div>
+                                        <apex:repeat value="{!thisOpportunity.Feeds__r}" var="Feeds">
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                <!--List Mode-->
+                                                <div class="slds-form-element__control">
+                                                    <apex:commandLink value="Edit" action="{!setEdit}" rendered="{!OR(editMode==false,Feeds.Id!=selectedId)}">
+                                                        <apex:param name="itemId"
+                                                                    value="{!Feeds.Id}"
+                                                                    assignTo="{!selectedId}"/>
+                                                    </apex:commandLink>&nbsp;
+                                                    <apex:commandLink value="Remove" action="{!removeItem}" styleClass="slds-text-body_small slds-float_right" onclick="return confirm('Are you sure you want to remove this?');">
+                                                            <apex:param name="itemIDToDelete" value="{!Feeds.Id}" assignTo="{!itemIDToDelete}"/>
+                                                    </apex:commandLink>
+                                                    <apex:commandButton value="Save" action="{!save}" rendered="{!AND(editMode==true,Feeds.Id==selectedId)}" />
+                                                    &nbsp;<apex:commandButton value="Cancel" action="{!cancel}" rendered="{!AND(editMode==true,Feeds.Id==selectedId)}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                <div class="slds-form-element__control">
+                                                    <apex:outputField value="{!Feeds.Name}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                            </div>
+                                            <apex:outputPanel rendered="{!selectedId==Feeds.Id}" styleclass="slds-p-left_large slds-grid slds-wrap slds-grid--pull-padded slds-size--1-of-1 box">
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Feeds Name-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Feed Name</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Feeds.Name}"  rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Feeds.Name}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Certifier-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Certifier</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Feeds.Certifier__c}"  rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Feeds.Certifier__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Manufacturer-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Manufacturer</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Feeds.Manufacturer__c}"  rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Feeds.Manufacturer__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                            </apex:outputPanel>
+                                        </apex:repeat>
+                                    </apex:outputPanel>
+                                    
+                                    <!--Storage-->
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-text-heading_medium slds-border--bottom slds-m-bottom--medium" style="{!IF(thisOpportunity.Storage__r.size>0, 'display:block', 'display:none')}">                                    
+                                        <apex:commandLink action="{!toggleStorage}" value="{!IF(showStorage, '- Storage', '+ Storage')}" />&nbsp;
+                                        <apex:commandLink value="Remove All" action="{!removeModule}" styleClass="slds-text-body_small slds-float_right" onclick="return confirm('Are you sure you want to remove all storage modules?');">
+                                                <apex:param name="modToDelete" value="Storage" assignTo="{!modToDelete}"/>
+                                        </apex:commandLink>
+                                    </div>
+                                    
+                                    <apex:outputPanel rendered="{!AND(showStorage,thisOpportunity.Storage__r.size>0)}" styleclass="slds-grid slds-wrap slds-grid--pull-padded slds-size--1-of-1 slds-p-left_medium">
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-m-bottom--small">
+                                        <apex:commandButton value="New" action="{!newStorage}" />
+                                    </div>
+                                        <apex:repeat value="{!thisOpportunity.Storage__r}" var="Storage">
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                <!--List Mode-->
+                                                <div class="slds-form-element__control">
+                                                    <apex:commandLink value="Edit" action="{!setEdit}" rendered="{!OR(editMode==false,Storage.Id!=selectedId)}">
+                                                        <apex:param name="itemId"
+                                                                    value="{!Storage.Id}"
+                                                                    assignTo="{!selectedId}"/>
+                                                    </apex:commandLink>&nbsp;
+                                                    <apex:commandLink value="Remove" action="{!removeItem}" styleClass="slds-text-body_small slds-float_right" onclick="return confirm('Are you sure you want to remove this?');">
+                                                            <apex:param name="itemIDToDelete" value="{!Storage.Id}" assignTo="{!itemIDToDelete}"/>
+                                                    </apex:commandLink>
+                                                    <apex:commandButton value="Save" action="{!save}" rendered="{!AND(editMode==true,Storage.Id==selectedId)}" />
+                                                    &nbsp;<apex:commandButton value="Cancel" action="{!cancel}" rendered="{!AND(editMode==true,Storage.Id==selectedId)}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                <div class="slds-form-element__control">
+                                                    <apex:outputField value="{!Storage.Name}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                            </div>
+                                            <apex:outputPanel rendered="{!selectedId==Storage.Id}" styleclass="slds-p-left_large slds-grid slds-wrap slds-grid--pull-padded slds-size--1-of-1 box">
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Storage Name-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Storage ID</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Storage.Name}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Storage.Name}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Capacity-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Capacity</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Storage.Capacity__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Storage.Capacity__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Crop and Year-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Crop and Year</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Storage.Crop_and_Year__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Storage.Crop_and_Year__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Current Inventory-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Current Inventory</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Storage.Current_Inventory__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Storage.Current_Inventory__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Date of Inventory-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Date of Inventory</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Storage.Current_Inventory__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Storage.Current_Inventory__c}" rendered="{! editMode}" showDatePicker="true" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Inactive-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Inactive</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Storage.Inactive__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Storage.Inactive__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3">
+                                                    <!--Status-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Status</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Storage.Status__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Storage.Status__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Location and Address-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Location and Address</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Storage.Location_and_Address__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Storage.Location_and_Address__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>                                       
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Type of Storage Unit-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Type of Storage Unit</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Storage.Type_of_Storage_Unit__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Storage.Type_of_Storage_Unit__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                </div>
+                                            </apex:outputPanel>
+                                        </apex:repeat>
+                                    </apex:outputPanel>
+                                    
+                                    <!--Materials-->
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-text-heading_medium slds-border--bottom slds-m-bottom--medium" style="{!IF(thisOpportunity.Materials__r.size>0, 'display:block', 'display:none')}">                                    
+                                        <apex:commandLink action="{!toggleMaterials}" value="{!IF(showMaterials, '- Materials', '+ Materials')}" />&nbsp;
+                                        <apex:commandLink value="Remove All" action="{!removeModule}" styleClass="slds-text-body_small slds-float_right" onclick="return confirm('Are you sure you want to remove all materials modules?');">
+                                                <apex:param name="modToDelete" value="Material" assignTo="{!modToDelete}"/>
+                                        </apex:commandLink>
+                                    </div>
+                                    <apex:outputPanel rendered="{!AND(showMaterials,thisOpportunity.Materials__r.size>0)}" styleclass="slds-grid slds-wrap slds-grid--pull-padded slds-size--1-of-1 slds-p-left_medium">
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-m-bottom--small">
+                                        <apex:commandButton value="New" action="{!newMaterial}" />
+                                    </div>
+                                        <apex:repeat value="{!thisOpportunity.Materials__r}" var="Material">
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                <!--List Mode-->
+                                                <div class="slds-form-element__control">
+                                                    <apex:commandLink value="Edit" action="{!setEdit}" rendered="{!OR(editMode==false,Material.Id!=selectedId)}">
+                                                        <apex:param name="itemId"
+                                                                    value="{!Material.Id}"
+                                                                    assignTo="{!selectedId}"/>
+                                                    </apex:commandLink>&nbsp;
+                                                    <apex:commandLink value="Remove" action="{!removeItem}" styleClass="slds-text-body_small slds-float_right" onclick="return confirm('Are you sure you want to remove this?');">
+                                                            <apex:param name="itemIDToDelete" value="{!Material.Id}" assignTo="{!itemIDToDelete}"/>
+                                                    </apex:commandLink>
+                                                    <apex:commandButton value="Save" action="{!save}" rendered="{!AND(editMode==true,Material.Id==selectedId)}" />
+                                                    &nbsp;<apex:commandButton value="Cancel" action="{!cancel}" rendered="{!AND(editMode==true,Material.Id==selectedId)}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                <div class="slds-form-element__control">
+                                                    <apex:outputField value="{!Material.Name}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                            </div>
+                                            <apex:outputPanel rendered="{!selectedId==Material.Id}" styleclass="slds-p-left_large slds-grid slds-wrap slds-grid--pull-padded slds-size--1-of-1 box">
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Material Name-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Material Name</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Material.Name}"  rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Material.Name}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Category-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Category</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Material.Category__c}"  rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Material.Category__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Classification-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Classification</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Material.Classification__c}"  rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Material.Classification__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Comment-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Comment</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Material.Comment__c}"  rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Material.Comment__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--General Name-->
+                                                    <label class="slds-form-element__label" for="input-id-01">General Name</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Material.General_Name__c}"  rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Material.General_Name__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Manufacturer-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Manufacturer</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Material.Manufacturer__c}"  rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Material.Manufacturer__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Status-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Status</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Material.Status__c}"  rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Material.Status__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3">
+                                                    <!--Inspection Services-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Inspection Services</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Material.Inspection_Services__c}"  rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Material.Inspection_Services__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Status Comment-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Status Comment</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Material.Status_Comment__c}"  rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Material.Status_Comment__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Status Date-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Status Date</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Material.Status_Date__c}"  rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Material.Status_Date__c}" rendered="{! editMode}"  showDatePicker="true"/>
+                                                    </div>
+                                                </div>                                        
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Type of Application-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Type of Application</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Material.Type_of_Application__c}"  rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Material.Type_of_Application__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                </div>
+                                            </apex:outputPanel>
+                                        </apex:repeat>
+                                    </apex:outputPanel>
+                                    
+                                    <!--Seeds-->
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-text-heading_medium slds-border--bottom slds-m-bottom--medium" style="{!IF(thisOpportunity.Seeds__r.size>0, 'display:block', 'display:none')}">                                    
+                                        <apex:commandLink action="{!toggleSeeds}" value="{!IF(showSeeds, '- Seeds', '+ Seeds')}" />&nbsp;
+                                        <apex:commandLink value="Remove All" action="{!removeModule}" styleClass="slds-text-body_small slds-float_right" onclick="return confirm('Are you sure you want to remove all seeds modules?');">
+                                                <apex:param name="modToDelete" value="Seed" assignTo="{!modToDelete}"/>
+                                        </apex:commandLink>
+                                    </div>
+                                    <apex:outputPanel rendered="{!AND(showSeeds,thisOpportunity.Seeds__r.size>0)}" styleclass="slds-grid slds-wrap slds-grid--pull-padded slds-size--1-of-1 slds-p-left_medium">
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-m-bottom--small">
+                                        <apex:commandButton value="New" action="{!newSeeds}" />
+                                    </div>
+                                        <apex:repeat value="{!thisOpportunity.Seeds__r}" var="Seeds">
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                <!--List Mode-->
+                                                <div class="slds-form-element__control">
+                                                    <apex:commandLink value="Edit" action="{!setEdit}" rendered="{!OR(editMode==false,Seeds.Id!=selectedId)}">
+                                                        <apex:param name="itemId"
+                                                                    value="{!Seeds.Id}"
+                                                                    assignTo="{!selectedId}"/>
+                                                    </apex:commandLink>&nbsp;
+                                                    <apex:commandLink value="Remove" action="{!removeItem}" styleClass="slds-text-body_small slds-float_right" onclick="return confirm('Are you sure you want to remove this?');">
+                                                            <apex:param name="itemIDToDelete" value="{!Seeds.Id}" assignTo="{!itemIDToDelete}"/>
+                                                    </apex:commandLink>
+                                                    <apex:commandButton value="Save" action="{!save}" rendered="{!AND(editMode==true,Seeds.Id==selectedId)}" />
+                                                    &nbsp;<apex:commandButton value="Cancel" action="{!cancel}" rendered="{!AND(editMode==true,Seeds.Id==selectedId)}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                <div class="slds-form-element__control">
+                                                    <apex:outputField value="{!Seeds.Name}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                            </div>
+                                            <apex:outputPanel rendered="{!selectedId==Seeds.Id}" styleclass="slds-p-left_large slds-grid slds-wrap slds-grid--pull-padded slds-size--1-of-1 box">
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Seeds Name-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Seeds Name</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Seeds.Name}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Seeds.Name}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Field/Crop-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Field/Crop</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Seeds.Field_Crop__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Seeds.Field_Crop__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Identify Treatment-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Identify Treatment</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Seeds.Identify_Treatment__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Seeds.Identify_Treatment__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Inactive-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Inactive</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Seeds.Inactive__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Seeds.Inactive__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Source-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Source</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Seeds.Source__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Seeds.Source__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Treatment-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Treatment</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Seeds.Treatment__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Seeds.Treatment__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Variety-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Variety</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Seeds.Variety__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Seeds.Variety__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3">
+                                                    <!--Status-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Status</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!Seeds.Status__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!Seeds.Status__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                </div>
+                                            </apex:outputPanel>
+                                        </apex:repeat>
+                                    </apex:outputPanel>
+                                </div>
+                                
+                            </div>
+
+                             <div class="slds-text-heading_large slds-p-around_none noMargin" style="{!IF(thisOpportunity.products__r.size>0, 'display:block', 'display:none')}">
+                                Organic Handler
+                            </div>
+                            <div class="slds-form-element__control">
+                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                    <!--Fields-->
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-text-heading_medium slds-border--bottom slds-m-bottom--medium" style="{!IF(thisOpportunity.products__r.size>0, 'display:block', 'display:none')}" >
+                                        <apex:commandLink action="{!toggleProducts}" value="{!IF(showProduct, '- Products', '+ Products')}" />
+                                        &nbsp;
+                                        <apex:commandLink value="Remove All" action="{!removeModule}" styleClass="slds-text-body_small slds-float_right" onclick="return confirm('Are you sure you want to remove all product modules?');">
+                                                <apex:param name="modToDelete" value="Product" assignTo="{!modToDelete}"/>
+                                        </apex:commandLink>
+                                    </div>
+                                    <apex:outputPanel rendered="{!AND(showProduct,thisOpportunity.Products__r.size>0)}" styleclass="slds-grid slds-wrap slds-grid--pull-padded slds-size--1-of-1 slds-p-left_medium">
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-m-bottom--small">
+                                        <apex:commandButton value="New" action="{!newProduct}" />
+                                    </div>
+                                     <apex:repeat value="{!thisOpportunity.Products__r}" var="product">
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                <!--List Mode-->
+                                                <div class="slds-form-element__control">
+                                                    <apex:commandLink value="Edit" action="{!setEdit}" rendered="{!OR(editMode==false,field!=selectedId)}">
+                                                        <apex:param name="itemId"
+                                                                    value="{!product.Id}"
+                                                                    assignTo="{!selectedId}"/>
+                                                    </apex:commandLink>&nbsp;
+                                                    <apex:commandLink value="Remove" action="{!removeItem}" styleClass="slds-text-body_small slds-float_right" onclick="return confirm('Are you sure you want to remove this?');">
+                                                            <apex:param name="itemIDToDelete" value="{!product.Id}" assignTo="{!itemIDToDelete}"/>
+                                                    </apex:commandLink>
+                                                    <apex:commandButton value="Save" action="{!save}" rendered="{!AND(product.Id==selectedId,editMode==true)}" />
+                                                    &nbsp;<apex:commandButton value="Cancel" action="{!cancel}" rendered="{!AND(editMode==true,product.Id==selectedId)}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                <div class="slds-form-element__control">
+                                                    <apex:outputField value="{!product.Name}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                            </div>
+                                            
+                                            <apex:outputPanel rendered="{!selectedId==product.Id}" styleclass="slds-p-left_large slds-grid slds-wrap slds-grid--pull-padded slds-size--1-of-1 box">
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Acreage-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Name</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!product.Name}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!product.Name}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Acreage-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Trade Name</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!product.Trade_Name__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!product.Trade_Name__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Address/Legal Description-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Activated On</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!product.Activated_On__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!product.Activated_On__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-m-bottom--small">
+                                                    <!--Comments-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Deactivated On</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!product.Deactivated_On__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!product.Deactivated_On__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3">
+                                                    <!--Crops-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Private</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!product.Private__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!product.Private__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col--padded slds-size--1-of-3">
+                                                    <!--Crops-->
+                                                    <label class="slds-form-element__label" for="input-id-01">Private Label</label>
+                                                    <div class="slds-form-element__control">
+                                                        <apex:outputField value="{!product.Private_Label__c}" rendered="{! !editMode}" />
+                                                        <apex:inputField value="{!product.Private_Label__c}" rendered="{! editMode}" />
+                                                    </div>
+                                                </div>
+                                            </apex:outputPanel>
+                                        </apex:repeat>
+                                    </apex:outputPanel>
+                                </div>
+                            </div>
+                        </fieldset>
+                        
+                    </div>
+                </apex:form>
+            </apex:outputpanel>
+            
+            
+        </div>
+    </body>
+</apex:page>

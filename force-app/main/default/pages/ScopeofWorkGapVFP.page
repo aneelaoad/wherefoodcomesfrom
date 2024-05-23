@@ -1,0 +1,59 @@
+<apex:page standardController="Opportunity" Extensions="ScopeofWorkGapController">
+
+ <apex:form >
+ <apex:pageMessages ></apex:pageMessages>
+     
+    <apex:pageBlock rendered="{!!showPage}" >
+        <apex:pageBlockSection title="Information" columns="1">
+            <apex:pageMessage summary="{!$Label.ScopeofWorkHidden}" severity="info" strength="2" />
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    
+    
+    <apex:pageBlock mode="edit" rendered="{!showPage && editMode}" >
+      <apex:pageBlockButtons >
+        <apex:commandButton action="{!savePage}" value="Save"/>
+        <apex:commandButton action="{!cancelPage}" value="Cancel"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockSection columns="2">
+        <apex:inputField value="{!opportunity.Due_by_Date_GAP__c}"/>
+        <apex:inputField value="{!opportunity.Verification_Owner_GAP__c}"/>
+        <apex:inputField value="{!opportunity.Programs_Claims_GAP__c}"/>
+        <apex:inputField value="{!opportunity.Approval_Status_GAP__c}"/>
+        <apex:inputField value="{!opportunity.Verification_Type_GAP__c}"/>
+        <apex:inputField value="{!opportunity.Approval_Completion_Date_GAP__c}"/>
+        <apex:inputField value="{!opportunity.High_Risk_GAP__c}"/>
+        <apex:inputField value="{!opportunity.Expiration_Date_GAP__c}"/>
+        <apex:inputField value="{!opportunity.Multi_Site_Operation_GAP__c}"/>
+        <apex:inputField value="{!opportunity.Renewal_Schedule_GAP__c}"/>
+        <apex:inputField value="{!opportunity.Stage_of_Work_GAP__c}"/>
+        <apex:inputField value="{!opportunity.Notes_GAP__c}"/>
+        <apex:inputField value="{!opportunity.Verifier_Assigned_GAP__c}"/>
+        <apex:inputField value="{!opportunity.Renewal_Schedule_GAP__c}"/>
+        <apex:inputField value="{!opportunity.Verification_Date_GAP__c}"/>
+      </apex:pageBlockSection>
+    </apex:pageBlock>
+    
+    <apex:pageBlock mode="edit" rendered="{!showPage && !editMode}">
+      <apex:pageBlockButtons >
+        <apex:commandButton action="{!editPage}" value="Edit"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockSection columns="2">
+        <apex:outputField value="{!opportunity.Due_by_Date_GAP__c}"/>
+        <apex:outputField value="{!opportunity.Verification_Owner_GAP__c}"/>
+        <apex:outputField value="{!opportunity.Programs_Claims_GAP__c}"/>
+        <apex:outputField value="{!opportunity.Approval_Status_GAP__c}"/>
+        <apex:outputField value="{!opportunity.Verification_Type_GAP__c}"/>
+        <apex:outputField value="{!opportunity.Approval_Completion_Date_GAP__c}"/>
+        <apex:outputField value="{!opportunity.High_Risk_GAP__c}"/>
+        <apex:outputField value="{!opportunity.Expiration_Date_GAP__c}"/>
+        <apex:outputField value="{!opportunity.Multi_Site_Operation_GAP__c}"/>
+        <apex:outputField value="{!opportunity.Renewal_Schedule_GAP__c}"/>
+        <apex:outputField value="{!opportunity.Stage_of_Work_GAP__c}"/>
+        <apex:outputField value="{!opportunity.Notes_GAP__c}"/>
+        <apex:outputField value="{!opportunity.Verifier_Assigned_GAP__c}"/>
+        <apex:outputField value="{!opportunity.Renewal_Schedule_GAP__c}"/>
+      </apex:pageBlockSection>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

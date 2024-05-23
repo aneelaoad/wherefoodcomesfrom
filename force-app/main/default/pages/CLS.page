@@ -1,0 +1,5 @@
+<apex:page >
+ <apex:pageBlock title="Nominate Contacts">
+ 
+ </apex:pageBlock>
+</apex:page>

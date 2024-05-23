@@ -1,0 +1,27 @@
+{
+  "data": [
+    {
+      "jobId": "",
+      "jobName": "",
+      "jobType": "",
+      "jobStatus": "",
+      "jobDescription": "",
+      "jobDuration": 0,
+      "jobStart": "",
+      "jobEnd": "",
+      "jobAddress": {
+        "text": "",
+        "geometry": {
+          "lat": 0,
+          "lng": 0
+        }
+      },
+      "accountId": "",
+      "accountName": "",
+      "regionId": "",
+      "regionName": ""
+    }
+  ],
+  "success": true,
+  "errorMessage": ""
+}

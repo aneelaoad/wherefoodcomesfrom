@@ -1,0 +1,21 @@
+<div class="view-requested-facility">
+  <h2 class="slds-p-around--medium border-bottom">
+    <strong>Requested Facility</strong>
+    <button class="slds-button slds-button--neutral slds-float--right" style="margin-top: -7px;"
+            ng-click="state.view = 'intake-case'">Close</button>
+  </h2>
+  <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding slds-m-top--medium hoverable-list">
+    <div class="slds-scrollable--y">
+      <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom" ng-click="viewAccount('Facility',state.intakeCase.requestedFacility.accId);" 
+           ng-class="{false:'detail-link', true:''}[!state.intakeCase.requestedFacility.accId]">
+        <div class="slds-col field-label">Facility Account</div>
+        <span>{{state.intakeCase.requestedFacility.accName}}</span>
+      </div>
+      <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom" 
+           ng-repeat="item in state.intakeCase.requestedFacility.details">
+        <div class="slds-col field-label">{{item.label}}</div>
+        <span ng-include="getTemplateUrl('item-value.tpl.html')"></span>
+      </div>
+    </div>
+  </div>
+</div>

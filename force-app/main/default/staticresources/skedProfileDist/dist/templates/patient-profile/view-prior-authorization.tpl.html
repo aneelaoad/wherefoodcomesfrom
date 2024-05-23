@@ -1,0 +1,16 @@
+<div class="view-prior-authorization">
+  <h2 class="slds-p-around--medium border-bottom">
+    <strong>{{state.intakeCase.priorAuthorization.recordType}} Details</strong>
+    <button class="slds-button slds-button--neutral slds-float--right" style="margin-top: -7px;"
+            ng-click="state.view = 'intake-case';">Close</button>
+  </h2>
+  <div class="slds-scrollable--x slds-box slds-m-around--medium no-padding">
+      <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom"
+        ng-repeat="item in state.intakeCase.priorAuthorization.details">
+          <div class="slds-col field-label">{{item.label}}</div>
+          <div class="slds-col slds-text-align--right">
+            <span ng-include="getTemplateUrl('item-value.tpl.html')"></span>
+          </div>
+      </div>
+      
+</div>

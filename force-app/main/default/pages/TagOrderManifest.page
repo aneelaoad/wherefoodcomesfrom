@@ -1,0 +1,83 @@
+<apex:page standardController="Tag_Order__c" extensions="TagOrderSendHelper" showQuickActionVfHeader="false" action="{!getManifest}" >
+<style>
+    tr {
+        line-height: 10px;
+    }
+</style>
+<apex:slds />
+<table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped">
+    <thead>
+   <tr class="slds-text-title_caps">
+      <th scope="col"><div class="slds-truncate" title="Product">Product</div></th>
+      <th scope="col"><div class="slds-truncate">Quantity</div></th>
+      <th scope="col"><div class="slds-truncate">EID</div></th>
+      <th scope="col"><div class="slds-truncate">SerialNumber</div></th>
+      <th scope="col"><div class="slds-truncate">Management</div></th>
+      <th scope="col"><div class="slds-truncate">Container ID</div></th>
+      <th scope="col"><div class="slds-truncate">Inner Container ID</div></th>
+   </tr>
+    </thead>
+    <tbody>
+   <apex:repeat value="{!lineItems}" var="tag">         
+    <tr>
+         <td>{!tag.Product__r.ProductCode}</td>
+         <td>{!tag.Quantity__c}</td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>         
+         <td></td>
+      </tr>
+      <apex:repeat value="{!tag.Tag_Order_Line_Tags__r}" var="child">
+         <tr>
+            <td></td>
+             <td></td>
+             <td>{!child.EID__c}</td>
+             <td>{!child.SerialNumber__c}</td>
+             <td>{!child.Management__c}</td>
+             <td>{!child.TagOrderLineItem__r.TagOrder__r.Purchase_Order__c}</td>         
+             <td>{!child.ContainerId__c}</td>
+        </tr>
+        </apex:repeat>
+    </apex:repeat>
+    </tbody>
+</table>
+
+     <!--<apex:pageBlock title="Tag Manifest">
+        <apex:repeat value="{!tags}" var="tag">            
+            <apex:column value="{!tag.LineId}">
+                <apex:facet name="header" >Product
+                </apex:facet>
+            </apex:column>
+            <apex:column value="{!tag.LineQuantity}">
+                <apex:facet name="header" >Total Quantity in Bag
+                </apex:facet>
+            </apex:column>
+            <apex:pageBlockTable value="{!tag.children}" var="child">
+                <apex:column value="{!child.EID}">
+                    <apex:facet name="header" >EID
+                    </apex:facet>
+                </apex:column>
+                <apex:column value="{!child.SerialNumber}">
+                    <apex:facet name="header" >SerialNumber
+                    </apex:facet>
+                </apex:column>
+                <apex:column value="{!child.Management}">
+                    <apex:facet name="header" >Management
+                    </apex:facet>
+                </apex:column>
+                <apex:column value="{!child.ContainerId}">
+                    <apex:facet name="header" >Container ID
+                    </apex:facet>
+                </apex:column>
+                 <apex:column value="{!child.InnerContainerId}">
+                    <apex:facet name="header" >Inner Container ID
+                    </apex:facet>
+                </apex:column>
+            </apex:pageBlockTable>
+          
+        </apex:repeat>
+             <br />
+        <apex:outputText value="{!pageMessage}"></apex:outputText>
+    </apex:pageBlock>-->
+</apex:page>

@@ -1,0 +1,40 @@
+<apex:page showheader="false" standardstylesheets="false" sidebar="false" title="Calendar View" controller="skedCalendarViewController">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/design-system/2.6.2/styles/salesforce-lightning-design-system.min.css" />
+<link rel="stylesheet" href="//new.skedulo.com/css/bundle.css?81b7c88091c2240def9b763eedd174c65c09e5f7e5d09161c837102b0e9c1761" />
+<link  rel="stylesheet" href="{!URLFOR($Resource.skedCalendarView, 'static/css/app.css')}" />
+
+<apex:outputPanel rendered="{!$CurrentPage.parameters.DEV_DEBUG != ''}">
+  <script>
+    window.__DEBUG__ = true
+  </script>
+</apex:outputPanel>
+
+<apex:outputPanel rendered="{!$CurrentPage.parameters.DEV_LOCAL != ''}">
+  <script>
+    window.__LOCAL__ = true
+  </script>
+</apex:outputPanel>
+
+<script>
+  window.__API_KEY__ = '{!googleAPIKey}'
+  window.__DIST_PATH__ = '{!URLFOR($Resource.skedCalendarView, '/static/')}'
+  window.__MAIN_CONTROLLER__ = 'skedCalendarViewController'
+  window.__APP__ = {
+    API: {
+      closeModal: function (value) {
+        console.log('closeMe');
+        value = value || 'cancel';
+        window.top.postMessage({message: value}, '*');
+        window.top.postMessage({ eventName: 'sked:iframe:closeModal' }, '*');
+      }
+    }
+  }
+</script>
+
+<div data-v-app="App" data-api="__API__"></div>
+
+<script src="{!URLFOR($Resource.skedCalendarView, '/static/js/manifest.js')}"></script>
+<script src="{!URLFOR($Resource.skedCalendarView, '/static/js/vendor.js')}"></script>
+<script src="{!URLFOR($Resource.skedCalendarView, '/static/js/app.js')}"></script>
+</apex:page>

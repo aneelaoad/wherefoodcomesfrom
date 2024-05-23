@@ -1,0 +1,36 @@
+<div class="view-insurance-demographics">
+  <h2 class="slds-p-around--medium border-bottom">
+    <strong>Insurance Demographics</strong>
+    <button class="slds-button slds-button--neutral slds-float--right" style="margin-top: -7px;"
+            ng-click="state.view = 'home'">Close</button>
+  </h2>
+  <div class="slds-scrollable--x slds-box slds-m-around--medium no-padding">
+      <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom">
+          <div class="slds-col field-label">Record Type</div>
+          <div class="slds-col slds-text-align--right">{{state.insuranceDemographic.recordType}}</div>
+      </div>
+      <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom" ng-if="state.insuranceDemographic.recordType === 'Pharmacy'">
+          <div class="slds-col field-label">Plan Type</div>
+          <div class="slds-col slds-text-align--right">
+              {{state.insuranceDemographic.planType}}
+          </div>
+      </div>
+      <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom">
+          <div class="slds-col field-label">Payer / Plan Name</div>
+          <div class="slds-col slds-text-align--right">
+              {{state.insuranceDemographic.planName}}
+          </div>
+      </div>
+      <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom">
+          <div class="slds-col field-label">Effective Date</div>
+          <div class="slds-col slds-text-align--right">
+              {{state.insuranceDemographic.effectiveDate}}
+          </div>
+      </div>
+      <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom"  ng-if="state.insuranceDemographic.recordType === 'Pharmacy'">
+          <div class="slds-col field-label">Termination Date</div>
+          <div class="slds-col slds-text-align--right">
+              {{state.insuranceDemographic.terminationDate}}
+          </div>
+      </div>
+</div>

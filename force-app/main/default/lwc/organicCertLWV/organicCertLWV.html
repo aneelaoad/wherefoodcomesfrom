@@ -1,0 +1,25 @@
+<template> 
+    <lightning-card>
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="large" style="positon:fixed;"></lightning-spinner>
+        </template>
+        <lightning-datatable
+        key-field="Id"
+        data={dataToDisplay}
+        columns={columns}
+        show-row-number-column
+        onrowselection={getSelected}
+        row-number-offset={rowOffset}
+        selected-rows={selectedRowsId}        
+        >
+        </lightning-datatable>        
+        
+        <lightning-button disabled={bDisableFirst} icon-name="utility:chevronleft" label="Previous" alternative-text="Previous" onclick={previousPage}></lightning-button>
+        &nbsp;
+        <span class="slds-badge">Showing {pageNumber} &nbsp;of&nbsp; {totalPages} &nbsp;&nbsp;Page(s)</span>
+        &nbsp;
+        <lightning-button disabled={bDisableLast} icon-name="utility:chevronright" label="Next" alternative-text="Next" onclick={nextPage} class="slds-p-horizontal_x-small" icon-position="right"></lightning-button>
+        &nbsp;&nbsp;
+        <lightning-button label="Create WFCF Organic Cert" onclick={handleProceed}></lightning-button>        
+    </lightning-card>    
+</template>

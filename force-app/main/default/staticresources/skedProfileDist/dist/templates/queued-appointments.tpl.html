@@ -1,0 +1,46 @@
+<div class="view-queued-appointments">
+  <h2 class="slds-p-around--medium slds-m-bottom--medium panel-heading">Queued Appointments</h2>
+  <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding">
+    <table class="slds-table slds-table--bordered slds-text-body--small">
+      <thead>
+        <tr class="slds-text-heading--label">
+          <td>Date Queued</td>
+          <td>Product</td>
+          <td style="width: 180px">Patient Name</td>
+          <td style="width: 180px">Job Type</td>
+          <td style="width: 118px">&nbsp;</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="clickable" ng-repeat-start="item in data.appoinments" ng-click="scheduleAndSave(item)">
+          <td>{{item.date_queued}}</td>
+          <td>{{item.product}}</td>
+          <td>{{item.patient_name}}</td>
+          <td>{{item.job_type}}</td>
+          <td>
+            <svg aria-hidden="true" class="slds-button__icon slds-float--right" ng-show="state.activeAppointment.id !== item.id">
+              <use ng-attr-xlink:href="{{getIconUrl('symbols.svg#chevronright')}}" xlink:href=""></use>
+            </svg>
+            <svg aria-hidden="true" class="slds-button__icon slds-float--right" ng-show="state.activeAppointment.id === item.id">
+              <use ng-attr-xlink:href="{{getIconUrl('symbols.svg#chevrondown')}}" xlink:href=""></use>
+            </svg>
+          </td>
+        </tr>
+        <tr ng-repeat-end ng-if="state.activeAppointment.id === item.id">
+          <td colspan="2">
+            <input type="text" class="slds-input" placeholder="Date">
+          </td>
+          <td colspan="1">
+            <input type="text" class="slds-input" placeholder="Start Time">
+          </td>
+          <td colspan="1">
+            <input type="text" class="slds-input" placeholder="End Time">
+          </td>
+          <td colspan="1">
+            <button class="slds-button slds-button--brand">Schedule</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

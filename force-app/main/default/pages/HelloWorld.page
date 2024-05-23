@@ -1,0 +1,8 @@
+<apex:page standardController="Customer_Location__c" >
+<b>Hello {!$User.FirstName}!</b> <br> </br>
+<apex:form >
+<apex:commandButton action="{!save}" value="Save"/>
+</apex:form>
+<apex:detail relatedList="false" />
+
+</apex:page>

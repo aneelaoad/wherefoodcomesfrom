@@ -1,0 +1,16 @@
+<apex:page standardController="Tag_Order__c" sidebar="false">
+<apex:form >
+<apex:pageBlock title="Tag Order Detail">
+<apex:pageBlockbuttons >
+<apex:commandButton value="Save" action="{!save}"/>
+</apex:pageBlockbuttons>
+<apex:pageBlockSection title="Opportunity Information 1" columns="2" collapsible="false">
+<apex:inputField value="{!Tag_Order__c.Name}"/>
+<apex:inputField value="{!Tag_Order__c.Card_Check__c}"/>
+<apex:inputField value="{!Tag_Order__c.Purchase_Order_text__c}"/>
+<apex:inputField value="{!Tag_Order__c.Additional_Notes__c}"/>
+<apex:inputField value="{!Tag_Order__c.Vendor__c}"/>
+</apex:pageBlockSection>
+</apex:pageBlock>
+</apex:form>
+</apex:page>

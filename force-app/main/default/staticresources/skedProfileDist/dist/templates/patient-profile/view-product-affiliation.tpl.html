@@ -1,0 +1,183 @@
+<!-- ng-show="state.productAffiliation.id === 'TBC__c'" -->
+<div class="view-product-affiliation">
+  <h2 class="slds-p-around--medium border-bottom">
+    <strong>Product Affiliations</strong>
+    <button class="slds-button slds-button--neutral slds-float--right" style="margin-top: -7px;"
+            ng-click="state.view = 'program-affiliation'">Close</button>
+  </h2>
+  <div class="slds-scrollable--y" style="max-height: calc(100vh - 108px);">
+    <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding slds-m-top--medium">
+      <div class="slds-scrollable--y">
+        <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom" 
+             ng-repeat="item in state.productAffiliation.details">
+          <div class="slds-col field-label">{{item.label}}</div>
+          <span ng-include="getTemplateUrl('item-value.tpl.html')"></span>
+        </div>
+      </div>
+    </div>
+    
+    <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium slds-m-bottom--xx-small"><strong>Cases</strong></h2>
+    <div class="slds-scrollable--x slds-box slds-m-horizontal--medium no-padding">
+      <table class="slds-table slds-table--bordered slds-text-body--small">
+        <thead>
+          <tr class="slds-text-heading--label">
+            <td class="slds-cell-wrap">Case Number</td>
+            <td class="slds-cell-wrap">Case Type</td>
+            <td>Status</td>
+            <td class="slds-cell-wrap">Last Modified Date/Time</td>
+            <td class="slds-cell-wrap">Date Opened</td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="clickable" ng-repeat="item in state.productAffiliation.cases"
+              ng-click="state.view = 'intake-case';state.prevView='product-affiliation'; state.intakeCase = item;">
+            <td>{{item.caseNumber}}</td>
+            <td class="slds-cell-wrap">{{item.caseType}}</td>
+            <td class="slds-cell-wrap">{{item.status}}</td>
+            <td>{{item.lasModifiedDateTime}}</td>
+            <td>{{item.dateOpened}}</td>
+            <td style="padding-right: 12px;">
+              <svg aria-hidden="true" class="slds-button__icon slds-float--right">
+                <use ng-attr-xlink:href="{{getIconUrl('symbols.svg#chevronright')}}" xlink:href=""></use>
+              </svg>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium slds-m-bottom--xx-small"><strong>Patient Facilities</strong></h2>
+    <div class="slds-box slds-m-horizontal--medium no-padding">
+      <table class="slds-table slds-table--bordered slds-text-body--small">
+        <thead>
+          <tr class="slds-text-heading--label">
+            <td>Facility Account</td>
+            <td>Primary</td>
+            <td>In Network</td>
+            <td class="slds-cell-wrap">Patient Preferred</td>
+            <td class="slds-cell-wrap">Prescriber Preferred</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in state.productAffiliation.patientFacilities">
+            <td>
+              <span ng-if="item.facilityAccount === 'true'">
+                <span class="slds-float--left" ng-include="getTemplateUrl('checked-true.tpl.html')"></span>
+              </span>
+              <span ng-if="item.facilityAccount === 'false'">
+                <span class="slds-float--left" ng-include="getTemplateUrl('unchecked-false.tpl.html')"></span>
+              </span>
+              <span ng-if="item.facilityAccount !== 'false' && item.facilityAccount !== 'true'">{{item.facilityAccount}}</span>
+            </td>
+            <td>
+              <span ng-if="item.primary === 'true'">
+                <span class="slds-float--left" ng-include="getTemplateUrl('checked-true.tpl.html')"></span>
+              </span>
+              <span ng-if="item.primary === 'false'">
+                <span class="slds-float--left" ng-include="getTemplateUrl('unchecked-false.tpl.html')"></span>
+              </span>
+              <span ng-if="item.primary !== 'false' && item.primary !== 'true'">{{item.primary}}</span>
+            </td>
+            <td>
+              <span ng-if="item.inNetwork === 'true'">
+                <span class="slds-float--left" ng-include="getTemplateUrl('checked-true.tpl.html')"></span>
+              </span>
+              <span ng-if="item.inNetwork === 'false'">
+                <span class="slds-float--left" ng-include="getTemplateUrl('unchecked-false.tpl.html')"></span>
+              </span>
+              <span ng-if="item.inNetwork !== 'false' && item.inNetwork !== 'true'">{{item.inNetwork}}</span>
+            </td>
+            <td>
+              <span ng-if="item.patientPreferred === 'true'">
+                <span class="slds-float--left" ng-include="getTemplateUrl('checked-true.tpl.html')"></span>
+              </span>
+              <span ng-if="item.patientPreferred === 'false'">
+                <span class="slds-float--left" ng-include="getTemplateUrl('unchecked-false.tpl.html')"></span>
+              </span>
+              <span ng-if="item.patientPreferred !== 'false' && item.patientPreferred !== 'true'">{{item.patientPreferred}}</span>
+            </td>
+            <td>
+              <span ng-if="item.prescriberPreferred === 'true'">
+                <span class="slds-float--left" ng-include="getTemplateUrl('checked-true.tpl.html')"></span>
+              </span>
+              <span ng-if="item.prescriberPreferred === 'false'">
+                <span class="slds-float--left" ng-include="getTemplateUrl('unchecked-false.tpl.html')"></span>
+              </span>
+              <span ng-if="item.prescriberPreferred !== 'false' && item.prescriberPreferred !== 'true'">{{item.prescriberPreferred}}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium slds-m-bottom--xx-small"><strong>Prescribing HCPs</strong></h2>
+    <div class="slds-box slds-m-horizontal--medium no-padding">
+      <table class="slds-table slds-table--bordered slds-text-body--small">
+        <thead>
+          <tr class="slds-text-heading--label">
+            <td class="slds-cell-wrap">Prescribing HCP ID</td>
+            <td class="slds-cell-wrap">HCP Patient Relationship</td>
+            <td class="slds-cell-wrap">HCP Name</td>
+            <td class="slds-cell-wrap">Do Not Contact Patient(s)</td>
+            <td>Start Date</td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="clickable" ng-repeat="item in state.productAffiliation.prescribingHCPs"
+              ng-click="state.view = 'prescribing-hcp-details'; state.productAffiliation.prescribingHCP = item;">
+            <td class="slds-cell-wrap">{{item.prescribingHCPId}}</td>
+            <td class="slds-cell-wrap">{{item.HCPPatientRelationship}}</td>
+            <td class="slds-cell-wrap">{{item.HCPName}}</td>
+            <td>
+              <span ng-if="item.doNotContactPatients === 'true'">
+                <span class="slds-float--left" ng-include="getTemplateUrl('checked-true.tpl.html')"></span>
+              </span>
+              <span ng-if="item.doNotContactPatients === 'false'">
+                <span class="slds-float--left" ng-include="getTemplateUrl('unchecked-false.tpl.html')"></span>
+              </span>
+              <span ng-if="item.doNotContactPatients !== 'false' && item.doNotContactPatients !== 'true'">{{item.doNotContactPatients}}</span>
+            </td>
+            <td>{{item.startDate}}</td>
+            <td style="padding-right: 12px;">
+              <svg aria-hidden="true" class="slds-button__icon slds-float--right">
+                <use ng-attr-xlink:href="{{getIconUrl('symbols.svg#chevronright')}}" xlink:href=""></use>
+              </svg>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium slds-m-bottom--xx-small"><strong>Pharmacy Transaction</strong></h2>
+    <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding">
+      <table class="slds-table slds-table--bordered slds-text-body--small">
+        <thead>
+          <tr class="slds-text-heading--label">
+            <td class="slds-cell-wrap">Pharmacy Dispense Trans ID</td>
+            <td class="slds-cell-wrap">Pharmacy</td>
+            <td class="slds-cell-wrap">Referral Date</td>
+            <td class="slds-cell-wrap">Product Ship Date</td>
+            <td class="slds-cell-wrap">Product Ship QTY</td>
+            <td class="slds-cell-wrap">Benefit Provider</td>
+            <td>Status</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in state.productAffiliation.pharmacyTransaction">
+            <td class="slds-cell-wrap">{{item.pharmacyDispenseTransId}}</td>
+            <td class="slds-cell-wrap">{{item.pharmacy}}</td>
+            <td class="slds-cell-wrap">{{item.referralDate}}</td>
+            <td class="slds-cell-wrap">{{item.productShipDate}}</td>
+            <td class="slds-cell-wrap">{{item.productShipQty}}</td>
+            <td class="slds-cell-wrap">{{item.benefitProvider}}</td>
+            <td>{{item.status}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+    
+</div>
+

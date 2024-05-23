@@ -1,0 +1,28 @@
+<div class="hcp-patient-relationships" ng-show="patient.hcpRelationships.length">
+  <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium"><strong>HCP Patient Relationships</strong></h2>
+  <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding">
+    <table class="slds-table slds-table--bordered">
+      <thead>
+        <tr class="slds-text-heading--label">
+          <td>Name</td>
+          <td>HCP Account</td>
+          <td>Phone</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="clickable" ng-repeat="item in patient.hcpRelationships"
+            ng-click="state.view = 'hcp-relationship-details'; state.hcpRelationship = item;">
+          <td>{{item.id}}</td>
+          <td>{{item.HCPAccount}}</td>
+          <td>{{item.phone}}</td>
+          <td style="padding-right: 12px;">
+            <svg aria-hidden="true" class="slds-button__icon slds-float--right">
+              <use ng-attr-xlink:href="{{getIconUrl('symbols.svg#chevronright')}}" xlink:href=""></use>
+            </svg>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

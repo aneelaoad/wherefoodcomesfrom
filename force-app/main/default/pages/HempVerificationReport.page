@@ -1,0 +1,424 @@
+<apex:page standardController="Verification_Report__c" extensions="HempVerificationReportCtrl" sidebar="false" readOnly="true" showHeader="false"  applyBodyTag="false"  renderAs="pdf">
+
+<head>
+<style type="text/css">
+
+span.cls_002{font-family:Times,serif;font-size:10px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+div.cls_002{font-family:Times,serif;font-size:10px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+span.cls_003{font-family:Times,serif;font-size:15px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+div.cls_003{font-family:Times,serif;font-size:15px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+span.cls_004{font-family:Times,serif;font-size:14px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+div.cls_004{font-family:Times,serif;font-size:14px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+span.cls_005{font-family:Times,serif;font-size:14px;color:rgb(0,0,255);font-weight:normal;font-style:normal;text-decoration: none;}
+div.cls_005{font-family:Times,serif;font-size:14px;color:rgb(0,0,255);font-weight:normal;font-style:normal;text-decoration: none}
+span.cls_048{font-family:Times,serif;font-size:10px;color:rgb(0,0,255);font-weight:normal;font-style:normal;text-decoration: underline}
+div.cls_048{font-family:Times,serif;font-size:10px;color:rgb(0,0,255);font-weight:normal;font-style:normal;text-decoration: none}
+span.cls_008{font-family:Times,serif;font-size:10.6px;color:rgb(63,84,255);font-weight:normal;font-style:normal;text-decoration: none}
+div.cls_008{font-family:Times,serif;font-size:10.6px;color:rgb(63,84,255);font-weight:normal;font-style:normal;text-decoration: none}
+span.cls_007{font-family:Times,serif;font-size:12.1px;color:rgb(63,84,255);font-weight:normal;font-style:normal;text-decoration: none}
+div.cls_007{font-family:Times,serif;font-size:12.1px;color:rgb(63,84,255);font-weight:normal;font-style:normal;text-decoration: none}
+span.cls_009{font-family:Times,serif;font-size:12.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+div.cls_009{font-family:Times,serif;font-size:12.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+span.cls_010{font-family:Arial,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+div.cls_010{font-family:Arial,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+span.cls_011{font-family:Times,serif;font-size:12.1px;color:rgb(0,0,255);font-weight:normal;font-style:normal;text-decoration: none}
+div.cls_011{font-family:Times,serif;font-size:12.1px;color:rgb(0,0,255);font-weight:normal;font-style:normal;text-decoration: none}
+span.cls_012{font-family:Times,serif;font-size:14px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+div.cls_012{font-family:Times,serif;font-size:14px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+span.cls_013{font-family:Arial,serif;font-size:12.1px;color:rgb(76,76,76);font-weight:bold;font-style:normal;text-decoration: none}
+div.cls_013{font-family:Arial,serif;font-size:12.1px;color:rgb(76,76,76);font-weight:bold;font-style:normal;text-decoration: none}
+span.cls_014{font-family:Arial,serif;font-size:12.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+div.cls_014{font-family:Arial,serif;font-size:12.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+span.cls_016{font-family:Arial,serif;font-size:9.1px;color:rgb(76,76,76);font-weight:normal;font-style:normal;text-decoration: none}
+div.cls_016{font-family:Arial,serif;font-size:9.1px;color:rgb(76,76,76);font-weight:normal;font-style:normal;text-decoration: none}
+span.cls_020{font-family:"Calibri Bold",serif;font-size:11.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+div.cls_020{font-family:"Calibri Bold",serif;font-size:11.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+span.cls_017{font-family:Arial,serif;font-size:10.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+div.cls_017{font-family:Arial,serif;font-size:10.0px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+span.cls_026{font-family:Arial,serif;font-size:12.1px;color:rgb(56,31,4);font-weight:bold;font-style:normal;text-decoration: none}
+div.cls_026{font-family:Arial,serif;font-size:12.1px;color:rgb(56,31,4);font-weight:bold;font-style:normal;text-decoration: none}
+span.cls_027{font-family:Arial,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+div.cls_027{font-family:Arial,serif;font-size:8.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+span.cls_028{font-family:Arial,serif;font-size:6.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+div.cls_028{font-family:Arial,serif;font-size:6.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+span.cls_029{font-family:Arial,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+div.cls_029{font-family:Arial,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+span.cls_018{font-family:Arial,serif;font-size:11.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+div.cls_018{font-family:Arial,serif;font-size:11.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+span.cls_030{font-family:Arial,serif;font-size:14.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+div.cls_030{font-family:Arial,serif;font-size:14.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+span.cls_031{font-family:Arial,serif;font-size:11.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+div.cls_031{font-family:Arial,serif;font-size:11.1px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+span.cls_032{font-family:Arial,serif;font-size:10.6px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+div.cls_032{font-family:Arial,serif;font-size:10.6px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+span.cls_033{font-family:Arial,serif;font-size:10.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+div.cls_033{font-family:Arial,serif;font-size:10.0px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+span.cls_034{font-family:Arial,serif;font-size:10.6px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+div.cls_034{font-family:Arial,serif;font-size:10.6px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+span.cls_035{font-family:Arial,serif;font-size:11.1px;color:rgb(255,255,255);font-weight:bold;font-style:normal;text-decoration: none}
+div.cls_035{font-family:Arial,serif;font-size:11.1px;color:rgb(255,255,255);font-weight:bold;font-style:normal;text-decoration: none}
+span.cls_036{font-family:Arial,serif;font-size:12.1px;color:rgb(255,255,255);font-weight:bold;font-style:normal;text-decoration: none}
+div.cls_036{font-family:Arial,serif;font-size:12.1px;color:rgb(255,255,255);font-weight:bold;font-style:normal;text-decoration: none}
+span.cls_037{font-family:Arial,serif;font-size:10.6px;color:rgb(255,255,255);font-weight:bold;font-style:normal;text-decoration: none}
+div.cls_037{font-family:Arial,serif;font-size:10.6px;color:rgb(255,255,255);font-weight:bold;font-style:normal;text-decoration: none}
+span.cls_038{font-family:Arial,serif;font-size:11.1px;color:rgb(0,0,0);font-weight:normal;font-style:italic;text-decoration: none}
+div.cls_038{font-family:Arial,serif;font-size:11.1px;color:rgb(0,0,0);font-weight:normal;font-style:italic;text-decoration: none}
+span.cls_039{font-family:Arial,serif;font-size:10.0px;color:rgb(0,0,0);font-weight:normal;font-style:italic;text-decoration: none}
+div.cls_039{font-family:Arial,serif;font-size:10.0px;color:rgb(0,0,0);font-weight:normal;font-style:italic;text-decoration: none}
+span.cls_041{font-family:Arial,serif;font-size:10.6px;color:rgb(45,45,45);font-weight:normal;font-style:normal;text-decoration: none}
+div.cls_041{font-family:Arial,serif;font-size:10.6px;color:rgb(45,45,45);font-weight:normal;font-style:normal;text-decoration: none}
+span.cls_049{font-family:Arial,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:italic;text-decoration: underline}
+div.cls_049{font-family:Arial,serif;font-size:9.1px;color:rgb(0,0,0);font-weight:bold;font-style:italic;text-decoration: none}
+span.cls_045{font-family:Arial,serif;font-size:10.3px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+div.cls_045{font-family:Arial,serif;font-size:10.3px;color:rgb(0,0,0);font-weight:bold;font-style:normal;text-decoration: none}
+span.cls_046{font-family:Arial,serif;font-size:10.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+div.cls_046{font-family:Arial,serif;font-size:10.1px;color:rgb(0,0,0);font-weight:normal;font-style:normal;text-decoration: none}
+span.cls_047{font-family:"Brush Script MT Italic",serif;font-size:16.0px;color:rgb(0,0,0);font-weight:normal;font-style:italic;text-decoration: none}
+div.cls_047{font-family:"Brush Script MT Italic",serif;font-size:16.0px;color:rgb(0,0,0);font-weight:normal;font-style:italic;text-decoration: none}
+      
+      @page {
+                size: 11in 8.5in;
+                margin-top: 4mm;
+                margin-bottom: 2mm;
+                margin-left: 0mm;
+                margin-right: 0mm;
+            }
+
+        @media print {
+             body {margin-top: 4mm;
+            margin-bottom: 2mm;
+            margin-left: 0mm;
+            margin-right: 0mm;}
+        }
+            
+</style>
+
+</head>
+
+<body>
+
+<div style="position:absolute;margin-left:0px;top:0px;width:11in;height:8.2in;border-style:none;overflow:visible;">
+
+    <div style="position:absolute;left:80px;top:0">
+        <img alt="" height="75" width="75" src="/servlet/servlet.FileDownload?file=01536000003qcbX"> </img>
+        &nbsp;     &nbsp;
+        <img alt="" height="75" width="75" src="/servlet/servlet.FileDownload?file=0151R000004wxNO"> </img>
+    </div>
+    
+    <div style="position:absolute;left:9in" class="cls_002"><span class="cls_002">Validus Verification Services</span></div>
+    <div style="position:absolute;left:9.5in;top:12px" class="cls_002"><span class="cls_002">3331 109th Street</span></div>
+    <div style="position:absolute;left:9.35in;top:24.86px" class="cls_002"><span class="cls_002">Urbandale, IA  50322</span></div>
+    <div style="position:absolute;left:9.65in;top:36.46px" class="cls_002"><span class="cls_002">515-278-8002</span></div>
+    <div style="position:absolute;left:4.3in;top:1.1in" class="cls_003"><span class="cls_003">AUDIT REPORT &amp; SCORE SHEET</span></div>
+    
+    <div style="position:absolute;margin-left:0.85in;top:1.7in;width:11in;border-style:none;overflow:hidden">
+        
+        <!-- Column 1 -->
+    
+        <div style="position:absolute;left:0.0in;top:0in" class="cls_004"><span class="cls_004">Operation Name</span></div>
+        <div style="position:absolute;left:1.2in;top:0in" class="cls_005"><span class="cls_005">{!Verification_Report__c.Opportunity__r.Account.Name}</span></div>
+        <hr style="position:absolute;left:1.2in;top:0.1in;width:205px"/>    
+        
+         <div style="position:absolute;left:0px;top:0.25in" class="cls_004"><span class="cls_004">Physical Address</span></div>
+         <div style="position:absolute;left:1.2in;top:0.25in;width:600px" class="cls_005"><span class="cls_005">{!Verification_Report__c.Opportunity__r.Physical_Address_Liner__c}</span></div>
+         <hr style="position:absolute;left:1.2in;top:0.35in;width:790px"/>
+         
+         <div style="position:absolute;left:0px;top:0.5in" class="cls_004"><span class="cls_004">Email Address</span></div>
+         <div style="position:absolute;left:1.2in;top:0.5in" class="cls_005"><span class="cls_005">{!Verification_Report__c.Opportunity__r.Primary_Contact_Email__c}</span></div>
+         <hr style="position:absolute;left:1.2in;top:0.6in;width:205px"/>
+    
+        <div style="position:absolute;left:0in;top:0.75in" class="cls_004"><span class="cls_004">Date of Audit</span></div>
+        <div style="position:absolute;left:1.2in;top:0.75in" class="cls_005">           
+            <apex:outputText styleClass="cls_005" value="{0, date, MM'/'d'/'yyyy}">
+                            <apex:param value="{!Verification_Report__c.Opportunity__r.Verification_Date_Umbrella__c}" /> 
+            </apex:outputText>
+        </div>
+        <hr style="position:absolute;left:1.2in;top:0.85in;width:205px"/>    
+        
+        <div style="position:absolute;left:0in;top:1in" class="cls_004"><span class="cls_004">Auditor</span></div>
+        <div style="position:absolute;left:1.2in;top:1in" class="cls_005"><span class="cls_005">{!Verification_Report__c.Opportunity__r.Verifier_Assigned_Umbrella__c}</span></div>
+        <hr style="position:absolute;left:1.2in;top:1.1in;width:205px"/>
+       
+        
+        <div style="position:absolute;left:0in;top:1.25in" class="cls_004"><span class="cls_004">Applying as Grower or Processor</span></div>
+        <div style="position:absolute;left:2.1in;top:1.25in" class="cls_005"><span class="cls_005">{!Verification_Report__c.Applying_as__c}</span></div>
+        <hr style="position:absolute;left:2.1in;top:1.35in;width:136px"/>
+    
+        <div style="position:absolute;left:0in;top:1.50in" class="cls_004"><span class="cls_004">Alliance or Affiliated Group</span></div>
+        <div style="position:absolute;left:2.1in;top:1.50in" class="cls_005"><span class="cls_005">{!Verification_Report__c.Opportunity__r.Verification_Owner_Umbrella_AuditReport__c}</span></div>
+        <hr style="position:absolute;left:2.1in;top:1.60in;width:136px"/>
+        
+        
+        
+        
+        <!-- Column 2 -->    
+        <div style="position:relative;left:.6in;top:0in">
+            <div style="position:absolute;left:6.05in;top:0in" class="cls_004"><span class="cls_004">Contact Person(s)</span></div>
+            <div style="position:absolute;left:7.2in;top:0px" class="cls_005"><span class="cls_005">{!Verification_Report__c.Opportunity__r.Primary_Contact_AuditReport__c}</span></div>
+            <hr style="position:absolute;left:7.2in;top:0.1in;width:155px"/>
+           
+            <div style="position:absolute;left:6.05in;top:0.62in" class="cls_004"><span class="cls_004">Contact Numbers</span></div>
+            <div style="position:absolute;left:7.2in;top:0.5in" class="cls_005"><span class="cls_005">{!Verification_Report__c.Opportunity__r.Primary_Contact_Phone_AuditReport__c}</span></div>
+            <hr style="position:absolute;left:7.2in;top:0.6in;width:153px"/>
+        
+        
+        
+            <div style="position:absolute;left:7.2in;top:0.75in" class="cls_005"><span class="cls_005">{!Verification_Report__c.Secondary_Contact_Phone__c}</span></div>
+            <hr style="position:absolute;left:7.2in;top:0.85in;width:153px"/>
+        
+            <div style="position:absolute;left:6.05in;top:1in" class="cls_004"><span class="cls_004">Initial or Renewal</span></div>
+            <div style="position:absolute;left:7.2in;top:1in" class="cls_005"><span class="cls_005">{!Verification_Report__c.Opportunity__r.Opportunity_Status_AuditReport__c}</span></div>
+            <hr style="position:absolute;left:7.2in;top:1.1in;width:153px"/>
+            
+            <div style="position:absolute;left:6.05in;top:1.25in" class="cls_004"><span class="cls_004">Reviewer</span></div>
+            <div style="position:absolute;left:7.2in;top:1.25in" class="cls_005"><span class="cls_005">{!Verification_Report__c.Opportunity__r.Reviewer_if_not_CVS__c}</span></div>
+            <hr style="position:absolute;left:7.2in;top:1.35in;width:153px"/>
+
+        </div>
+        
+        
+        <!-- Bottom  -->
+        
+        <div style="position:absolute;left:0px;top:1.9in" class="cls_004"><span class="cls_004">BACKGROUND (&amp;) SCOPE OF AUDIT</span></div>
+        <div style="position:absolute;left:0px;top:2.10in;width:9.4in;height:0.95in;border: 1px solid black;" />
+        <div style="position:absolute;left:5px;top:2.15in;width:9.4in;height:0.95in" class="cls_005">
+            <apex:outputField styleClass="cls_005" value="{!Verification_Report__c.Background_and_Scope_of_Audit__c}" ></apex:outputField>
+        </div>
+    
+        <div style="position:absolute;left:0px;top:3.20in" class="cls_004"><span class="cls_004">LOCATIONS</span></div>
+        <div style="position:absolute;left:0px;top:3.40in;width:9.4in;height:.95in;border: 1px solid black;" />
+        <div style="position:absolute;left:5px;top:3.45in;width:9.4in;height:.95in;" class="cls_005">
+            <apex:outputField styleClass="cls_005" value="{!Verification_Report__c.Address_1_to_4__c}"></apex:outputField>
+        </div>
+       
+        <div style="position:absolute;left:0px;top:4.50in" class="cls_004"><span class="cls_004">NOTES/OBSERVATIONS</span></div>
+        <div style="position:absolute;left:0px;top:4.70in;width:9.4in;height:1.1in;border: 1px solid black;" />
+        <div style="position:absolute;left:5px;top:4.75in;width:9.4in;height:1.1in;" class="cls_005">
+            <apex:outputField styleClass="cls_005" value="{!Verification_Report__c.Observations__c}"> </apex:outputField>
+        </div>
+    
+    </div>
+    
+
+    <div style="position:absolute;left:4in;top:7.7in" class="cls_048"><span class="cls_048">Please be sure to retain a copy of this report with records for future reference</span></div>
+
+</div>
+
+<div style="position:absolute;margin-left:0px;top:8.3in;width:11in;height:8.2in;border-style:none;overflow:visible;">
+   <div style="position:absolute;left:80px;top:0">
+        <img alt="" height="75" width="75" src="/servlet/servlet.FileDownload?file=01536000003qcbX"> </img>
+        &nbsp;     &nbsp;
+        <img alt="" height="75" width="75" src="/servlet/servlet.FileDownload?file=0151R000004wxNO"> </img>
+    </div>
+    
+    <div style="position:absolute;left:9in" class="cls_002"><span class="cls_002">Validus Verification Services</span></div>
+    <div style="position:absolute;left:9.5in;top:12px" class="cls_002"><span class="cls_002">3331 109th Street</span></div>
+    <div style="position:absolute;left:9.35in;top:24.86px" class="cls_002"><span class="cls_002">Urbandale, IA  50322</span></div>
+    <div style="position:absolute;left:9.65in;top:36.46px" class="cls_002"><span class="cls_002">515-278-8002</span></div>
+
+    <div style="position:absolute;left:0.8in;top:1.05in">
+        <table cellpadding="1" cellspacing="1" style="border-collapse: collapse; width: 9.4in;">
+            <tbody>
+                <tr>
+                    <td style="border: 1px solid black; width: 10.8in;padding-left:6px;padding-top:5px;padding-bottom:5px"> <span class="cls_004">2.2 Registration N/A </span></td>
+                    <td style="border: 1px solid black; width: 1in;" align="center"><span class="cls_005"> {!Verification_Report__c.Registration_N_A__c} </span></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; width: 10.8in;padding-left:6px;padding-top:5px;padding-bottom:5px"> <span class="cls_004">2.3 Personnel Guidance </span></td>
+                    <td style="border: 1px solid black; width: 501px;" align="center"> <span class="cls_005"> {!Verification_Report__c.Personnel_Guidance__c}</span></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; width: 10.8in;padding-left:6px;padding-top:5px;padding-bottom:5px"> <span class="cls_004">2 4 Employee Training </span></td>
+                    <td style="border: 1px solid black; width: 501px;" align="center"> <span class="cls_005"> {!Verification_Report__c.Employee_Training__c}</span></td>
+                </tr>
+                <tr >
+                    <td style="border: 1px solid black; width: 10.8in;padding-left:6px;padding-top:5px;padding-bottom:5px"> <span class="cls_004">2.5 Physical Plant and Grounds </span></td>
+                    <td style="border: 1px solid black; width: 501px;" align="center"> <span class="cls_005">{!Verification_Report__c.Physical_Plant_and_Grounds__c}</span></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; width: 10.8in;padding-left:6px;padding-top:5px;padding-bottom:5px"> <span class="cls_004">2.6 Quality Management Systems</span></td>
+                    <td style="border: 1px solid black; width: 501px;" align="center"> <span class="cls_005">{!Verification_Report__c.Quality_Management_Systems__C}</span></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; width: 10.8in;padding-left:6px;padding-top:5px;padding-bottom:5px"> <span class="cls_004">2.7 Supplier Qualification &amp; Specifications</span></td>
+                    <td style="border: 1px solid black; width: 501px;" align="center"> <span class="cls_005">{!Verification_Report__c.Supplier_Qualification_Specifications__c} </span></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; width: 10.8in;padding-left:6px;padding-top:5px;padding-bottom:5px"> <span class="cls_004">2.8 Sampling &amp; Handling of Hemp for THC &amp; CBD Contaminant Testing &amp; Hemp Cannabinoid</span></td>
+                    <td style="border: 1px solid black; width: 501px;" align="center"> <span class="cls_005"> {!Verification_Report__c.Sampling_Handling_of_Hemp_for_THC_CB__c} </span></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; width: 10.8in;padding-left:6px;padding-top:5px;padding-bottom:5px"> <span class="cls_004">2.9 Quantification</span></td>
+                    <td style="border: 1px solid black; width: 501px;" align="center"> <span class="cls_005"> {!Verification_Report__c.Quantification__c}</span></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; width: 10.8in;padding-left:6px;padding-top:5px;padding-bottom:5px"> <span class="cls_004">2.10 Equipment and Utensils</span></td>
+                    <td style="border: 1px solid black; width: 501px;" align="center"> <span class="cls_005">{!Verification_Report__c.Equipment_and_Utensils__c} </span></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; width: 10.8in;padding-left:6px;padding-top:5px;padding-bottom:5px"> <span class="cls_004">2.11 Production and Process Control</span></td>
+                    <td style="border: 1px solid black; width: 501px;" align="center">  <span class="cls_005">{!Verification_Report__c.Production_and_Process_Control__c}</span> </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; width: 10.8in;padding-left:6px;padding-top:5px;padding-bottom:5px"> <span class="cls_004">2.12 Control Systems Master Manufacturing Record</span></td>
+                    <td style="border: 1px solid black; width: 501px;" align="center"> <span class="cls_005"> {!Verification_Report__c.Control_Systems_Master_Manufacturing_Rec__c}</span></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; width: 10.8in;padding-left:6px;padding-top:5px;padding-bottom:5px"> <span class="cls_004">2.13 Packaging and Labeling Industrial Hemp</span></td>
+                    <td style="border: 1px solid black; width: 501px;" align="center"> <span class="cls_005">{!Verification_Report__c.Packaging_and_Labeling_Industrial_Hemp__c} </span></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; width: 10.8in;padding-left:6px;padding-top:5px;padding-bottom:5px"> <span class="cls_004">2.14 Storage and Distribution</span></td>
+                    <td style="border: 1px solid black; width: 501px;" align="center"> <span class="cls_005">{!Verification_Report__c.Storage_and_Distribution__c} </span></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; width: 10.8in;padding-left:6px;padding-top:5px;padding-bottom:5px"> <span class="cls_004">2.15 QMS - Product Complaints, Adverse Events and Recalls</span></td>
+                    <td style="border: 1px solid black; width: 501px;" align="center"> <span class="cls_005">{!Verification_Report__c.QMS_Prod_Complaints_Adv_Event_Recalls__c}</span></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; width: 10.8in;padding-left:6px;padding-top:5px;padding-bottom:5px"> <span class="cls_004">2.16 Import/Export</span></td>
+                    <td style="border: 1px solid black; width: 501px;" align="center"> <span class="cls_005">{!Verification_Report__c.Import_Export__c} </span></td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid black; width: 10.8in;padding-left:6px;padding-top:5px;padding-bottom:5px"> <span class="cls_004">2.17 Record Retention</span></td>
+                    <td style="border: 1px solid black; width: 501px;" align="center"> <span class="cls_005">{!Verification_Report__c.Record_Retention__c} </span> </td>
+                </tr>
+                <tr>
+                    <td style="width: 662px;"> </td>
+                    <td style="width: 501px;"> </td>
+                </tr>
+                <tr>
+                    <td style="width: 662px;"> </td>
+                    <td style="width: 501px;"> </td>
+                </tr>
+                <tr>
+                    <td style="width: 662px;"> </td>
+                    <td style="width: 501px;"> </td>
+                </tr>
+                <br/><br/>
+                <tr>
+                    <td style="width: 6.8in;padding-left:6px;padding-top:5px;padding-bottom:5px"> <span class="cls_004">Percentage Total :&nbsp;&nbsp; </span>
+                     <span class="cls_005"> {!Verification_Report__c.Percentage_Total__c} </span></td>
+                    <td style="width: 501px;"> </td>
+                </tr>
+                <tr style="height:0.75in;width:11in;">
+                    <td valign="top" colspan="2" style="border: 1px solid black;height:0.75in;width:11in;padding-left:6px"> 
+                        <outputtext class="cls_005" value="{!Verification_Report__c.Operation_Notes_and_or_Exclusions__c}"> </outputtext ></td>
+                    <td style="width: 100px;"> </td>
+                </tr>               
+            </tbody>
+        </table>
+        
+        <div style="position:absolute;left:5px;top:5.6in;width:9.2in;height:1in;" class="cls_005">
+            <apex:outputField styleClass="cls_005" value="{!Verification_Report__c.Operation_Notes_and_or_Exclusions__c}"> </apex:outputField>
+        </div>
+    </div>
+<!--<div style="page-break-after: always"><span style="display: none;">&nbsp;</span></div>-->
+</div>
+
+
+
+<div style="position:absolute;margin-left:0px;top:16.5in;width:11in;height:8.2in;border-style:none;overflow:visible;">
+   <div style="position:absolute;left:80px;top:0">
+        <img alt="" height="75" width="75" src="/servlet/servlet.FileDownload?file=01536000003qcbX"> </img>
+        &nbsp;     &nbsp;
+        <img alt="" height="75" width="75" src="/servlet/servlet.FileDownload?file=0151R000004wxNO"> </img>
+    </div>
+    
+    <div style="position:absolute;left:9in" class="cls_002"><span class="cls_002">Validus Verification Services</span></div>
+    <div style="position:absolute;left:9.5in;top:12px" class="cls_002"><span class="cls_002">3331 109th Street</span></div>
+    <div style="position:absolute;left:9.35in;top:24.86px" class="cls_002"><span class="cls_002">Urbandale, IA  50322</span></div>
+    <div style="position:absolute;left:9.65in;top:36.46px" class="cls_002"><span class="cls_002">515-278-8002</span></div>
+
+    <div style="position:absolute;left:4in;top:1.1in" class="cls_003"><span class="cls_003">NON CONFORMANCE DETAILS </span> </div>
+
+    <div style="position:absolute;left:0.25in;top:1.3in">
+      <table cellpadding="1" cellspacing="1" style="height: 66px; width: 10.5in; top: 2in;">
+        <thead>
+            <tr>
+                <th colspan="3" scope="col"  style="text-align: center;" >
+
+                </th>
+            </tr>
+            <tr>
+                <th scope="col"> </th>
+                <th scope="col"> </th>
+                <th scope="col"> </th>
+            </tr>
+            <tr>
+                <th align="center" scope="col" style="border:1px solid black; width:1.6in;"> <span class="cls_004">NC Identified (Std #)</span></th>
+                <th align="center" scope="col" style="border:1px solid black; width:8in;"><span class="cls_004">NC Description</span></th>
+                <th align="center" scope="col" style="border:1px solid black;width:1.2in;"><span class="cls_004">CA Due Date</span></th>
+            </tr>
+        </thead>
+        <tbody>
+        
+             <apex:repeat value="{!NonConformities}" var="con" id="theRepeat">
+                <tr style="height: 68px">
+                    <td style="border:1px solid black"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <apex:outputText styleClass="cls_005" value="{!con.Name}"/> </td>
+                    <td style="border:1px solid black"> &nbsp;  <apex:outputText styleClass="cls_005" value="{!con.NC_Description__c}"/> </td>
+                    <td style="border:1px solid black"> &nbsp; &nbsp; &nbsp; 
+                        <apex:outputText styleClass="cls_005" value="{0, date, MM'/'d'/'yyyy}">
+                            <apex:param value="{!con.Corrective_Actions_Due_Date__c}" /> 
+                        </apex:outputText>
+                     </td>
+                    
+                </tr>
+            </apex:repeat>    
+            
+        </tbody>
+    </table>
+    
+    <div style="position:absolute;left:1.7in;top:0.5in;width:7.4in" class="cls_005">
+    <apex:outputText styleClass="cls_005" rendered="{!Verification_Report__c.NC_Count__c == 0}" value="There were no non-conformances identified during the review of records and the onsite evaluation. All
+            policies and procedures found to be compliant to the requirements of the U.S. Hemp Authority Certification
+            Program." >
+            
+            
+    </apex:outputText>
+    </div>
+
+</div>
+</div>
+<div style="position:absolute;margin-left:0px;top:24.8in;width:11in;height:8.2in;border-style:none;overflow:visible;">
+   <div style="position:absolute;left:80px;top:0">
+        <img alt="" height="75" width="75" src="/servlet/servlet.FileDownload?file=01536000003qcbX"> </img>
+        &nbsp;     &nbsp;
+        <img alt="" height="75" width="75" src="/servlet/servlet.FileDownload?file=0151R000004wxNO"> </img>
+    </div>
+    
+    <div style="position:absolute;left:9in" class="cls_002"><span class="cls_002">Validus Verification Services</span></div>
+    <div style="position:absolute;left:9.5in;top:12px" class="cls_002"><span class="cls_002">3331 109th Street</span></div>
+    <div style="position:absolute;left:9.35in;top:24.86px" class="cls_002"><span class="cls_002">Urbandale, IA  50322</span></div>
+    <div style="position:absolute;left:9.65in;top:36.46px" class="cls_002"><span class="cls_002">515-278-8002</span></div>
+
+
+        <div style="position:absolute;left:.75in;top:1.75in;width:8in" class="cls_003">
+        
+            <span class="cls_012">
+            Thank you for your time and assistance during the recent audit of {!Verification_Report__c.Opportunity__r.Account.Name}. There were {!Verification_Report__c.NC_Count__c} non-conformaces identified and facility has been approved. Please be sure to keep a copy of this audit report in your files.<br />
+            <br />
+            Mindi Birkeland<br />
+            U.S Hemp Authority Administrator<br />
+            Where Food Comes From<br />
+            202 6th Avenue, Suite 400<br />
+            Castle Rock, CO 80104<br />
+            Phone: 866-395-5883<br />
+            Email: mbirkeland@wherefoodcomesfrom.com<br />
+            <br />
+            Brian Bennett<br />
+            Director of Auditing Services<br />
+            Validus Verification Services<br />
+            3331 109th Street<br />
+            Urbandale, IA 50322<br />
+            571-237-7256<br />
+            bennettb@validusservices.com
+            </span>
+        </div>
+</div>
+
+    
+
+
+</body>
+</apex:page>

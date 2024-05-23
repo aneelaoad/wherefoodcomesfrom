@@ -1,0 +1,157 @@
+<!-- ng-show="state.programAffiliation.id === 'TBC__c'" -->
+<div class="view-program-affiliation">
+  <h2 class="slds-p-around--medium border-bottom">
+    <strong>Program Affiliations</strong>
+    <button class="slds-button slds-button--neutral slds-float--right" style="margin-top: -7px;"
+            ng-click="state.view = 'home'">Close</button>
+  </h2>
+
+  <div class="slds-scrollable--y" style="max-height: calc(100vh - 108px);">
+    <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding slds-m-top--medium">
+      <div class="slds-scrollable--y">
+        <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom" 
+             ng-repeat="item in state.programAffiliation.details">
+          <div class="slds-col field-label" style="text-transform: capitalize">{{item.label}}</div>
+          <span ng-include="getTemplateUrl('item-value.tpl.html')"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-affiliations">
+      <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium slds-m-bottom--xx-small"><strong>Product Affiliations</strong></h2>
+      <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding">
+        <ul class="slds-list--vertical slds-has-dividers--bottom slds-has-block-links--space slds-has-list-interactions">
+          <li class="slds-list__item" ng-repeat="item in state.programAffiliation.productAffiliations">
+            <a class="slds-clearfix" ng-click="state.view = 'product-affiliation'; state.productAffiliation = item;">
+              <div class="slds-truncate slds-float--left slds-p-left--x-small item-name">{{item.id}}</div>
+              <div ng-include="getTemplateUrl('chevron-right.tpl.html')"></div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium slds-m-bottom--xx-small">
+      <strong>Program Communication Permissions</strong></h2>
+    <div class="slds-scrollable--x slds-box slds-m-horizontal--medium no-padding">
+      <table class="slds-table slds-table--bordered slds-text-body--small">
+        <thead>
+          <tr class="slds-text-heading--label">
+            <td>Phone</td>
+            <td>Effective Date</td>
+            <td>End Date</td>
+            <td>Last Modified Date</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in state.programAffiliation.programCommunicationPermissions">
+            <td>{{item.phone}}</td>
+            <td>{{item.effectiveDate}}</td>
+            <td>{{item.endDate}}</td>
+            <td>{{item.lastModifiedDate}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium slds-m-bottom--xx-small">
+      <strong>Authorized Representatives</strong></h2>
+    <div class="slds-scrollable--x slds-box slds-m-horizontal--medium no-padding">
+      <table class="slds-table slds-table--bordered slds-text-body--small">
+        <thead>
+          <tr class="slds-text-heading--label">
+            <td>Full Name</td>
+            <td>Main Phone</td>
+            <td class="slds-cell-wrap">OK to Leave Msg?</td>
+            <td>Relationship</td>
+            <td>End Date</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in state.programAffiliation.authorizedRepresentatives">
+            <td>{{item.fullName}}</td>
+            <td>{{item.mainPhone}}</td>
+            <td>{{item.okToLeaveMessage}}</td>
+            <td>{{item.relationship}}</td>
+            <td>{{item.endDate}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium slds-m-bottom--xx-small">
+      <strong>Program Phones</strong></h2>
+    <div class="slds-scrollable--x slds-box slds-m-horizontal--medium no-padding">
+      <table class="slds-table slds-table--bordered slds-text-body--small">
+        <thead>
+          <tr class="slds-text-heading--label">
+            <td>Phone</td>
+            <td>Phone Ext.</td>
+            <td>Type</td>
+            <td>Time Zone</td>
+            <td>Preferred</td>
+            <td class="slds-cell-wrap">OK to Leave Msg?</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in state.programAffiliation.programPhones">
+            <td>{{item.phone}}</td>
+            <td>{{item.phoneExtension}}</td>
+            <td>{{item.type}}</td>
+            <td>{{item.timeZone}}</td>
+            <td>
+              <span ng-if="item.preferred === 'true'">
+                <span class="slds-float--left" ng-include="getTemplateUrl('checked-true.tpl.html')"></span>
+              </span>
+              <span ng-if="item.preferred === 'false'">
+                <span class="slds-float--left" ng-include="getTemplateUrl('unchecked-false.tpl.html')"></span>
+              </span>
+              <span ng-if="item.preferred !== 'false' && item.preferred !== 'true'">{{item.preferred}}</span>
+            </td>
+            <td>{{item.okToLeaveMessage}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium slds-m-bottom--xx-small">
+      <strong>Program Address</strong></h2>
+    <div class="slds-scrollable--x slds-box slds-m-horizontal--medium no-padding slds-m-bottom--large">
+      <table class="slds-table slds-table--bordered slds-text-body--small">
+        <thead>
+          <tr class="slds-text-heading--label">
+            <td>Type</td>
+            <td>Primary</td>
+            <td>Street Address</td>
+            <td>City</td>
+            <td>State</td>
+            <td>Zip Code</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in state.programAffiliation.programAdress">
+            <td>{{item.type}}</td>
+            <td>
+              <span ng-if="item.primary === 'true'">
+                <span class="slds-float--left" ng-include="getTemplateUrl('checked-true.tpl.html')"></span>
+              </span>
+              <span ng-if="item.primary === 'false'">
+                <span class="slds-float--left" ng-include="getTemplateUrl('unchecked-false.tpl.html')"></span>
+              </span>
+              <span ng-if="item.primary !== 'false' && item.primary !== 'true'">{{item.primary}}</span>
+            </td>
+            <td class="slds-cell-wrap">
+              <p>{{item.streetAddress1}}</p>
+              <hr style="margin: 5px 0;" ng-if="item.streetAddress2 !== null">
+              <p>{{item.streetAddress2}}</p>
+            </td>
+            <td>{{item.city}}</td>
+            <td>{{item.state}}</td>
+            <td>{{item.zipCode}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,132 @@
+<apex:page standardController="Certificate__c" extensions="WFCFOrganicCertController"  sidebar="false">
+    <script type="text/javascript">
+    function selectAllCheckboxes(obj,receivedInputID){
+    var inputCheckBox = document.getElementsByTagName("input");
+                                                      for(var i=0; i<inputCheckBox.length; i++){
+                                                          if(inputCheckBox[i].id.indexOf(receivedInputID)!=-1){
+                                                              inputCheckBox[i].checked = obj.checked;
+                                                          }
+                                                      }
+                                                     }
+    
+    </script>
+    
+    <apex:pageMessages id="message"></apex:pageMessages>
+    <apex:form >
+        <apex:pageBlock id="details">
+                <apex:outputPanel >
+                    <span style="float:right;" >
+                        <apex:commandButton id="btnContinue" action="{!process}"  value="Continue " rerender="message" />
+                    </span>
+                    
+                    <span style="float:left;">
+                        <apex:CommandButton action="{!prev}"  value="Previous " rerender="details" disabled="{!Prv}" />
+                        <apex:CommandButton action="{!next}"  value="Next " rerender="details" disabled="{!Nxt}" />
+                    </span>
+                    
+                </apex:outputPanel>
+                
+                
+            <br/>
+            <br/>
+           
+                ID Marks: &nbsp;
+                
+                <apex:selectList value="{!SelectedIdMark}" multiselect="false" size="1">
+                    <apex:selectOptions id="selectIdMarks" value="{!IDMarks}" />      
+                </apex:selectList>     
+                &nbsp;
+                <apex:commandButton value="Search" action="{!GetAccountProducts}" />
+            	
+            <br/>
+            <br/>
+            
+            <apex:pageblockSection columns="2">
+                <apex:pageBlockTable value="{!wrapAccountProductList}" var="accProductWrap" id="table1" title="All Account Products">
+                    <apex:facet name="header">All Account Products</apex:facet> 
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:inputCheckbox id="s1"  onclick="selectAllCheckboxes(this,'inputId')"/>
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!accProductWrap.selected}" id="inputId" />
+                    </apex:column>
+                    
+                    <apex:column value="{!accProductWrap.acc.Product__c}" />
+                    <apex:column value="{!accProductWrap.acc.Customer_Type__c}" />
+                    <apex:column value="{!accProductWrap.acc.Product_Status__c}" />
+                    <apex:column value="{!accProductWrap.acc.Standard__c}" />
+                    <apex:column value="{!accProductWrap.acc.ID_Mark__c}"/>
+                    
+                   
+                </apex:pageBlockTable>
+                
+                
+                
+                
+                
+                <apex:pageBlockTable value="{!wrapSiteAddressList}" var="SiteAddressWrap" id="table2" title="All Site Addresses">
+                    <apex:facet name="header">All Site Addresses</apex:facet> 
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:inputCheckbox id="s2"  onclick="selectAllCheckboxes(this,'selec2')"/>
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!SiteAddressWrap.selected}" id="selec2" />
+                    </apex:column>
+                    <apex:column value="{!SiteAddressWrap.Siteadd.Name}" />
+                    <apex:column value="{!SiteAddressWrap.Siteadd.Address__c}" />
+                    <apex:column value="{!SiteAddressWrap.Siteadd.City__c}" />
+                    <apex:column value="{!SiteAddressWrap.Siteadd.State__c}" />
+                    <apex:column value="{!SiteAddressWrap.Siteadd.Zip__c}" />
+                    <apex:column value="{!SiteAddressWrap.Siteadd.Country__c}" />
+                </apex:pageBlockTable>
+                    
+                   <!-- Account Contacts Table -->
+            <apex:pageBlockSection title="Account Contacts" columns="1">
+                
+                <apex:pageBlockTable value="{!wrapAccountContactList}" var="contact">
+                    <apex:column >
+                        <apex:facet name="header">
+                            <apex:inputCheckbox onclick="selectAllCheckboxes(this,'selectedContact');"/>
+                        </apex:facet>
+                        <apex:inputCheckbox value="{!contact.isSelected}" id="selectedContact"/>
+                    </apex:column>
+                    <apex:column value="{!contact.cc.Name}"/>
+                    <apex:column value="{!contact.cc.Email}"/>
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+
+
+                <!-- <apex:pageBlockTable value="{!selectedAccountProducts}" var="c" id="table2" title="Selected Products">
+<apex:column value="{!c.id}" headerValue="Record ID"/>
+<apex:column value="{!c.product__c}" headerValue=" Product"/>
+<apex:column value="{!c.Customer_Type__c}" headerValue="Customer Type"/>
+</apex:pageBlockTable>
+                
+                
+                <!-- For Bottom Buttons-->
+                <apex:outputPanel style="width:100% !important">
+                   
+                    <span style="float:left;">
+                        <apex:CommandButton action="{!prev}"  value="Previous " rerender="details" disabled="{!prv}" />
+                        <apex:CommandButton action="{!next}"  value="Next " rerender="details" disabled="{!nxt}" />
+                    </span>
+                    
+                </apex:outputPanel>
+                  <apex:outputPanel style="width:100% !important">
+                    <span style="float:right;" >
+                        <apex:commandButton id="btnContinue2" action="{!process}"  value="Continue " rerender="message" />
+                    </span>
+                </apex:outputPanel>
+               
+                
+                
+            </apex:pageblockSection>
+            
+            
+           
+            
+        </apex:pageBlock>
+        
+    </apex:form>
+    
+</apex:page>

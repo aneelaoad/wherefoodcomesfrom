@@ -1,0 +1,348 @@
+<apex:page sidebar="false" standardstylesheets="false" showheader="false" doctype="html-5.0" controller="skedJobQueueController" title="Job Queue">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Job Queue</title>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width" />
+        <!-- static resource: assets.zip -->
+        <link rel="stylesheet" href="{!URLFOR($Resource.skedAssets, '/assets/styles/salesforce-lightning-design-system-vf.min.css')}" />
+        <link rel="stylesheet" href="{!URLFOR($Resource.skedProfileDist, '/dist/vendor/jquery-ui-custom/jquery-ui.min.css')}" />
+        <link rel="stylesheet" href="{!URLFOR($Resource.skedProfileDist, '/dist/vendor/jquery-ui-custom/jquery-ui.theme.min.css')}" />
+        <!-- static resource: dist.zip -->
+        <link rel="stylesheet" href="{!URLFOR($Resource.skedProfileDist, '/dist/styles/main.css')}" />
+        <link rel="stylesheet" href="{!URLFOR($Resource.skedProfileDist, '/dist/styles/style.css')}" />
+        <script type="text/javascript" src="{!URLFOR($Resource.skedProfileDist, '/dist/vendor/jquery.min.js')}"></script>
+             <script type="text/javascript" src="{!URLFOR($Resource.skedProfileDist, '/dist/vendor/jquery-ui-custom/jquery-ui.min.js')}"></script>
+        
+        <style>
+            div#ui-datepicker-div {
+              width: 260px;
+            }
+        </style>
+        <script type="text/javascript">
+            window.ASSET_PATH = "{!URLFOR($Resource.skedAssets, '/')}"
+            window.DIST_PATH = "{!URLFOR($Resource.skedProfileDist, '/')}"
+            
+            window.API = {
+                getSearchResult: function (callback) {
+                    //callback(result)
+                    Visualforce.remoting.Manager.invokeAction(
+                        '{!$RemoteAction.skedJobQueueController.getJobs}',
+                        function(result, event){
+                            
+                            if (event.status) {
+                                callback(JSON.parse(result))
+                            }  else {
+                                console.log(result);
+                            }
+                        },
+                        { buffer: true, escape: false, timeout: 30000 }
+                     );
+                },
+                scheduleJob: function (jobId, startDate, startTime, endTime) {
+                
+                  Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.skedJobQueueController.scheduleJob}',
+                    jobId, 
+                    startDate,
+                    startTime,
+                    endTime,
+                    function(result, event){
+                        
+                        if (event.status && result=='success') {
+                            window.location.reload();
+                        }  else {
+                            alert(result);
+                        }
+                    }
+                 );
+               }
+            }
+        </script>
+    </head>
+    <body>
+        
+        <script>
+            var result = $("#jsonString").val();
+            console.log(result);
+        </script>
+        <apex:form id="outerForm">
+               <div ng-app="app" class="slds ng-cloak" role="application">
+                <!-- Main -->
+                <div ng-controller="JobQueueCtrl">
+                    <div class="slds-grid">
+                        <div class="slds-col">
+                            <!-- Queued Appointments -->
+                            <div class="view-queued-appointments">
+                                <h2 class="slds-p-around--medium slds-m-bottom--medium panel-heading">
+                                    Job Queue
+                                </h2>
+                                <!--Start Job Queue-->
+                                <div ng-show="result.length===0">
+                                    <div class="slds-grid slds-box" style="height: 200px;">
+                                        <div class="slds-col slds-align-middle slds-text-align--center">No job found</div>
+                                    </div>
+                                </div>
+                                <div ng-show="state.view === 'job-list' && result.length>0">
+                                    <!--
+                                    <div class="slds-box slds-m-horizontal--medium slds-m-top--medium no-padding">
+                                        <ul class="slds-list--vertical slds-has-dividers--bottom slds-has-block-links--space slds-has-list-interactions">
+                                            <li class="slds-list__item" ng-repeat="item in result">
+                                                <a class="slds-clearfix" ng-click="state.view = 'job-detail';state.job = item;">
+                                                    <div class="slds-truncate slds-float--left slds-p-left--x-small">
+                                                        {{item.jobName}}<br/>
+                                                        <span style="color:{{item.isViolated?'red':'blue'}}">{{item.mustStartBefore}}</span>
+                                                    </div>
+                                                    <div ng-include="getTemplateUrl('chevron-right.tpl.html')"></div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    -->
+                                    <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding">
+                                        <table class="slds-table slds-table--bordered ">
+                                            <tbody>
+                                                    <tr ng-repeat="item in result" ng-click="state.view = 'job-detail';state.job = item;" style="cursor:pointer;">
+                                                        <td>
+                                                            {{item.jobName}}<br/>
+                                                            <span style="color:{{item.isViolated?'red':'blue'}}">{{item.mustStartBefore}}</span><br/>
+                                                            {{item.description}}
+                                                        </td>
+                                                        <td>
+                                                            <div ng-include="getTemplateUrl('chevron-right.tpl.html')"></div>
+                                                        </td>
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- End Job Queue -->
+                                <!--Start Job List View-->
+                                <div ng-show="state.view === 'job-detail'">
+                                    <div class="patients" ng-if="state.job">
+                                        <h2 class="slds-p-around--medium border-bottom">
+                                            <strong>{{state.job.jobName}}</strong>
+                                            <div class="slds-float--right">
+                                                <button class="slds-button slds-button--brand"  style="margin-top: -7px;"
+                                                            type="button" ng-click="handleUserAction(state.job.jobId)">Schedule</button>
+                                                <button type="button" class="slds-button slds-button--neutral slds-float--right" style="margin-top: -7px;"
+                                                    ng-click="state.view = 'job-list';">Back</button>
+                                            </div>
+                                        </h2>
+                                        <div class="slds-scrollable--y" style="max-height: calc(100vh - 108px);">
+                                            <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium slds-m-bottom--xx-small">
+                                            <strong>Job Details</strong></h2>
+                                            <div class="slds-box slds-m-around--medium no-padding">
+                                              <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom"
+                                                   ng-repeat="item in state.job.jobDetails">
+                                                <div class="slds-col field-label">{{item.label}}</div>
+                                                <div class="slds-col slds-text-align--right">
+                                                    <span style="color:{{(item.label.indexOf('Must Start') >=0 && state.job.isViolated)?'red':'blue'}}">{{item.value}}</span>
+                                                  </div>
+                                              </div>
+                                            </div>
+                                            
+                                            <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium slds-m-bottom--xx-small">
+                                                <strong>Contact Details</strong>
+                                            </h2>
+                                            <div class="slds-box slds-m-around--medium no-padding">
+                                              <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom"
+                                                   ng-repeat="item in state.job.contactDetails">
+                                                <div class="slds-col field-label">{{item.label}}</div>
+                                                <div class="slds-col slds-text-align--right">{{item.value}}</div>
+                                              </div>
+                                            </div>
+                                            
+                                            <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium slds-m-bottom--xx-small">
+                                                <strong>Account Details</strong>
+                                            </h2>
+                                            <div class="slds-box slds-m-around--medium no-padding">
+                                              <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom"
+                                                   ng-repeat="item in state.job.accountDetails">
+                                                <div class="slds-col field-label">{{item.label}}</div>
+                                                <div class="slds-col slds-text-align--right">{{item.value}}</div>
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <!-- End Job Detail -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal: Schedule -->
+                <div aria-hidden="true" role="dialog" class="slds-modal slds-fade-in-open slds-hide" id="modal-schedule">
+                    <div class="slds-modal__container">
+                        <div class="slds-modal__header">
+                            <h2 class="slds-text-heading--medium">Schedule Job</h2>
+                            <button class="slds-button slds-button--icon-inverse slds-modal__close" data-aljs-dismiss="modal" tabindex="0">
+                                <img src="{!URLFOR($Resource.skedAssets, '/assets/icons/utility/close.svg')}"
+                                     alt="true" aria-hidden="true" class="slds-button__icon slds-button__icon--large" />
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                        </div>
+                        <div class="slds-modal__content slds-p-around--large">
+                            <div class="slds-grid slds-grid--pull-padded">  
+                            <div class="slds-col--padded">
+                                    <div class="slds-form-element__control slds-m-top--small">
+                                        <label class="slds-form-element__label" for="start-date">
+                                            <abbr class="slds-required" title="required">*</abbr> Start Date
+                                        </label>
+                                        <div class="slds-input-has-icon">
+                                            <input id="start-date" data-ui-datepicker="true" class="slds-input" type="text" tabindex="0" required="required" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-grid--pull-padded">                                
+                                <div class="slds-col--padded">
+                                    <div class="slds-form-element__control slds-m-top--small">
+                                        <label class="slds-form-element__label" for="start-time">
+                                            <abbr class="slds-required" title="required">*</abbr> Start Time
+                                        </label>
+                                        <div class="slds-select_container">
+                                            <apex:selectlist id="startTime" value="{!startTime}" size="1" onchange="return false;" styleclass="slds-select">
+                                                <apex:selectoptions value="{!StartEndTime}" />
+                                            </apex:selectlist>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col--padded">
+                                    <div class="slds-form-element__control slds-m-top--small">
+                                        <label class="slds-form-element__label" for="end-time">
+                                            <abbr class="slds-required" title="required">*</abbr> End Time
+                                        </label>
+                                        <div class="slds-select_container">
+                                            <apex:selectlist id="endTime" value="{!endTime}" size="1" onchange="return false;" styleclass="slds-select">
+                                                <apex:selectoptions value="{!StartEndTime}" />
+                                            </apex:selectlist>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-modal__footer">
+                            <button class="slds-button slds-button--brand" data-aljs-dismiss="modal" onclick="scheduleJob();return false;">Save</button>
+                            <button class="slds-button slds-button--neutral" data-aljs-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- modal backdrop container -->
+                <div class="aljs-modal-container"></div>
+            </div>
+            <input type="hidden" id="sJobId" value="" />
+            <!-- vendor scripts -->
+            
+            <script type="text/javascript" src="{!URLFOR($Resource.skedProfileDist, '/dist/vendor/lodash.min.js')}"></script>
+            <script type="text/javascript" src="{!URLFOR($Resource.skedProfileDist, '/dist/vendor/moment.min.js')}"></script>
+            <script type="text/javascript" src="{!URLFOR($Resource.skedProfileDist, '/dist/vendor/jquery.aljs-init.min.js')}"></script>
+            <script type="text/javascript" src="{!URLFOR($Resource.skedProfileDist, '/dist/vendor/jquery.aljs-modal.min.js')}"></script>
+            <!-- Angular -->
+            <script type="text/javascript" src="{!URLFOR($Resource.skedProfileDist, '/dist/vendor/angular.min.js')}"></script>
+            <script type="text/javascript" src="{!URLFOR($Resource.skedProfileDist, '/dist/vendor/angular-sanitize.min.js')}"></script>
+            <!-- app scripts -->
+            <script type="text/javascript" src="{!URLFOR($Resource.skedProfileDist, '/dist/scripts/sldsModalDir.js')}"></script>
+            <script>
+            //////////////////////////////
+                // aljsInit
+                (function(window, $) {
+                  if (window.ASSET_PATH) {
+                    var assetsLocation = window.location.origin + window.ASSET_PATH.slice(0, -1)
+                    console.log('aljsInit: ', assetsLocation)
+                    $.aljsInit({
+                      assetsLocation: assetsLocation,
+                      scoped: true
+                    })
+                  }
+                })(window, $);
+
+                //////////////////////////////
+                // Module patientProfile
+                (function(window, angular, _) {
+
+                  var mod = angular.module('objectSearch', [])
+
+                  mod.controller('JobQueueCtrl', ['$scope', '$timeout', function($scope, $timeout) {
+
+                    $scope.result = {}
+
+                    $scope.state = {
+                      view: 'job-list',
+                      job: null
+                    }
+                    
+                    $scope.handleUserAction = function(jId){
+                        $('#sJobId').attr('value',jId);
+                        $('#modal-schedule').modal('show');
+                    }
+
+                    window.API.getSearchResult(function(response) {
+                      $timeout(function() {
+                        $scope.result = response;
+                      })
+                    })
+
+                  }])
+                })(window, angular, _);
+
+                //////////////////////////////
+                // Module app
+                (function(window, angular) {
+
+                    var app = angular.module('app', ['objectSearch', 'ui.sldsModal']);
+
+                    var getTemplateUrl = function(name) {
+                        var templateUrl = window.DIST_PATH + 'dist/templates/patient-profile/' + name
+                        // console.log('templateUrl', templateUrl)
+                        return templateUrl
+                      }
+                    var getIconUrl = function(name, group) {
+                        if (!group) group = 'utility'
+                        return window.ASSET_PATH + 'assets/icons/' + group + '-sprite/svg/' + name
+                        }
+
+                        var getIconSrc = function(name, group) {
+                        if (!group) group = 'utility'
+                        return window.ASSET_PATH + 'assets/icons/' + group + '/' + name
+                        }
+
+                        app.run(['$rootScope', function($rootScope) {
+                        $rootScope.getTemplateUrl = getTemplateUrl
+                        $rootScope.getIconUrl = getIconUrl
+                        $rootScope.getIconSrc = getIconSrc
+                        }])
+                })(window, angular);
+            </script>
+            <script>
+                
+
+                function scheduleJob(){
+                    var startDate  = $('#start-date').val();
+                    var startTime  = $("[id$='startTime']").val();
+                    var endTime    = $("[id$='endTime']").val();
+                    var startArr = startTime.split(':');
+                    var endArr = endTime.split(':');
+                    if(eval(endArr[0]) < eval(startArr[0]) || ( eval(endArr[0]) == eval(startArr[0]) && eval(endArr[1]) <= eval(startArr[1]))){
+                        alert('Invalid end time');
+                    }else{
+                        window.API.scheduleJob($('#sJobId').val(), startDate, startTime, endTime);
+                    }
+                }
+
+                $(function () {
+                    var dateOptions = {
+                        constrainInput: true,
+                        dateFormat: "D, mm/dd/yy",
+                        firstDay: 1,
+                        onSelect: function (value, picker, el) {
+                          console.log('onSelect')
+                        }
+                    }
+
+                    $('[data-ui-datepicker]').datepicker(dateOptions).datepicker('setDate', new Date())
+                })
+            </script>
+        </apex:form>
+    </body>
+</apex:page>

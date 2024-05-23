@@ -1,0 +1,595 @@
+<apex:page standardController="Verification_Report__c" showHeader="true" sidebar="true">
+<head>
+<style>
+        #ncdesc {
+width: 300px;
+    } 
+</style>
+</head>
+   <br/> 
+<apex:form id="theForm">
+
+<apex:pageblock id="pb" mode="maindetail" >        
+    <apex:pageBlockSection id="pbs">      
+        <apex:selectList required="true" onchange="test(); return true;" id="ncdesc" multiselect="false" size="1" label="NC Description" >                 
+        <apex:selectOption itemValue="Blank" itemLabel=""/>
+        <apex:selectOption itemValue="1" itemLabel="Step rated GAP approval certificate from each source/ranch was not available onsite.  5.3.1" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OP4sAAG'}"/> <!-- Beef -->
+        <apex:selectOption itemValue="2" itemLabel="Signed transport acknowledgement forms were not availble during onsite audit. 10.6.2" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OP4sAAG'}"/> <!-- Beef -->
+        <apex:selectOption itemValue="3" itemLabel="Feed label(s) listing ingredients must be kept onsite. 3.1.2 and 6.4.1" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OP4sAAG'}"/> <!-- Beef -->
+        <apex:selectOption itemValue="4" itemLabel="A small percentage of calves were weaned slightly less than 6 months of age. Deviation requested.  5.2.1" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OP4sAAG'}"/> <!-- Beef -->
+        <apex:selectOption itemValue="5" itemLabel="A small number of calves were castrated after 3 months of age. Deviation requested. 5.5.1" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OP4sAAG'}"/> <!-- Beef -->
+        <apex:selectOption itemValue="6" itemLabel="A small number of calves were disbudded over 6 weeks of age. Deviation requested.  5.6.1" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OP4sAAG'}"/> <!-- Beef -->
+        <apex:selectOption itemValue="7" itemLabel="Operation typically spays heifers that are grazed in close proximity to bulls. Spaying is prohibited. Deviation requested. 5.5.3" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OP4sAAG'}"/> <!-- Beef -->
+        <apex:selectOption itemValue="8" itemLabel="Producer uses organophosphates. Organophosphates are prohibited. Deviation requested.  9.1.1" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OP4sAAG'}"/> <!-- Beef -->
+        <apex:selectOption itemValue="9" itemLabel="Treatment records are not being maintained. 3.1.3" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OP4sAAG'}"/> <!-- Beef -->
+        <apex:selectOption itemValue="10" itemLabel="Lameness records are not being maintained. 3.4.1" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OP4sAAG'}"/> <!-- Beef -->
+        <apex:selectOption itemValue="11" itemLabel="Operation does not have a written farm/ranch plan.  1.1.1 and 1.1.2" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OP4sAAG'}"/> <!-- Beef -->
+        <apex:selectOption itemValue="12" itemLabel="Records of assisted calvings/c-sections are not being maintained. 5.1.2" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OP4sAAG'}"/> <!-- Beef -->
+        <apex:selectOption itemValue="13" itemLabel="Complete transport records were not being maintained.  10.6.3" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OP4sAAG'}"/> <!-- Beef -->
+        <apex:selectOption itemValue="14" itemLabel="Expired medications were found during onsite audit. 3.1.5" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OP4sAAG'}"/> <!-- Beef -->
+        <apex:selectOption itemValue="15" itemLabel="Records were not avialble during the onsite verification.  1.3.1" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OP4sAAG'}"/>    <!-- Beef -->
+        <apex:selectOption itemValue="16" itemLabel="Air quality exceeded the standard during this certification cycle. 5.7 (v. 2)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="17" itemLabel="Air quality exceeded the standard during this certification cycle. 4.4.2 (v 3.1)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="18" itemLabel="Air quality exceeded the standard during this certification cycle.  There was not a written intervention plan for air quality in excess of the standard.  10.23 (v 2)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="19" itemLabel="Air quality exceeded the standard during this certification cycle.  There was not a written intervention plan for air quality in excess of the standard.  4.4.3 (v 3.1)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="20" itemLabel="Dead on arrivals exceeded the standard.  8.6 (v 2)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="21" itemLabel="Dead on arrivals exceeded the standard.  7.1.3 (V 3.1)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}" /> <!-- Chicken -->
+        <apex:selectOption itemValue="22" itemLabel="Dead on arrivals are not being recorded for each flock. 10.8 (v 2)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="23" itemLabel="Dead on arrivals are not being recorded for each flock. 7.1.2 (v 3.1)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="24" itemLabel="Footpad dermatitis scores exceeded the standard during this certification cycle. 3.14 (v 2)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="25" itemLabel="Footpad dermatitis scores exceeded the standard during this certification cycle. 2.8 (v 3.1)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="26" itemLabel="Footpad dermatitis scores exceeded the standard during this certification cycle.  There is not a written intervention plan for footpad dermatitis in excess of the standards. 10.19 (v 2)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="27" itemLabel="Footpad dermatitis scores exceeded the standard during this certification cycle.  There is not a written intervention plan for footpad dermatitis in excess of the standards. 2.8.7 (v 3.1)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="28" itemLabel="Mortality exceeded the standard during this certification cycle.  3.17 (v 2)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="29" itemLabel="Mortality exceeded the standard during this certification cycle.  2.10 (v 3.1)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="30" itemLabel="Lameness scores exceeded the standard during this certification cycle.  3.16 (v 2)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="31" itemLabel="Lameness scores exceeded the standard during this certification cycle.  2.9 (v 3.1)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="32" itemLabel="Stocking densities exceeded the standard during this certification cycle.  5.11 (v 2)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="33" itemLabel="Stocking densities exceeded the standard during this certification cycle.  4.6.2 (v 3.1)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="34" itemLabel="Records were not available for review during the onsite verification. 10.1 (v 2)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="35" itemLabel="Records were not available for review during the onsite verification. 9.1.1 (v 3.1)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="36" itemLabel="Documentation of chick receivings from the hatcher do not include the time of remover from the hatcher. 10.9 (v 2) " rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="37" itemLabel="Documentation of chick receivings from the hatcher do not include the time of remover from the hatcher. 7.1.10 (v 3.1)" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/> <!-- Chicken -->
+        <apex:selectOption itemValue="38" itemLabel="Records to verify compliance to the slaughter standards were not available for review. Section 10" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPOsAAO'}"/>    <!-- Chicken -->
+        <apex:selectOption itemValue="39" itemLabel="Records to verify compliance to the slaughter standards were not available for review. Section 10" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQKAA4'}"/>   <!-- Pig -->
+        <apex:selectOption itemValue="40" itemLabel="Records indicate some pigs were castrated over 10 days of age.  Piglets castrated over 10 days of age will be excluded from the GAP program. 2.4.1" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQKAA4'}"/> <!-- Pig -->
+        <apex:selectOption itemValue="41" itemLabel="Records indicate mortality of pigs born live to weaning exceeded the standard. 2.14.2" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQKAA4'}"/> <!-- Pig -->
+        <apex:selectOption itemValue="42" itemLabel="Records indicate mortality of pigs post weaning exceeded the standard. 2.14.3" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQKAA4'}"/> <!-- Pig -->
+        <apex:selectOption itemValue="43" itemLabel="Records indicate mortality of nursery pigs exceeded the standard. 2.14.4" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQKAA4'}"/> <!-- Pig -->
+        <apex:selectOption itemValue="44" itemLabel="Records indicate mortality of finishing pigs exceeded the standard. 2.14.5" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQKAA4'}"/> <!-- Pig -->
+        <apex:selectOption itemValue="45" itemLabel="Records indicate mortality of breeding animals exceeded the standard. 2.14.6" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQKAA4'}"/> <!-- Pig -->
+        <apex:selectOption itemValue="46" itemLabel="The operation does not have a written intervention plan for mortality in excess of the standard. 2.14.7" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQKAA4'}"/> <!-- Pig -->
+        <apex:selectOption itemValue="47" itemLabel="Records for early weaning have not been maintained. 2.16.6" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQKAA4'}"/> <!-- Pig -->
+        <apex:selectOption itemValue="48" itemLabel="Feed labels and/or rations were not available for review during the onsite verification. 3.2.2" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQKAA4'}"/> <!-- Pig -->
+        <apex:selectOption itemValue="49" itemLabel="Pigs in nursery pens do not meet the space requirements. 4.5.2" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQKAA4'}"/> <!-- Pig -->
+        <apex:selectOption itemValue="50" itemLabel="Pigs in finishing pens do not meet the space requirements. 4.5.14" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQKAA4'}"/> <!-- Pig -->
+        <apex:selectOption itemValue="51" itemLabel="Farrowing huts do not provide sows with at least 48 ft² of farrowing space. 4.7.2" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQKAA4'}"/> <!-- Pig -->
+        <apex:selectOption itemValue="52" itemLabel="Records were not available for review during the onsite verification. 9.7.1" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQKAA4'}"/> <!-- Pig -->
+        <apex:selectOption itemValue="53" itemLabel="Certificates were not available for GAP pigs. 9.8.1" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQKAA4'}"/>  <!-- Pig -->
+        <apex:selectOption itemValue="54" itemLabel="Footpad dermatitis scores exceeded the standard during this certification cycle.  There is not a written intervention plan for footpad dermatitis in excess of the standards. 2.8.7" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQyAAO'}"/> <!-- Turkey -->
+        <apex:selectOption itemValue="55" itemLabel="Footpad dermatitis scores exceeded the standard during this certification cycle.  2.8.3" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQyAAO'}"/> <!-- Turkey -->
+        <apex:selectOption itemValue="56" itemLabel="Lameness scores exceeded the standard during this certification cycle.  2.9.3" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQyAAO'}"/> <!-- Turkey -->
+        <apex:selectOption itemValue="57" itemLabel="Annual flock mortality for turkeys up to 9 days of age had exceeded the standard. 2.10.2" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQyAAO'}"/> <!-- Turkey -->
+        <apex:selectOption itemValue="58" itemLabel="Annual flock mortality for turkeys 10 days and older had exceeded the standard. 2.10.3" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQyAAO'}"/> <!-- Turkey -->
+        <apex:selectOption itemValue="59" itemLabel="The operation does not have a written intervention plan for mortality in excess of the standard. 2.10.7" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQyAAO'}"/> <!-- Turkey -->
+        <apex:selectOption itemValue="60" itemLabel="Air quality exceeded the standard during this certification cycle. 4.4.2" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQyAAO'}"/> <!-- Turkey -->
+        <apex:selectOption itemValue="61" itemLabel="A written intervention plan was not recorded for air quality in excess of the standard. 4.4.2" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQyAAO'}"/> <!-- Turkey -->
+        <apex:selectOption itemValue="62" itemLabel="Light intensity was below 20 lux at the time of the onsite verification. 4.5.1" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQyAAO'}"/> <!-- Turkey -->
+        <apex:selectOption itemValue="63" itemLabel="Air quality was in excess of the standard at the time of the onsite verification. 4.4.2" rendered="{!Verification_Report__c.RecordTypeId = '01236000000OPQyAAO'}"/> <!-- Turkey -->        
+        </apex:selectList>
+    </apex:pageBlockSection>
+    <br/>
+    <apex:pageBlockSection id="std">
+        <apex:inputtext id="stdn" label="Standard #" disabled="False" />       
+    </apex:pageBlockSection>
+   
+       <apex:pageBlockSection id="maj">      
+        <apex:selectList required="true" id="mmc" multiselect="false" size="1" label="Minor, Major or Critical" >
+        <apex:selectOption itemValue="blank" itemLabel=""/>    
+        <apex:selectOption itemValue="Minor" itemLabel="Minor" />             
+        <apex:selectOption itemValue="Major" itemLabel="Major"/>        
+        <apex:selectOption itemValue="Critical" itemLabel="Critical" />               
+        </apex:selectList>
+    </apex:pageBlockSection> 
+         <apex:pageBlockSection id="ca">     
+        <apex:selectList required="true" id="can" multiselect="false" size="1" label="CA Necessary" > 
+        <apex:selectOption itemValue="Blank" itemLabel=""/>                
+        <apex:selectOption itemValue="Yes" itemLabel="Yes"/>
+        <apex:selectOption itemValue="No" itemLabel="No" />              
+        </apex:selectList>
+    </apex:pageBlockSection>
+        <apex:pageBlockSection id="cad">
+    <apex:inputField value="{!Verification_Report__c.Umbrella_Other_NC_CA_Due_Date__c}" id="cadd"/> 
+    </apex:pageBlockSection>
+    <apex:pageBlockSection id="cle">      
+        <apex:selectList required="true" id="clea" multiselect="false" size="1" label="Cleared" > 
+        <apex:selectOption itemValue="Blank" itemLabel=""/>                
+        <apex:selectOption itemValue="Yes" itemLabel="Yes"/>
+        <apex:selectOption itemValue="No" itemLabel="No" />              
+    </apex:selectList>
+    </apex:pageBlockSection>
+    <apex:pageBlockSection id="cda">
+    <apex:inputField value="{!Verification_Report__c.Umbrella_Other_NC_Clearance_Date__c}" id="cdat"/>
+    </apex:pageBlockSection>     
+    
+   <!-- <apex:pageBlockSection id="maj">
+        <apex:inputtext id="mmc" label="Major, Minor or Critical" disabled="False" />       
+    </apex:pageBlockSection>   
+    <apex:pageBlockSection id="ca">
+        <apex:inputtext id="can" label="CA Necessary" disabled="False" />       
+    </apex:pageBlockSection>
+    <apex:pageBlockSection id="cad">
+        <apex:inputtext id="cadd" label="CA Due Date" disabled="False" title="yyyy-mm-dd" />       
+    </apex:pageBlockSection> 
+    <apex:pageBlockSection id="cle">
+        <apex:inputtext id="clea" label="Cleared" disabled="False" />       
+    </apex:pageBlockSection> 
+    <apex:pageBlockSection id="cda">
+        <apex:inputtext id="cdat" label="Clearance Date" disabled="False" title="yyyy-mm-dd" />       
+    </apex:pageBlockSection>  -->     
+    <apex:pageBlockSection id="cor">
+        <apex:inputtextArea id="cora" rows="3" cols="50" label="Corrective Action" disabled="False" />       
+    </apex:pageBlockSection>
+    <br/>
+    <apex:pageBlockSection >  
+        <apex:commandButton action="{!save}" value="Save" id="theButton" onclick="testt(); return true;" oncomplete="refreshPage()" style="width:100px;"  / >
+    </apex:pageBlockSection>                          
+</apex:pageblock>
+ </apex:form>
+  <apex:includeScript value="/soap/ajax/29.0/connection.js"/>
+<apex:includeScript value="/soap/ajax/29.0/apex.js"/>
+<script>
+function test(){
+//alert('{!Verification_Report__c.RecordTypeId}');
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = ""; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = "";
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "";
+document.getElementById('{!$Component.theForm.pb.cda.cdat}').value = "";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "";
+
+var future = new Date();
+future.setDate(future.getDate() + 21); //21
+var dd = future.getDate();
+//var ddl = dd.toString().length;
+//if(ddl == 1){
+//dd = '0' + dd;
+//}
+var mm = future.getMonth() + 1;
+//var ml = mm.toString().length;
+//if(ml == 1){
+//mm = '0'+ mm;
+//}
+var y = future.getFullYear();
+//var dat = y + '-'+ mm + '-'+ dd;
+var dat = mm + '/' + dd + '/' + y
+
+var vd = new Date('{!Verification_Report__c.VerificationDateGAP__c}');
+var vdd = vd.getDate();
+//var vddl = vdd.toString().length;
+//if(vddl == 1){
+//vdd = '0' + vdd;
+//}
+var vdm = vd.getMonth() + 1;
+//var vdml = vdm.toString().length;
+//if(vdml == 1){
+//vdm = '0' + vdm;
+//} 
+var vdy = vd.getFullYear();
+//var vda = vdy + '-'+ vdm + '-'+ vdd;
+var vda = vdm + '/' + vdd + '/' + vdy
+
+if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "1"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "5.3.1"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please acquire certifcate(s) from source/ranch and submit to IMI.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "2"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "10.6.2"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please acquire a signed transport acknowledgement and submit to IMI.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "3"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "3.1.2 and 6.4.1"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please acquire label(s) and submit a copy to IMI.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "4"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "5.2.1"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Deviation granted on the basis of cow condition, feed availability, and weather. Average weaning age is 6 months of age.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "5"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "5.5.1"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Deviation granted on the basis of minimizing stress and handling.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "6"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "5.6.1"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Deviation granted on the basis of minimizing stress and handling. Calves averaged 6 weeks of age and none were over 8 weeks of age.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "7"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "5.5.3"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Spaying is done vaginally by a veterinarian. Deviation granted.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "8"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "9.1.1"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Deviation granted for the use of organophosphates on a rotational basis.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "9"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "3.1.3"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Moving forward producer agrees to maintain treatment records. Treated cattle are identified.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "10"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "3.4.1"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Moving forward producer agrees to maintain lameness records.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "11"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "1.1.1 and 1.1.2"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please submit written farm/ranch plan. A template is available in your GAP manual.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "12"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "5.1.2"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Moving forward producer agrees to maintain records of assisted calvings/c-sections.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "13"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "10.6.3"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Moving forward producer agrees to maintain complete transport records, including: loading start/end times, departure/arrival times, and any stops/delays enroute.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "14"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "3.1.5"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Expired medications were disposed onsite during the audit.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "15"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "1.3.1"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide records for review.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "16"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "5.7 (v. 2)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "An intervention plan, resulting in improved air quality, was implemented for each occurrence of air quality in excess of the standard.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "17"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "4.4.2 (v 3)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "An intervention plan, resulting in improved air quality, was implemented for each occurrence of air quality in excess of the standard.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "18"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "10.23 (v 2)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide a corrective action.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "19"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "4.4.3 (v 3)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide a corrective action.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "20"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "8.6 (v 2)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "The service technician was notified of DOA's in excess of the standard.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "21"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "7.1.3 (V 3)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "The service technician was notified of DOA's in excess of the standard.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "22"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "10.8 (v 2)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide a corrective action.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "23"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "7.1.2 (v 3)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide a corrective action.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "24"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "3.14 (v 2)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "25"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.8 (v 3)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "26"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "10.19 (v 2)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide a corrective action.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "27"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.8.7 (v 3)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide a corrective action.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "28"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "3.17 (v 2)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "29"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.10 (v 3)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "30"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "3.16 (v 2)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "31"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.9 (v 3)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "32"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "5.11 (v 2)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "33"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "4.6.2 (v 3)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "34"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "10.1 (v 2)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "35"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "9.1.1 (v 3)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "36"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "10.9 (v 2)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "37"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "7.1.10 (v 3)"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "38"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "Section 10"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide a copy of the most recent animal welfare audit of the plant.  Please also provide the written segregation and traceability protocol for the plant.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "39"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "Section 10"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide a copy of the most recent animal welfare audit of the plant.  Please also provide the written segregation and traceability protocol for the plant";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "40"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.4.1"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide a corrective action.  Please also provide the number and identification of piglets castrated over 10 days of age.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "41"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.14.2"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "42"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.14.3"; 
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "43"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.14.4"; 
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "44"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.14.5"; 
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "45"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.14.6"; 
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "46"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.14.7"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "47"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.16.6"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "48"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "3.2.2"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide feed labels and rations, listing all feed ingredients for all products.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "49"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "4.5.2"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide a corrective action.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "50"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "4.5.14"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide a corrective action.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "51"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "4.7.2"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide a corrective action.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "52"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "9.7.1"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "53"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "9.8.1"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide copies of GAP approval certificates for all pigs received at this operation during this certification cycle.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "54"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.8.7"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "55"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.8.3"; 
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "56"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.9.3"; 
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "57"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.10.2"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "58"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.10.3"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "59"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "2.10.7"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Major";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide a corrective action.";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "60"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "4.4.2"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "61"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "4.4.2"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "62"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "4.5.1"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+}else if(document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').value == "63"){
+document.getElementById('{!$Component.theForm.pb.std.stdn}').value = "4.4.2"; 
+document.getElementById('{!$Component.theForm.pb.maj.mmc}').value = "Minor";
+document.getElementById('{!$Component.theForm.pb.ca.can}').value = "Yes";
+document.getElementById('{!$Component.theForm.pb.cad.cadd}').value = dat;
+document.getElementById('{!$Component.theForm.pb.cle.clea}').value = "No";
+document.getElementById('{!$Component.theForm.pb.cor.cora}').value = "Please provide a corrective action.";
+}
+
+//Adding Verification Date if Cleared is Yes
+if(document.getElementById('{!$Component.theForm.pb.cle.clea}').value == "Yes"){
+document.getElementById('{!$Component.theForm.pb.cda.cdat}').value = vda;
+}
+}
+</script>
+<apex:includeScript value="/soap/ajax/29.0/connection.js"/>
+<apex:includeScript value="/soap/ajax/29.0/apex.js"/>
+<script type="text/javascript">
+    sforce.connection.sessionId = '{!$Api.Session_ID}';
+</script>
+<script>
+function testt(){
+
+var vr = '{!Verification_Report__c.Id}';
+var rid = '01236000000OPLU'; //GAP NC Record Type ID, same for all GAPs
+var nc = new sforce.SObject("Non_Conformity__c");
+
+nc.Verification_Report__c = vr;
+nc.RecordTypeId = rid;
+var stdn = document.getElementById('{!$Component.theForm.pb.std.stdn}').value;
+var sel = document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').selectedIndex;
+var desc = document.getElementById('{!$Component.theForm.pb.pbs.ncdesc}').options[sel].text;
+desc = desc.replace(stdn,"");
+nc.NC_Description__c = desc;
+nc.NC_Identified_Standard_Number__c = stdn;
+var mmc = document.getElementById('{!$Component.theForm.pb.maj.mmc}').value;
+if(mmc == 'Major' || mmc == 'Minor' || mmc == 'Critical'){
+nc.Minor_Major_or_Critical__c = mmc;
+}
+
+//var can = document.getElementById('{!$Component.theForm.pb.ca.can}').value;
+//if(can == 'Yes' || can == 'No'){
+//nc.Corrective_Actions_Necessary__c = can;
+//}
+
+if(document.getElementById('{!$Component.theForm.pb.ca.can}').value == "Yes" && document.getElementById('{!$Component.theForm.pb.cad.cadd}').value == ""){
+alert('Enter a corrective action due date');
+return;
+}else{
+    if(document.getElementById('{!$Component.theForm.pb.ca.can}').value != "Blank"){
+    nc.Corrective_Actions_Necessary__c = document.getElementById('{!$Component.theForm.pb.ca.can}').value;
+    }
+}
+
+if(document.getElementById('{!$Component.theForm.pb.cad.cadd}').value != "" && document.getElementById('{!$Component.theForm.pb.ca.can}').value == "Yes"){
+var future11 = new Date(document.getElementById('{!$Component.theForm.pb.cad.cadd}').value);
+future11.setDate(future11.getDate());
+var dd11 = future11.getDate();
+var ddm11 = dd11.toString().length;
+if(ddm11 == 1){
+dd11 = '0' + dd11;
+}
+var mm11 = future11.getMonth() + 1;
+var mn11 = mm11.toString().length;
+if(mn11 == 1){
+mm11 = '0'+ mm11;
+}
+var y11 = future11.getFullYear();
+var dat11 = y11 + '-'+ mm11 + '-'+ dd11;
+nc.Corrective_Actions_Due_Date__c = dat11;
+}
+
+//var cdd = document.getElementById('{!$Component.theForm.pb.cad.cadd}').value;
+//if(cdd != ""){
+//nc.Corrective_Actions_Due_Date__c = cdd;
+//}
+
+if(document.getElementById('{!$Component.theForm.pb.cle.clea}').value == "Yes" && document.getElementById('{!$Component.theForm.pb.cda.cdat}').value == ""){
+alert('Enter a Clearance Date');
+return;
+}else if(document.getElementById('{!$Component.theForm.pb.cle.clea}').value == "Blank" || document.getElementById('{!$Component.theForm.pb.cle.clea}').value == ""){
+alert('Select a value for Cleared.');
+return;
+}else{
+nc.NC_Clearance__c = document.getElementById('{!$Component.theForm.pb.cle.clea}').value;
+}
+
+//var cle = document.getElementById('{!$Component.theForm.pb.cle.clea}').value;
+//if(cle == 'Yes' || cle == 'No'){
+//nc.NC_Clearance__c = cle;
+//}
+
+if(document.getElementById('{!$Component.theForm.pb.cda.cdat}').value != "" && document.getElementById('{!$Component.theForm.pb.cle.clea}').value == "Yes"){
+var future111 = new Date(document.getElementById('{!$Component.theForm.pb.cda.cdat}').value);
+future111.setDate(future111.getDate());
+var dd111 = future111.getDate();
+var ddm111 = dd111.toString().length;
+if(ddm111 == 1){
+dd111 = '0' + dd111;
+}
+var mm111 = future111.getMonth() + 1;
+var mn111 = mm111.toString().length;
+if(mn111 == 1){
+mm111 = '0'+ mm111;
+}
+var y111 = future111.getFullYear();
+var dat111 = y111 + '-'+ mm111 + '-'+ dd111;
+nc.NC_Clearance_Date__c = dat111;
+}
+
+//var cld = document.getElementById('{!$Component.theForm.pb.cda.cdat}').value;
+//if(cld != ""){
+//nc.NC_Clearance_Date__c = cld;
+//}
+
+var ca = document.getElementById('{!$Component.theForm.pb.cor.cora}').value;
+if(ca != ""){
+nc.Note__c = ca;
+}
+
+
+var result = sforce.connection.create([nc]);
+window.open("/{!Verification_Report__c.Id}","_top");
+}
+</script>
+</apex:page>

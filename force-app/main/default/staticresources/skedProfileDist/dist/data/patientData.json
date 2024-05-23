@@ -1,0 +1,416 @@
+{
+  "name": "James Whiley",
+  "gender": "Male",
+  "language": "English",
+  "status": "Active",
+  "comments": "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+  "intakeCases": [
+    {
+      "id": "TBC__c",
+      "details": [
+        {
+          "label": "Case Record Type",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Status",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Account",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Case Number",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Product",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Product Affiliation",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Case Owner",
+          "value": "TBC__c"
+        },
+        {
+          "label": "HCP Name",
+          "value": "TBC__c"
+        },
+        {
+          "label": "HCP Practice Name",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Rx Quantity",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Pharmacy Eligibility Check Completed",
+          "value": "TBC__c"
+        },
+        {
+          "label": "HCP Offline Contact",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Selected Pharmacy",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Ready to Send to Pharmacy",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Sent",
+          "value": "TBC__c"
+        }
+      ],
+      "taskRecordType": "Call Log",
+      "tasks": [
+        {
+          "id": "task-1",
+          "name": "Prescription Information",
+          "information": [
+            {
+              "heading": "Prescription Task Information",
+              "details": [
+                {
+                  "label": "Task Record Type",
+                  "value": "TBC__c"
+                },
+                {
+                  "label": "Type",
+                  "value": "TBC__c"
+                },
+                {
+                  "label": "Task ID",
+                  "value": "TBC__c"
+                },
+                {
+                  "label": "Related To",
+                  "value": "TBC__c"
+                },
+                {
+                  "label": "Priority",
+                  "value": "TBC__c"
+                },
+                {
+                  "label": "Subject",
+                  "value": "TBC__c"
+                },
+                {
+                  "label": "Completed Date",
+                  "value": "TBC__c"
+                },
+                {
+                  "label": "Assigned To",
+                  "value": "TBC__c"
+                },
+                {
+                  "label": "Status",
+                  "value": "TBC__c"
+                }
+              ]
+            },
+            {
+              "heading": "Patient Information",
+              "details": [
+                {
+                  "label": "Patient Source",
+                  "value": "TBC__c"
+                },
+                {
+                  "label": "First Name",
+                  "value": "TBC__c"
+                },
+                {
+                  "label": "Last Name",
+                  "value": "TBC__c"
+                },
+                {
+                  "label": "Gender",
+                  "value": "TBC__c"
+                },
+                {
+                  "label": "Postal Code",
+                  "value": "TBC__c"
+                }
+              ]
+            },
+            {
+              "heading": "Task Steps",
+              "details": [
+                {
+                  "label": "PSRF attached & marked primary",
+                  "value": "TBC__c"
+                },
+                {
+                  "label": "Sent confirmation fax to physician",
+                  "value": "TBC__c"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "task-2",
+          "name": "Contact Patient"
+        },
+        {
+          "id": "task-3",
+          "name": "Contact HCP"
+        },
+        {
+          "id": "task-4",
+          "name": "Benefit Investigation"
+        },
+        {
+          "id": "task-5",
+          "name": "Complete Exception"
+        },
+        {
+          "id": "task-6",
+          "name": "Welcome Call"
+        },
+        {
+          "id": "task-7",
+          "name": "Send Referral"
+        },
+        {
+          "id": "task-8",
+          "name": "Send SOC Referral"
+        },
+        {
+          "id": "task-9",
+          "name": "Follow Up Call"
+        }
+      ],
+      "CNECommunications": [
+        {
+          "id": 1,
+          "comment": "",
+          "role": "",
+          "dateCreated": ""
+        }
+      ]
+    }
+  ],
+  "hcpRelationships": [
+    {
+      "id": "TBC__c",
+      "details": [
+        {
+          "label": "HCP Account",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Comments",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Do not Contact Patient(s)",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Street Address 1",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Street Address 2",
+          "value": "TBC__c"
+        },
+        {
+          "label": "City",
+          "value": "TBC__c"
+        },
+        {
+          "label": "State",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Zip Code",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Phone",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Phone Extension",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Fax",
+          "value": "TBC__c"
+        },
+        {
+          "label": "HCP Practice Name",
+          "value": "TBC__c"
+        }
+      ]
+    }
+  ],
+  "insuranceDemographics": [
+    {
+      "id": "TBC__c",
+      "recordType": "Pharmacy",
+      "planType": "",
+      "planName": "",
+      "lastModifiedDate": "",
+      "effectiveDate": "",
+      "terminationDate": ""
+    },
+    {
+      "id": "TBC__c",
+      "recordType": "Medical",
+      "planType": "",
+      "planName": "",
+      "lastModifiedDate": "",
+      "effectiveDate": "",
+      "terminationDate": ""
+    }
+  ],
+  "programAffiliations": [
+    {
+      "id": "TBC__c",
+      "details": [
+        {
+          "label": "name",
+          "value": "TBC__c"
+        },
+        {
+          "label": "program",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Preferred Callback Time",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Status",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Phone",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Created By",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Owner",
+          "value": "TBC__c"
+        },
+        {
+          "label": "Last Modified By",
+          "value": "TBC__c"
+        }
+      ],
+      "productAffiliations": [
+        {
+          "id": "TBC__c",
+          "details": [
+            {
+              "label": "Product",
+              "value": "TBC__c"
+            },
+            {
+              "label": "Program",
+              "value": "TBC__c"
+            },
+            {
+              "label": "Start Therapy",
+              "value": "TBC__c"
+            },
+            {
+              "label": "Stop Therapy",
+              "value": "TBC__c"
+            }
+          ],
+          "cases": [
+            {
+              "caseType": "TBC__c",
+              "status": "",
+              "lasModifiedDateTime": "",
+              "rxNumber": "",
+              "dateOpened": ""
+            }
+          ],
+          "patientFacilities": [
+            {
+              "facilityAccount": "TBC__c",
+              "primary": "",
+              "inNetwork": "",
+              "patientPreferred": "",
+              "prescriberPreferred": ""
+            }
+          ],
+          "prescribingHCPs": [
+            {
+              "prescribingHCPId": "TBC__c",
+              "HCPPatientRelationship": "",
+              "HCPName": "",
+              "doNotContactPatients": "",
+              "startDate": ""
+            }
+          ],
+          "pharmacyTransaction": [
+            {
+              "pharmacyDispenseTransId": "TBC__c",
+              "pharmacy": "",
+              "referralDate": "",
+              "productShipDate": "",
+              "productShipQty": "",
+              "benefitProvider": "",
+              "status": ""
+            }
+          ]
+        }
+      ],
+      "programCommunicationPermissions": [
+        {
+          "phone": "",
+          "effectiveDate": "",
+          "endDate": "",
+          "lastModifiedDate": ""
+        }
+      ],
+      "authorizedRepresentatives": [
+        {
+          "fullName": "",
+          "mainPhone": "",
+          "okToLeaveMessage": "",
+          "relationship": "",
+          "relationshipDescription": "",
+          "endDate": ""
+        }
+      ],
+      "programPhones": [
+        {
+          "phone": "",
+          "phoneExtension": "",
+          "type": "",
+          "timeZone": "",
+          "preferred": "",
+          "okToLeaveMessage": ""
+        }
+      ],
+      "programAdress": [
+        {
+          "type": "",
+          "primary": "",
+          "streetAddress1": "",
+          "streetAddress2": "",
+          "city": "",
+          "state": "",
+          "zipCode": ""
+        }
+      ]
+    }
+  ]
+}

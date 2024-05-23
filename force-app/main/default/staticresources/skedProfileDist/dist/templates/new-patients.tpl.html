@@ -1,0 +1,25 @@
+<div class="view-new-patients">
+  <h2 class="slds-p-around--medium slds-m-bottom--medium panel-heading">FYI: New Patients</h2>
+  <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding">
+    <table class="slds-table slds-table--bordered slds-text-body--small">
+      <thead>
+        <tr class="slds-text-heading--label">
+          <td>Date Initiated</td>
+          <td>Product</td>
+          <td>Patient Name</td>
+          <td>Intake Status</td>
+          <td class="slds-text-align--right">Job Queued?</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="clickable" ng-repeat="item in data.patients" ng-click="viewPatientProfile(item)">
+          <td>{{item.date_initiated}}</td>
+          <td>{{item.product}}</td>
+          <td>{{item.patient_name}}</td>
+          <td>{{item.intake_status}}</td>
+          <td class="slds-text-align--right">{{item.job_queued}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

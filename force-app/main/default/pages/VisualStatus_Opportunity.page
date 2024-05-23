@@ -1,0 +1,6 @@
+<apex:page standardController="Opportunity">
+    <c:visualstatus_vfcomp pd_objectId="{!Id}"          pd_objectName="Opportunity"         pd_fieldName="Stage_of_Work_Umbrella__c" 
+                            pd_MaxElementsOnSingleRow="7"   pd_panelSize="4"                    pd_TopMargin="15"
+                            pd_ShowArrows="true"            pd_Debug="false"                    pd_orientation="Horizontal"
+                            pd_ShowLastArrow="false"        pd_BottomMargin="5"/>
+</apex:page>

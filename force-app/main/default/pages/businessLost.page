@@ -1,0 +1,59 @@
+<apex:page standardController="Opportunity" extensions="BusinessLostController" showHeader="false" sidebar="false">
+    <head>
+        <style>
+            .requiredInput{
+            display: inline-block;
+            }
+        </style>
+    </head>
+    <apex:form id="theForm">
+        <apex:pageblock id="pb" mode="maindetail">
+            <apex:pageBlockSection id="pbs" columns="1">
+                <apex:pageblocksectionItem id="pbsi">
+                    
+                    <apex:outputPanel >               
+                        
+                        <apex:outputLabel value="Business Lost Reason" for="blr" style=" padding-right:10px" rendered="{!Opportunity.StageName = 'Delisted - business lost'}"/>
+                        <apex:commandButton action="{!updateOpp}" value="Save Reason" id="theButton"  oncomplete="test()" rendered="{!Opportunity.StageName = 'Delisted - business lost'}" style="float:left" / >
+                            
+                            <!--  <apex:inputfield value="{!Opportunity.Business_Lost_Reason__c}" id="blr" label="Business Lost Reason" required="true" rendered="{!Opportunity.StageName = 'Delisted - business lost'}"> 
+-->
+                            <apex:selectList value="{!businessLostReason}" size="1" id="blr" label="Business Lost Reason" required="true" rendered="{!Opportunity.StageName = 'Delisted - business lost'}">
+                                <apex:selectOptions value="{!businessLostReasonPickListValues}"/>
+                                <apex:actionSupport action="{!setOther}" event="onchange" reRender="blrr" />
+                                <apex:actionSupport action="{!setAll}" event="onchange" reRender="blrr1" />
+                             </apex:selectList>             
+                            
+							<BR/>                            
+                            <apex:outputPanel id="blrr1">
+                                <apex:outputLabel value="Business Lost Reason Additional Info" for="additional" rendered="{!allSelected}"/>
+                                <apex:outputLabel value="Business Lost Reason Other" for="Other" rendered="{!otherSelected}"/>
+                                <apex:inputText value="{!businessLostReasonAdditionalInfo}"  id="additional" label="Business Lost Reason"  rendered="{!allSelected}"/>
+                                <apex:inputText value="{!businessLostReasonOther}"   id="Other" label="Business Lost Reason"  rendered="{!otherSelected}"/>
+                             <BR/>
+                                
+                            </apex:outputPanel>
+                            
+                            <!-- <apex:outputLabel value="Send Exit Interview Form" for="exit" style="padding-left:10px; padding-right:10px" rendered="{!Opportunity.StageName = 'Delisted - business lost'}"/>
+<apex:inputfield value="{!Opportunity.SendExit_Interview_Form__c}" id="exit" label="Send Exit Interview Form" required="true" rendered="{!Opportunity.StageName = 'Delisted - business lost'}"> 
+<apex:actionSupport event="onchange"/>                
+</apex:inputfield> -->
+                            
+                  <!--          <apex:outputLabel value="Send Exit Interview Form" for="exit" style="padding-left:0px; " rendered="{!Opportunity.StageName = 'Delisted - business lost'}"/>
+                            <apex:inputcheckbox value="{!SendExitInterviewForm}" id="exit" label="Send Exit Interview Form" required="true" rendered="{!Opportunity.StageName = 'Delisted - business lost'}">               
+                            </apex:inputcheckbox>-->
+                        </apex:outputPanel>
+                        
+                    </apex:pageblocksectionItem>
+                </apex:pageBlockSection>  
+            </apex:pageblock>
+        </apex:form>
+        <apex:includeScript value="/soap/ajax/29.0/connection.js"/>
+        <apex:includeScript value="/soap/ajax/29.0/apex.js"/>
+        <script>
+        function test(){
+   			alert('Business Lost Reason successfully saved as '+ document.getElementById('{!$Component.theForm.pb.pbs.pbsi.blr}').value);
+           
+        }
+        </script>
+    </apex:page>

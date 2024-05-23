@@ -1,0 +1,14 @@
+<!-- Only shown when viewing from Job -->
+<div class="intake-case" ng-if="patient.intakeCases.length > 0">
+  <h2 class="slds-section__title slds-m-horizontal--medium slds-m-bottom--xx-small"><strong>Related Case</strong></h2>
+  <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding">
+    <ul class="slds-list--vertical slds-has-dividers--bottom slds-has-block-links--space slds-has-list-interactions">
+      <li class="slds-list__item" ng-repeat="item in patient.intakeCases">
+        <a id="intake-case" class="slds-clearfix" ng-click="state.view = 'intake-case'; state.intakeCase = item;">
+          <div class="slds-truncate slds-float--left slds-p-left--x-small item-name">{{item.id}}</div>
+          <div ng-include="getTemplateUrl('chevron-right.tpl.html')"></div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

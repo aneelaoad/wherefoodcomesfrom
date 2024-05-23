@@ -1,0 +1,25 @@
+<apex:page standardController="User" showHeader="false" >
+<apex:image url="{!$Resource.americanGrownBGsmall}" width="100%" height="200"/>
+<apex:pageBlock >
+
+<apex:pageBlockSection title="Welcome to American Grown" html-style="width: 100%; height: 21px; font-size: 16px; font-family:Courier"/>
+
+<apex:pageBlockSection >
+<apex:outputLabel />
+</apex:pageBlockSection>
+
+<apex:pageBlockSection >
+<apex:outputLabel style="font-size: 20px;font-family:serif" value="Hello {!$User.FirstName}!"/>
+</apex:pageBlockSection>
+
+<apex:pageBlockSection >
+<apex:outputLabel style="font-size: 20px; display:block;width:900px; font-family:serif" value="Access the Account tab to view your account details."/>
+</apex:pageBlockSection>
+
+<apex:pageBlockSection >
+<apex:outputLabel style="font-size: 20px; display:block;width:900px;font-family:serif" value="Access the Services tab to view your services."/>
+</apex:pageBlockSection>
+
+</apex:pageBlock>
+
+</apex:page>

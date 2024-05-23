@@ -1,0 +1,26 @@
+<div aria-hidden="true" role="dialog" class="slds-modal slds-fade-in-open slds-hide" 
+     slds-modal="state.showModalAddComment" on-hide="hideModalAddComment">
+  <div class="slds-modal__container">
+    <div class="slds-modal__header">
+      <h2 class="slds-text-heading--medium">New CNE Comment</h2>
+      <div ng-include="getTemplateUrl('modal-close.tpl.html')"></div>
+    </div>
+    <div class="slds-modal__content slds-p-around--medium" ng-form name="addComment.form" novalidate="novalidate">
+      <div class="slds-form-element">
+        <label class="slds-form-element__label slds-hide" for="comment">Comment</label>
+        <div class="slds-form-element__control" ng-class="{ 'slds-has-error': addComment.form.$submitted && addComment.form.comment.$invalid }">
+          <textarea data-focus-first id="comment" name="comment" ng-model="addComment.comment"
+                    class="slds-textarea" placeholder="Input comment here" required="required"></textarea>
+          <div class="slds-form-element__help" ng-show="addComment.form.$submitted && addComment.form.comment.$invalid">
+              Comment is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="slds-modal__footer">
+      <button class="slds-button slds-button--neutral" ng-click="hideModalAddComment()">Cancel</button>
+      <button class="slds-button slds-button--brand" data-focus-last ng-click="doAddComment(addComment.form)">Save</button>
+    </div>
+  </div>
+</div>
+<!-- modal backdrop container -->
+<div class="aljs-modal-container"></div>

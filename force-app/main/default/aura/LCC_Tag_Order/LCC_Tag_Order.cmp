@@ -1,0 +1,8 @@
+<aura:component  controller="OpportunityButtonsConversion" implements="force:lightningQuickActionWithoutHeader,flexipage:availableForRecordHome,force:hasRecordId">
+    <aura:attribute name="errorMsg" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <ui:message aura:id="errorMsg" severity="error" class="slds-hide">
+        {!v.errorMsg}
+    </ui:message>
+    
+</aura:component>

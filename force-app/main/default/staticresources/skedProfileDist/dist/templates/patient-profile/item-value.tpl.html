@@ -1,0 +1,7 @@
+<span ng-if="item.value === 'true'">
+  <span class="slds-float--right" ng-include="getTemplateUrl('checked-true.tpl.html')"></span>
+</span>
+<span ng-if="item.value === 'false'">
+  <span class="slds-float--right" ng-include="getTemplateUrl('unchecked-false.tpl.html')"></span>
+</span>
+<span ng-if="item.value !== 'false' && item.value !== 'true'">{{item.value}}</span>

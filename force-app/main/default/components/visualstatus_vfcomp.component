@@ -1,0 +1,17 @@
+<apex:component >
+    <apex:attribute name="pd_bottommargin" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="pd_showlastarrow" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="pd_orientation" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="pd_debug" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="pd_showarrows" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="pd_topmargin" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="pd_panelsize" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="pd_maxelementsonsinglerow" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="pd_fieldname" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="pd_objectname" type="String" description="TODO: Describe me"/>
+    <apex:attribute name="pd_objectid" type="String" description="TODO: Describe me"/>
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>Congratulations</h1>
+  This is your new Component: visualstatus_vfcomp
+  <!-- End Default Content REMOVE THIS -->
+</apex:component>

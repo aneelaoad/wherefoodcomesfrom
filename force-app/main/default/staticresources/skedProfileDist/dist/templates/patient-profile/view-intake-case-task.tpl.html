@@ -1,0 +1,33 @@
+<!-- ng-show="state.intakeCaseTask.id === 'task-1'" -->
+<div class="view-intake-case-task">
+  <h2 class="slds-p-around--medium border-bottom">
+    <strong>Related Case Task</strong>
+    <button class="slds-button slds-button--neutral slds-float--right" style="margin-top: -7px;"
+            ng-click="state.view = 'intake-case'">Close</button>
+  </h2>
+
+  <div class="slds-scrollable--y" style="max-height: calc(100vh - 108px);">
+    <div ng-repeat="item in state.intakeCaseTask.information">
+      <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium slds-m-bottom--xx-small">
+        <strong>{{item.heading}}</strong></h2>
+      <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding slds-m-top--xx-small">
+        <div class="slds-scrollable--y">
+          <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom" 
+               ng-repeat="detail in item.details">
+            <div class="slds-col">{{detail.label}}</div>
+            <div class="slds-col slds-text-align--right">
+              <span ng-if="detail.value === 'true'">
+                <span class="slds-float--right" ng-include="getTemplateUrl('checked-true.tpl.html')"></span>
+              </span>
+              <span ng-if="detail.value === 'false'">
+                <span class="slds-float--right" ng-include="getTemplateUrl('unchecked-false.tpl.html')"></span>
+              </span>
+              <span ng-if="detail.value !== 'false' && detail.value !== 'true'">{{detail.value}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

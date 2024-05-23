@@ -1,0 +1,41 @@
+<apex:page extensions="CitationNonConformitiesController" standardController="Verification_Report__c" docType="html-5.0">
+    
+    
+    <apex:form > 
+        
+        <apex:pageBlock >
+         
+            
+            <apex:pageBlockSection collapsible="false">
+                <apex:selectList value="{!selectedOption}" multiselect="false" label="Citation Name:" size="1">
+                    
+                    <apex:selectOptions value="{!Options}"/>
+                    <apex:actionSupport event="onchange" action="{!Description}"  reRender="values"  />
+                </apex:selectList>
+                
+                
+            </apex:pageBlockSection>      
+            <apex:pageBlockSection id="values" collapsible="false">
+                
+                <apex:inputTextarea cols="100" rows="5"  value="{!description}" label="Description: " /><br/>
+                <apex:inputTextarea cols="100" rows="5"  value="{!descriptionOfFacts}" label="Description of Facts: " /><br/>
+                <apex:inputTextarea cols="100" rows="5"  value="{!correctiveActionReceivedDetail}" label="Corrective Action Received Detail: " /><br/>
+                <apex:inputTextarea cols="100" rows="5"  value="{!InternalNotes}" label="Internal Notes: " />   <br/>
+                <apex:selectList value="{!correctiveActionReveiwed}" multiselect="false" label="Corrective Action Reveiwed:" size="1">
+                    
+                    <apex:selectOption itemValue="No" itemLabel="No"/>
+                    <apex:selectOption itemValue="Yes" itemLabel="Yes"/>
+                </apex:selectList><br/>
+                <apex:input type="date" label="Response Date"  value="{!responseDate}"/><br/>
+                <apex:input type="date" label="Resolution Date"  value="{!resolutionDate}"/><br/>
+                
+        <apex:commandButton action="{!saveNonConformity}" value="Save"/>
+                  </apex:pageBlockSection>      
+        
+        </apex:pageBlock>
+        
+      
+    </apex:form>
+    
+    
+</apex:page>

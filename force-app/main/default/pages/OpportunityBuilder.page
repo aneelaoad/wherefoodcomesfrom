@@ -1,0 +1,569 @@
+<apex:page lightningStylesheets="true" standardStylesheets="false" docType="html-5.0" standardController="Opportunity" extensions="OpportunityBuilderController" applyBodyTag="False">
+    <head>
+        <title>Create a New Opportunity</title>
+        <apex:slds />         
+       <script>if({!redirect})  window.top.location.href='/006/e?nooverride=1&accid={!thisOpp.opp.AccountId}'</script>
+        <style>
+            table.multiSelectPicklistTable{
+            width: 475px; 
+            height: 50px;
+            }
+            img.picklistArrowLeft, img.picklistArrowRight{
+            height:20px;
+            }
+            .box{
+            border: 1px solid #DADADA;
+            border-radius: 5px;
+            padding: 10px;  
+            margin: 1%;
+            width:48%;          
+            }
+            .modulesList{
+            border: 1px solid #DADADA;
+            border-radius: 5px;
+            padding: 10px; 
+            width:50%;
+            margin-bottom:10px;
+            }
+            .modulesBox {
+            min-height:720px;
+            }
+            a.picker {
+            border: none !important;
+            padding:2px !important;
+            }
+        </style>
+    </head>
+    
+    <body class="slds-scope">
+        <apex:pagemessages />
+        <div>
+            <!--Window 1 with Opp Fields-->
+            <apex:outputpanel rendered="{!AND(showWindow1,showOppFields)}" >
+                <apex:form >
+                    <div class="slds-form slds-form_stacked" style="padding:50px">  
+                        <fieldset class="slds-form-element">
+                            <div class="slds-col--padded slds-size--1-of-1 slds-text-heading_medium">
+                                Fill out Opportunity Fields</div>
+                            <div class="slds-form-element__control">
+                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                    <div class="box">
+                                        <div class="slds-col--padded slds-size--1-of-3">
+                                            <label class="slds-form-element__label" for="input-id-01">Opportunity Name</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField value="{!thisOpp.opp.Name}" styleclass="slds-input" />
+                                            </div>
+                                        </div>
+                                        <div class="slds-col--padded slds-size--1-of-3">
+                                            <label class="slds-form-element__label" for="input-id-01">Status</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField value="{!thisOpp.opp.StageName}" styleclass="slds-input" />
+                                            </div>
+                                        </div>
+                                        <div class="slds-col--padded slds-size--1-of-3">
+                                            <label class="slds-form-element__label" for="input-id-01">Account</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField value="{!thisOpp.opp.AccountId}" styleclass="slds-input picker" />
+                                            </div>
+                                        </div>
+                                        <div class="slds-col--padded slds-size--1-of-3">
+                                            <label class="slds-form-element__label" for="input-id-01">Needed By Date</label>
+                                            <div class="slds-form-element__control">
+                                                <apex:inputField value="{!thisOpp.opp.CloseDate}" styleclass="slds-input" showDatePicker="true" type="date" />
+                                            </div>
+                                        </div>
+                                        <div class="slds-col--padded slds-size--1-of-3">
+                                        </div>
+                                        <div class="slds-col--padded slds-size--1-of-3">
+                                        </div>
+                                    </div>
+                                </div>                  
+                                <div class="slds-col--padded slds-size--1-of-1 slds-text-heading_medium">                                    
+                                    Choose Modules</div>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                        <div class="box">
+                                            <apex:repeat value="{!thisOpp.modules}" var="module">
+                                                <div class="slds-col--padded slds-size--1-of-3 slds-p-top_small">
+                                                    <apex:inputCheckbox value="{!module.isSelected}"/>
+                                                    
+                                                    
+                                                    <label class="slds-checkbox__label" for="checkbox-4">
+                                                        <span class="slds-form-element__label">{!module.name}</span>
+                                                    </label>
+                                                </div>
+                                            </apex:repeat>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <apex:commandButton value="Next" action="{!goToModuleOptions}" />
+                        </fieldset>
+                        
+                    </div>
+                </apex:form>
+            </apex:outputpanel>
+            <!--Window 1 without Opp Fields-->
+            <apex:outputpanel rendered="{!AND(showWindow1,!showOppFields)}" >
+                <apex:form >
+                    <div class="slds-form slds-form_stacked" style="padding:50px">  
+                        <fieldset class="slds-form-element">                                     
+                                <div class="slds-col--padded slds-size--1-of-1 slds-text-heading_medium">                                    
+                                    Choose Modules</div>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                        <div class="box">
+                                            <apex:repeat value="{!thisOpp.modules}" var="module">
+                                                <div class="slds-col--padded slds-size--1-of-4 slds-p-top_small">
+                                                    <apex:inputCheckbox value="{!module.isSelected}"/>
+                                                    
+                                                    
+                                                    <label class="slds-checkbox__label" for="checkbox-4">
+                                                        <span class="slds-form-element__label">{!module.name}</span>
+                                                    </label>
+                                                </div>
+                                            </apex:repeat>
+                                        </div>
+                                                </div>
+                            </div>
+                            <apex:commandButton value="Next" action="{!goToModuleOptions}" />
+                        </fieldset>
+                        
+                    </div>
+                </apex:form>
+            </apex:outputpanel>
+            <!--Window 2-->
+            <apex:outputpanel rendered="{!showWindow2}" >
+                <apex:form >
+                    <div class="slds-form slds-form_stacked" style="padding:50px">  
+                        <fieldset class="slds-form-element">
+                            <legend class="slds-form-element__legend slds-form-element__label">Select a Module</legend>
+                            <apex:repeat value="{!thisOpp.modules}" var="thisModule">
+                            <div class="slds-form-element__control" style="{!IF(thisModule.isSelected, 'display:block', 'display:none')}" >
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-text-heading_medium">                                    
+                                    {!thisModule.name}
+                                    </div>
+                                <div class="slds-grid slds-wrap slds-grid-padded modulesList">
+                                    <apex:repeat value="{!thisOpp.objects}" var="object">                                                
+                                        <div class="slds-col--padded slds-size--1-of-2" style="{!IF(object.oType==thisModule.name, 'display:block', 'display:none')}" >
+                                            <apex:inputCheckbox value="{!object.isSelected}"/>                                           
+                                            
+                                            <label class="slds-checkbox__label" for="checkbox-4">
+                                                <span class="slds-form-element__label">{!object.name}</span>
+                                            </label>
+                                        </div>
+                                    </apex:repeat>
+                                </div>
+                            </div>
+                            </apex:repeat>
+                            
+                            <apex:commandButton value="Insert Records" action="{!goToInputFields}" />
+                        </fieldset>
+                        
+                    </div>
+                </apex:form>
+            </apex:outputpanel>
+            
+            <!--Window 3-->
+            <apex:outputpanel rendered="{!showWindow3}" >
+                <apex:form >
+                    <div class="slds-form slds-form_stacked" style="padding:50px">  
+                        <fieldset class="slds-form-element">
+                            <legend class="slds-form-element__legend slds-form-element__label">Fill in fields</legend>
+                            <div class="slds-form-element__control">
+                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                    <div class="box modulesBox" style="{!IF(thisOpp.fields.size>0, 'display:block', 'display:none')}">
+                                        <!--Fields-->
+                                        <div class="slds-col--padded slds-size--1-of-1 slds-p-vertical--medium slds-text-heading_large" style="{!IF(thisOpp.fields.size>0, 'display:block', 'display:none')}" >
+                                            Fields
+                                        </div>
+                                        <apex:repeat value="{!thisOpp.fields}" var="field">
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Acreage-->
+                                                <label class="slds-form-element__label" for="input-id-01">Acreage</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!field.Acreage__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Address/Legal Description-->
+                                                <label class="slds-form-element__label" for="input-id-01">Address/Legal Description</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!field.Address_Legal_Description__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Comments-->
+                                                <label class="slds-form-element__label" for="input-id-01">Comments</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!field.Comments__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-1">
+                                                <!--Crops-->
+                                                <label class="slds-form-element__label" for="input-id-01">Crops</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!field.Crops__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Inactive-->
+                                                <label class="slds-form-element__label" for="input-id-01">Inactive</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!field.Inactive__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Inactive_Date-->
+                                                <label class="slds-form-element__label" for="input-id-01">Inactive Date</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!field.Inactive_Date__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Inactive_Reason-->
+                                                <label class="slds-form-element__label" for="input-id-01">Inactive Reason</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!field.Inactive_Reason__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Last app. of prohibited substances-->
+                                                <label class="slds-form-element__label" for="input-id-01">Last app. of prohibited substances</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!field.Last_app_of_prohibited_substances__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Ownership Status-->
+                                                <label class="slds-form-element__label" for="input-id-01">Ownership Status</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!field.Ownership_Status__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Start of Use-->
+                                                <label class="slds-form-element__label" for="input-id-01">Start of Use</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!field.Start_of_Use__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Status-->
+                                                <label class="slds-form-element__label" for="input-id-01">Status</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!field.Status__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Status-->
+                                                <label class="slds-form-element__label" for="input-id-01">Field Information</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!field.Field_Information__c}" />
+                                                </div>
+                                            </div>
+                                        </apex:repeat>
+                                    </div>
+                                    <div class="box modulesBox" style="{!IF(thisOpp.Livestock.size>0, 'display:block', 'display:none')}">
+                                        <!--Livestock-->
+                                        <div class="slds-col--padded slds-size--1-of-1 slds-p-vertical--medium slds-text-heading_large" style="{!IF(thisOpp.Livestock.size>0, 'display:block', 'display:none')}">                                    
+                                            Livestock
+                                        </div>
+                                        <apex:repeat value="{!thisOpp.Livestock}" var="Livestock">
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Livestock Name-->
+                                                <label class="slds-form-element__label" for="input-id-01">Livestock Name/ID</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Livestock.Name}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!-- Birth_Date-->
+                                                <label class="slds-form-element__label" for="input-id-01">Birth Date</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Livestock.Birth_Date__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Comments-->
+                                                <label class="slds-form-element__label" for="input-id-01">Comments</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Livestock.Comment__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-1">
+                                                <!--Species / Type-->
+                                                <label class="slds-form-element__label" for="input-id-01">Species / Type</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Livestock.Species_Type__c}" />
+                                                </div>
+                                            </div>
+                                            
+                                        </apex:repeat>
+                                    </div>
+                                    <div class="box modulesBox" style="{!IF(thisOpp.Feeds.size>0, 'display:block', 'display:none')}">
+                                        <!--Feeds-->
+                                        <div class="slds-col--padded slds-size--1-of-1 slds-p-vertical--medium slds-text-heading_large" style="{!IF(thisOpp.Feeds.size>0, 'display:block', 'display:none')}">                                    
+                                            Feeds
+                                        </div>
+                                        <apex:repeat value="{!thisOpp.Feeds}" var="Feeds">
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Feeds Name-->
+                                                <label class="slds-form-element__label" for="input-id-01">Feed Name</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Feeds.Name}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Certifier-->
+                                                <label class="slds-form-element__label" for="input-id-01">Certifier</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Feeds.Certifier__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Manufacturer-->
+                                                <label class="slds-form-element__label" for="input-id-01">Manufacturer</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Feeds.Manufacturer__c}" />
+                                                </div>
+                                            </div>
+                                            
+                                        </apex:repeat>
+                                    </div>
+                                    <div class="box modulesBox" style="{!IF(thisOpp.Storage.size>0, 'display:block', 'display:none')}">
+                                        <!--Storage-->
+                                        <div class="slds-col--padded slds-size--1-of-1 slds-p-vertical--medium slds-text-heading_large" style="{!IF(thisOpp.Storage.size>0, 'display:block', 'display:none')}">                                    
+                                            Storage
+                                        </div>
+                                        <apex:repeat value="{!thisOpp.Storage}" var="Storage">
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Storage Name-->
+                                                <label class="slds-form-element__label" for="input-id-01">Storage ID</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Storage.Name}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Capacity-->
+                                                <label class="slds-form-element__label" for="input-id-01">Capacity</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Storage.Capacity__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Crop and Year-->
+                                                <label class="slds-form-element__label" for="input-id-01">Crop and Year</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Storage.Crop_and_Year__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Current Inventory-->
+                                                <label class="slds-form-element__label" for="input-id-01">Current Inventory</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Storage.Current_Inventory__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Date of Inventory-->
+                                                <label class="slds-form-element__label" for="input-id-01">Date of Inventory</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Storage.Current_Inventory__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Inactive-->
+                                                <label class="slds-form-element__label" for="input-id-01">Inactive</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Storage.Inactive__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-1">
+                                                <!--Status-->
+                                                <label class="slds-form-element__label" for="input-id-01">Status</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Storage.Status__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Location and Address-->
+                                                <label class="slds-form-element__label" for="input-id-01">Location and Address</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Storage.Location_and_Address__c}" />
+                                                </div>
+                                            </div>                                        
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Type of Storage Unit-->
+                                                <label class="slds-form-element__label" for="input-id-01">Type of Storage Unit</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Storage.Type_of_Storage_Unit__c}" />
+                                                </div>
+                                            </div>
+                                            
+                                        </apex:repeat>
+                                    </div>
+                                    <div class="box modulesBox" style="{!IF(thisOpp.Materials.size>0, 'display:block', 'display:none')}">
+                                        <!--Materials-->
+                                        <div class="slds-col--padded slds-size--1-of-1 slds-p-vertical--medium slds-text-heading_large" style="{!IF(thisOpp.Materials.size>0, 'display:block', 'display:none')}">                                    
+                                            Materials
+                                        </div>
+                                        <apex:repeat value="{!thisOpp.Materials}" var="Material">
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Material Name-->
+                                                <label class="slds-form-element__label" for="input-id-01">Material Name</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Material.Name}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Category-->
+                                                <label class="slds-form-element__label" for="input-id-01">Category</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Material.Category__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Classification-->
+                                                <label class="slds-form-element__label" for="input-id-01">Classification</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Material.Classification__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Comment-->
+                                                <label class="slds-form-element__label" for="input-id-01">Comment</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Material.Comment__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--General Name-->
+                                                <label class="slds-form-element__label" for="input-id-01">General Name</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Material.General_Name__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Manufacturer-->
+                                                <label class="slds-form-element__label" for="input-id-01">Manufacturer</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Material.Manufacturer__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Status-->
+                                                <label class="slds-form-element__label" for="input-id-01">Status</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Material.Status__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-1">
+                                                <!--Inspection Services-->
+                                                <label class="slds-form-element__label" for="input-id-01">Inspection Services</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Material.Inspection_Services__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Status Comment-->
+                                                <label class="slds-form-element__label" for="input-id-01">Status Comment</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Material.Status_Comment__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Status Date-->
+                                                <label class="slds-form-element__label" for="input-id-01">Status Date</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Material.Status_Date__c}" />
+                                                </div>
+                                            </div>                                        
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Type of Application-->
+                                                <label class="slds-form-element__label" for="input-id-01">Type of Application</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Material.Type_of_Application__c}" />
+                                                </div>
+                                            </div>
+                                            
+                                        </apex:repeat>
+                                    </div>
+                                    <div class="box modulesBox" style="{!IF(thisOpp.Seeds.size>0, 'display:block', 'display:none')}">
+                                        <!--Seeds-->
+                                        <div class="slds-col--padded slds-size--1-of-1 slds-p-vertical--medium slds-text-heading_large" style="{!IF(thisOpp.Seeds.size>0, 'display:block', 'display:none')}">                                    
+                                            Seeds
+                                        </div>
+                                        <apex:repeat value="{!thisOpp.Seeds}" var="Seeds">
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Seeds Name-->
+                                                <label class="slds-form-element__label" for="input-id-01">Seeds Name</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Seeds.Name}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Field/Crop-->
+                                                <label class="slds-form-element__label" for="input-id-01">Field/Crop</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Seeds.Field_Crop__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Identify Treatment-->
+                                                <label class="slds-form-element__label" for="input-id-01">Identify Treatment</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Seeds.Identify_Treatment__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Inactive-->
+                                                <label class="slds-form-element__label" for="input-id-01">Inactive</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Seeds.Inactive__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Source-->
+                                                <label class="slds-form-element__label" for="input-id-01">Source</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Seeds.Source__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Treatment-->
+                                                <label class="slds-form-element__label" for="input-id-01">Treatment</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Seeds.Treatment__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--2-of-2">
+                                                <!--Variety-->
+                                                <label class="slds-form-element__label" for="input-id-01">Variety</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Seeds.Variety__c}" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-col--padded slds-size--1-of-1">
+                                                <!--Status-->
+                                                <label class="slds-form-element__label" for="input-id-01">Status</label>
+                                                <div class="slds-form-element__control">
+                                                    <apex:inputField value="{!Seeds.Status__c}" />
+                                                </div>
+                                            </div>
+                                            
+                                        </apex:repeat>
+                                    </div>
+                                </div>
+                            </div>
+                            <apex:commandButton value="Save Related Records" action="{!save}" styleClass="slds-m-vertical--medium" />
+                        </fieldset>
+                        
+                    </div>
+                </apex:form>
+            </apex:outputpanel>
+            
+            
+        </div>
+    </body>
+</apex:page>

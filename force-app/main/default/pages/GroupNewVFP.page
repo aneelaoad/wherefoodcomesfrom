@@ -1,0 +1,8 @@
+<apex:page standardController="Group__c">
+    <apex:sectionHeader title="Group" />
+    <apex:pageBlock >
+        <apex:pageBlockSection title="Information" columns="1">
+            <apex:pageMessage summary="Group: Please create group using the quick action button available at the opportunity" severity="info" strength="2" />
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+</apex:page>

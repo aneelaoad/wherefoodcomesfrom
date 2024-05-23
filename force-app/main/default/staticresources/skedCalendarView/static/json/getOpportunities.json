@@ -1,0 +1,24 @@
+{
+  "data": [
+    {
+      "opportunityId": "",
+      "opportunityName": "",
+      "opportunityType": "",
+      "opportunityStatus": "",
+      "opportunityClaims": "",
+      "opportunityAddress": {
+        "text": "",
+        "geometry": {
+          "lat": 0,
+          "lng": 0
+        }
+      },
+      "divisionId": "",
+      "divisionName": "",
+      "regionId": "",
+      "regionName": ""
+    }
+  ],
+  "success": true,
+  "errorMessage": ""
+}

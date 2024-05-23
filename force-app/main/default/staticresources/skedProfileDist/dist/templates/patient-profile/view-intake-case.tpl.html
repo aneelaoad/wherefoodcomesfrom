@@ -1,0 +1,110 @@
+<div class="view-intake-case">
+  <h2 class="slds-p-around--medium border-bottom">
+    <strong>Case {{state.intakeCase.caseNumber}}</strong>
+    <button class="slds-button slds-button--neutral slds-float--right" style="margin-top: -7px;"
+            ng-click="state.view = state.prevView;">Close</button>
+  </h2>
+  <div class="slds-scrollable--y" style="max-height: calc(100vh - 108px);">
+    <div class="details">
+      
+      <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium slds-m-bottom--xx-small">
+                        <strong>Details</strong></h2>
+      <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding">
+        <div class="slds-scrollable--y">
+          <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom" 
+               ng-repeat="item in state.intakeCase.details">
+            <div class="slds-col field-label">{{item.label}}</div>
+            <div class="slds-col slds-text-align--right">
+              <span ng-include="getTemplateUrl('item-value.tpl.html')"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="intake-case-tasks" ng-if="state.intakeCase.tasks && state.intakeCase.tasks.length>0">
+      
+      <h2 class="slds-section__title slds-m-top--medium slds-m-horizontal--medium slds-m-bottom--xx-small">
+                        <strong>Case Tasks</strong></h2>
+      <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding">
+        <div class="slds-scrollable--y">
+          <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom">
+            <div class="slds-col">Task Record Type</div>
+            <div class="slds-col slds-text-align--right">{{state.intakeCase.taskRecordType}}</div>
+          </div>
+          <ul class="slds-list--vertical slds-has-dividers--bottom slds-has-block-links--space slds-has-list-interactions">
+            <li class="slds-list__item" ng-repeat="item in state.intakeCase.tasks">
+              <a class="slds-clearfix" ng-click="state.view = 'intake-case-task'; state.intakeCaseTask = item;">
+                <div class="slds-truncate slds-float--left slds-p-left--x-small item-name">{{item.name}}</div>
+                <div ng-include="getTemplateUrl('chevron-right.tpl.html')"></div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="hcp-account" ng-if="state.intakeCase.HCPAccount">
+      <h2 class="slds-section__title slds-m-horizontal--medium slds-m-bottom--xx-small"><strong>HCP Account</strong></h2>
+      <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding">
+        <ul class="slds-list--vertical slds-has-dividers--bottom slds-has-block-links--space slds-has-list-interactions">
+          <li class="slds-list__item">
+            <a class="slds-clearfix" ng-click="viewAccount('HCP',state.intakeCase.HCPAccount.id)">
+              <div class="slds-truncate slds-float--left slds-p-left--x-small item-name">{{state.intakeCase.HCPAccount.name}}</div>
+              <div ng-if="state.intakeCase.HCPAccount.id" ng-include="getTemplateUrl('chevron-right.tpl.html')"></div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+  <div class="facility-account" ng-if="state.intakeCase.requestedFacilities">
+      <h2 class="slds-section__title slds-m-horizontal--medium slds-m-bottom--xx-small"><strong>Facility Account</strong></h2>
+      <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding">
+        <ul class="slds-list--vertical slds-has-dividers--bottom slds-has-block-links--space slds-has-list-interactions">
+          <li class="slds-list__item" ng-repeat="item in state.intakeCase.requestedFacilities">
+            <a class="slds-clearfix" ng-click="state.view = 'requested-facility'; state.intakeCase.requestedFacility = item;">
+              <div class="slds-truncate slds-float--left slds-p-left--x-small item-name">{{item.accName}}</div>
+              <div ng-include="getTemplateUrl('chevron-right.tpl.html')"></div>
+            </a>
+          </li>
+        </ul>
+      </div>
+  </div>
+
+  <div class="prior-authorizations"  ng-show="state.intakeCase.priorAuthorizations">
+  <h2 class="slds-section__title  slds-m-top--medium slds-m-horizontal--medium"><strong>Prior Authorizations/Denied Claims</strong></h2>
+  <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding">
+    <table class="slds-table slds-table--bordered">
+      <thead>
+        <tr class="slds-text-heading--label">
+          <td>PADC</td>
+          <td>Record Type</td>
+          <td>Reason</td>
+          <td>Status</td>
+          <td>Insurance/Plan Name</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="clickable" ng-repeat="item in state.intakeCase.priorAuthorizations"
+            ng-click="state.view = 'prior-authorization'; state.intakeCase.priorAuthorization = item;">
+          <td>{{item.name}}</td>
+          <td>{{item.recordType}}</td>
+          <td>{{item.reason}}</td>
+          <td>{{item.status}}</td>
+          <td>{{item.insuranceName}}</td>
+          <td style="padding-right: 12px;">
+            <svg aria-hidden="true" class="slds-button__icon slds-float--right">
+              <use ng-attr-xlink:href="{{getIconUrl('symbols.svg#chevronright')}}" xlink:href=""></use>
+            </svg>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+  </div>
+</div>

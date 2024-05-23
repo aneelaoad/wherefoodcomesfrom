@@ -1,0 +1,9 @@
+<apex:page standardController="Tag_Order__c" extensions="TagOrderSendHelper" showQuickActionVfHeader="false" action="{!UpdateOrder}" >
+    <apex:form >
+        <!-- This will only be shown if there was an error in the controller -->
+        <apex:pageBlock >
+            <apex:pagemessages />
+            <apex:commandButton value="Return to Tag Order" action="{!Cancel}"/>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

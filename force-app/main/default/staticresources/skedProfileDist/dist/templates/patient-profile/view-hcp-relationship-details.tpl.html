@@ -1,0 +1,22 @@
+<div class="view-hcp-relationship-details">
+  <h2 class="slds-p-around--medium border-bottom">
+    <strong>HCP Relationship Details</strong>
+    <button class="slds-button slds-button--neutral slds-float--right" style="margin-top: -7px;"
+            ng-click="state.view = 'home'">Close</button>
+  </h2>
+  <div class="slds-box slds-m-horizontal--medium slds-m-bottom--medium no-padding slds-m-top--medium hoverable-list">
+    <div class="slds-scrollable--y">
+      <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom" 
+           ng-repeat="item in state.hcpRelationship.details" ng-if="item.label=='HCP Account'" ng-click="viewAccount('HCP',state.hcpRelationship.HCPAccountId);" 
+           ng-class="{false:'detail-link', true:''}[!state.hcpRelationship.HCPAccountId]">
+        <div class="slds-col field-label">{{item.label}}</div>
+        <span ng-include="getTemplateUrl('item-value.tpl.html')"></span>
+      </div>
+      <div class="slds-grid slds-p-horizontal--medium slds-p-vertical--x-small border-bottom" 
+           ng-repeat="item in state.hcpRelationship.details" ng-if="item.label!='HCP Account'">
+        <div class="slds-col field-label">{{item.label}}</div>
+        <span ng-include="getTemplateUrl('item-value.tpl.html')"></span>
+      </div>
+    </div>
+  </div>
+</div>

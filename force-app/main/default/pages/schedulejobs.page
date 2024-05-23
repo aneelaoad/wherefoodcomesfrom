@@ -1,0 +1,19 @@
+<apex:page controller="BatchJobsScheduler2">
+    <apex:form >
+       Batch class name &nbsp; <apex:inputtext value="{!ClassName}" />
+       <br/>
+       After hour &nbsp; <apex:inputtext value="{!AfterHour}" />
+       <br/>
+       After min &nbsp; <apex:inputtext value="{!AfterMins}" />
+       <br/>
+       Make Continous &nbsp; <apex:inputcheckbox value="{!Continous}" />
+       <br/>
+       Batch Size &nbsp; <apex:inputtext value="{!BatchSize}" />
+       <br/>
+       Cron String &nbsp; <apex:inputtext value="{!CronString}" />
+       <br/>
+       <apex:commandbutton value="Schedule" action="{!Schedule}"/>
+       <br/>
+       <apex:outputLabel value="{!Message}"></apex:outputLabel>
+    </apex:form>
+</apex:page>

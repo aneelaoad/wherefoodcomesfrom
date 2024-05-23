@@ -1,0 +1,27 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>WFCF - Calendar</title><link rel=stylesheet href=//new.skedulo.com/css/bundle.css?81b7c88091c2240def9b763eedd174c65c09e5f7e5d09161c837102b0e9c1761><link href=/static/css/app.css rel=stylesheet></head><body><script>window.__API_KEY__ = 'AIzaSyBKLPsOAQFnayXa8XGcPnLmSvE4Vqjv8VA'
+      window.__DIST_PATH__ = '/static/'
+      window.__API__ = {
+        getJobs: function (startDate, endDate) {
+          return this.fetchJSON('getJobs', 500);
+        },
+        getOpportunities: function (startDate, endDate) {
+          return this.fetchJSON('getOpportunities', 500);
+        },
+        fetchJSON: function (fileName, delay) {
+          delay = delay || 0
+          return new Promise(function (resolve, reject) {
+            fetch('/static/json/' + fileName + '.json')
+            .then(function (res) {
+              return res.json()
+            })
+            .then(function (res) {
+              setTimeout(() => {
+                resolve(res);
+              }, delay || 300);
+            })
+            .catch(function (ex) {
+              reject(ex)
+            })
+          })
+        }
+      }</script><div data-v-app=App data-api=__API__></div><script type=text/javascript src=/static/js/manifest.js></script><script type=text/javascript src=/static/js/vendor.js></script><script type=text/javascript src=/static/js/app.js></script></body></html>

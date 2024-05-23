@@ -1,0 +1,9 @@
+<apex:page showHeader="false" >
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>
+  This is Prime Pursuits API Home Page
+  </h1>
+  <br/><br/>
+  Please contact Where Food Comes From administrator for more information.
+  <!-- End Default Content REMOVE THIS -->
+</apex:page>
