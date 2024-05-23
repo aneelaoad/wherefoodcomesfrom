@@ -12,8 +12,13 @@ public class WFCFOrganicCertController{
     public List<wrapSiteAddress> wrapSiteAddressList {get; set;}
     public List<Site_Address__c> selectedSiteAddresses{get;set;}
     List<account_products__c> allAccountProductList {get; set;}
+    // public List<wrapAccountContact> wrapAccountContactList {get; set;}
+    // public List<Contact> selectedAccountContact {get;set;}
+
+
+
     public List<wrapAccountContact> wrapAccountContactList {get; set;}
-    public List<Contact> selectedAccountContact {get;set;}
+    public List<Contact> selectedAccountContact {get; set;}
     public string  currentRecordId {get;set;} 
     Public String documentId {get;set;}
     public list<SelectOption> IDMarks{get;set;}
@@ -145,17 +150,15 @@ public class WFCFOrganicCertController{
                 wrapSiteAddressList.add(wSA);
             }
         }
-        if(wrapAccountContactList== null){
-        	wrapAccountContactList = new List<wrapAccountContact>();
-             List<Contact> relatedContacts = [SELECT Id, Name, Email
-                                     FROM Contact 
-                                     WHERE AccountId = :accountId];
-        for(Contact relatedContact : relatedContacts) {
-        // Create WrapContact instance
-        wrapAccountContact wrapContact = new wrapAccountContact(relatedContact);
-        wrapAccountContactList.add(wrapContact);
-    }
-    }
+        if (wrapAccountContactList == null) {
+            wrapAccountContactList = new List<wrapAccountContact>();
+            List<Contact> relatedContacts = [SELECT Id, Name, Email FROM Contact WHERE AccountId = :accountId];
+            for (Contact relatedContact : relatedContacts) {
+                wrapAccountContact wrapContact = new wrapAccountContact(relatedContact);
+                wrapAccountContactList.add(wrapContact);
+            }
+        }
+    
     }
 
     
@@ -368,6 +371,16 @@ public class WFCFOrganicCertController{
         }
         
         
+        selectedAccountContact = new List<Contact>();
+        for (wrapAccountContact wrapAccountContactObj : wrapAccountContactList) {
+            wrapAccountContactObj.cc.IsSelected__c = wrapAccountContactObj.selected;
+            selectedAccountContact.add(wrapAccountContactObj.cc);
+        }
+
+        if (errorMessage != 'error') {
+            update selectedAccountContact;
+        }
+        
         string ProStatplValue='';
         if(errorMessage != 'error'){
             for(string productStatus: selectedProductStatus){ProStatplValue+=  productStatus +';';}
@@ -424,15 +437,15 @@ public class WFCFOrganicCertController{
         }
     }
     
-     public class wrapAccountContact {
+    public class wrapAccountContact {
         public Contact cc {get; set;}
-        public Boolean IsSelected {get; set;}
-        public Boolean isSame {get; set;}
-        public wrapAccountContact (Contact c ){
-        	c.IsSelected__c = true;
-			cc = c;
-            IsSelected = true;
-        }
+        public Boolean selected {get; set;}
+        public wrapAccountContact(Contact c) {
+            c.IsSelected__c = false;
+            cc = c;
+            selected = false;
+        
+    }
     }
 
 
