@@ -4,7 +4,6 @@
 
 
 <hr>
-
 <style type="text/css">#myCustomTable {
     border: none;
     sd: repeatheader;
@@ -67,19 +66,22 @@
 <td colspan="8" height="30" valign="top"> </td>
 </tr>-->
 		<tr>
-			<td colspan="2" height="20" style="padding-top: 10px; text-align: right; width: 319px;" valign="top"><span style="font-size:14.5px;"><strong>Operation Contact:</strong></span></td>
+			<td colspan="2" height="20" style="padding-top: 22px; text-align: right; width: 319px;" valign="top"><span style="font-size:14.5px;"><strong>Operation Contact:</strong></span></td>
 			<td colspan="6" height="170" style="padding-left: 20px; padding-top: 20px; width: 490px;" valign="top"><!--{{!
-<lineitemsSOQL><class>none</class>
-<listname>Operation Contact</listname>
-<soql>SELECT Id, Name, Email   FROM Contact    WHERE AccountId  ='{!Certificate__c.accountid__c}' AND isSelected__c = true</soql>
-<column prefix="<span style='font-size:14.5px;'> " postfix=": ">Name</column>
-<column postfix=", ">Email</column>
+ <lineitemsSOQL>
+            <class>none</class>
+            <listname>Operation Contact</listname>
+            <soql>SELECT Id, Name, Email, Account.Website FROM Contact WHERE AccountId ='{!Certificate__c.accountid__c}' AND isSelected__c = true</soql>
+            <column prefix="<span style='font-size:14.5px;'><strong></strong> " postfix="</span><br/>">Name</column>
+            <column prefix="<span style='font-size:14.5px;'><strong></strong> " postfix="</span><br/>">Email</column>
+            <column prefix="<span style='font-size:14.5px;'><strong></strong> " postfix="</span> <br/>">Account.Website</column>
+            <column prefix="<span style='font-size:14.5px;padding-top: 10px'><strong></strong> " postfix="</span><br/>"></column>
 
-</lineitemsSOQL>
+        </lineitemsSOQL>
 }}--><!--{{!
 <lineitemsSOQL><class>none</class>
 <listname>Operation Contact</listname>
-<soql>SELECT Id, Name, Email   FROM Contact    WHERE AccountId  ='{!Certificate__c.accountid__c}' AND isSelected__c = true</soql>
+<soql>SELECT Id, Name, Email, Account.Website  FROM Contact WHERE AccountId  ='{!Certificate__c.accountid__c}' AND isSelected__c = true</soql>
 <column prefix="<span style='font-size:14.5px;'>" postfix="</span>" >Blank__c</column>
 </lineitemsSOQL>
 }}-->

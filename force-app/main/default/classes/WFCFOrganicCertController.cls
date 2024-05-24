@@ -152,7 +152,7 @@ public class WFCFOrganicCertController{
         }
         if (wrapAccountContactList == null) {
             wrapAccountContactList = new List<wrapAccountContact>();
-            List<Contact> relatedContacts = [SELECT Id, Name, Email FROM Contact WHERE AccountId = :accountId];
+            List<Contact> relatedContacts = [SELECT Id, Name, Email, Account.Website FROM Contact WHERE AccountId = :accountId];
             for (Contact relatedContact : relatedContacts) {
                 wrapAccountContact wrapContact = new wrapAccountContact(relatedContact);
                 wrapAccountContactList.add(wrapContact);
